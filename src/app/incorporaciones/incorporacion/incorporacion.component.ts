@@ -26,7 +26,7 @@ interface UserData {
     fecha: Date;
   };
   cambioItem: string;
-  eliminar: any; // Opcionalmente puedes cambiar el tipo según tu necesidad
+  eliminar: any; 
 }
 
 
@@ -38,7 +38,6 @@ export interface NotaMinuta {
   fechaFin: Date;
 }
 
-/** Constants used to fill up our data base. */
 const FRUITS: string[] = [
   'blueberry',
   'lychee',
@@ -121,7 +120,7 @@ export class IncorporacionComponent implements AfterViewInit {
       memorandum: { cite: '', codigo: '', fecha: new Date() },
       rap: { cite: '', codigo: '', fecha: new Date() },
       cambioItem: '',
-      eliminar: null // Inicializa como null para el botón de eliminación
+      eliminar: null 
     };
   }
 
@@ -147,12 +146,9 @@ export class IncorporacionComponent implements AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(RegistroPersonaComponent, {
       width: '500px',
-      // Puedes pasar datos adicionales al diálogo si es necesario
-      // data: { /* tus datos aquí */ }
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      // Aquí puedes manejar la respuesta del diálogo si es necesario
       console.log('El diálogo se cerró', result);
     });
   }

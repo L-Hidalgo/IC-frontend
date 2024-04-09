@@ -23,10 +23,12 @@ export class RegistroPersonaComponent implements OnInit {
       exp: ['', Validators.required],
       areaProfesion: ['', Validators.required],
       gradoAcademico: ['', Validators.required],
+      gestion: ['', Validators.required],
       institucionEstudios: ['', Validators.required],
       fechaIncorporacion: ['', Validators.required],
       hp: ['', Validators.required],
       respaldo: ['', Validators.required],
+      observacion: ['', Validators.required],
     });
   }
 
@@ -35,7 +37,6 @@ export class RegistroPersonaComponent implements OnInit {
 
   onSubmit(): void {
     if (this.personaForm.valid) {
-      // Aquí puedes manejar la lógica de envío del formulario
       console.log('Formulario válido', this.personaForm.value);
       this.dialogRef.close(this.personaForm.value);
     }

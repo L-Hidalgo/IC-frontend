@@ -18,7 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AdministracionComponent} from './administracion/administracion/administracion.component';
 import { IncorporacionComponent } from './incorporaciones/incorporacion/incorporacion.component';
-import { RegistroPersonaComponent } from './incorporaciones/registro-persona/registro-persona.component'
+import { RegistroPersonaComponent } from './incorporaciones/registro-persona/registro-persona.component';
+import { RegistroRequisitosComponent } from './incorporaciones/registro-requisitos/registro-requisitos.component'
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { RegistroPersonaComponent } from './incorporaciones/registro-persona/reg
     // RadioButtonComponent,
     AdministracionComponent,
     IncorporacionComponent,
-    RegistroPersonaComponent
+    RegistroPersonaComponent,
+    RegistroRequisitosComponent
   ],
   imports: [
     BrowserModule,

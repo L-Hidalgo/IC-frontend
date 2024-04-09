@@ -5,13 +5,13 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdministracionService {
-  private baseUrl = 'http://localhost:8000/api'; // Cambia por la URL de tu backend
+  private baseUrl = 'http://localhost:8000/api'; 
 
   constructor(private http: HttpClient) { }
 
   uploadExcel(file: File) {
     const formData = new FormData();
-    formData.append('archivoPlanilla', file, file.name); // Asegúrate de que 'archivoPlanilla' coincida con el nombre de la clave esperada en el backend
+    formData.append('archivoPlanilla', file, file.name); 
 
     return this.http.post(`${this.baseUrl}/planilla`, formData);
   }

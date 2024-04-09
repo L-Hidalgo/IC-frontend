@@ -1,0 +1,5 @@
+FROM desaregistry.impuestos.gob.bo/siat_nginx:1.21.1-alpine
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY /dist/sin_ng_build/ /usr/share/nginx/html/sin_expose_ng_name/
+RUN chmod 755 -R /usr/share/nginx/html/
+EXPOSE 80

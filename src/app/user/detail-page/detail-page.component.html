@@ -1,0 +1,165 @@
+<siat-titles-page title="Detail" subtitle="Pages">
+    <div leading>
+        <button mat-icon-button matTooltip="Retornar" routerLink="/master">
+            <siat-fa-icon icon="fa-solid fa-arrow-left"> </siat-fa-icon>
+        </button>
+    </div>
+    <siat-detail-layout>
+        <siat-column fxLayoutGap="0px">
+            <siat-section-card title="DATOS DE SISTEMA">
+                <siat-body-card>
+                    <siat-column fxLayoutGap="20px">
+                        <h3>Sistema v1</h3>
+                        <siat-row>
+                            <siat-text-output fxFlex="33" label="Fecha" value="10/09/2022"></siat-text-output>
+                            <siat-text-output fxFlex="34" label="Estado" value="En Inspecion"></siat-text-output>
+                            <siat-text-output fxFlex="33" label="Avance" value="100%"></siat-text-output>
+                        </siat-row>
+                        <siat-row>
+                            <siat-text-output fxFlex="33" label="Tipo de Sistema" value="Proveedor"></siat-text-output>
+                            <siat-text-output fxFlex="34" label="Dias restantes" value="5"></siat-text-output>
+                            <siat-box fxFlex="33"></siat-box>
+                        </siat-row>
+                    </siat-column>
+                </siat-body-card>
+            </siat-section-card>
+            <siat-form-card title="Pruebas" subtitle="Etapas y casos">
+                <div actions>
+                    <siat-button>Actualizar</siat-button>
+                </div>
+                <siat-column head>
+                    <siat-select>
+                        <option value="0" selected="">Etapa I</option>
+                        <option value="1">Etapa II</option>
+                        <option value="2">Etapa III</option>
+                        <option value="3">Etapa VI</option>
+                    </siat-select>
+                    <div fxFlex="50" echarts [options]="optionclock" theme="macarons" class="demo-chart"></div>
+                </siat-column>
+                <hr />
+                <siat-body-card title="Casos" subtitle="Subtitle">
+                    <siat-toolbar title="Casos" subtitle="Sutitulo">
+                        <siat-row class="d-md-flex gap-2" actions>
+                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
+                                checked>
+                            <label class="btn btn-outline-primary rounded-pill font-weight-medium" for="option1">Punto
+                                de
+                                venta
+                                0</label>
+
+                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                            <label class="btn btn-outline-primary rounded-pill font-weight-medium" for="option2">Punto
+                                de
+                                venta
+                                1</label>
+                        </siat-row>
+                    </siat-toolbar>
+                    <siat-wrap>
+                        <siat-titles-card title="Nro. 10">
+                            <siat-body-card>
+                                <siat-row>
+                                    <siat-box fxFlex="33" class="border-end pe-3">
+                                        <siat-text-output label="Correctas" value="28"></siat-text-output>
+                                    </siat-box>
+                                    <siat-box fxFlex="34" class="border-end pe-3">
+                                        <siat-text-output label="Esperadas" value="30"></siat-text-output>
+                                    </siat-box>
+                                    <siat-box fxFlex="33">
+                                        <siat-text-output label="Avance" value="95%"></siat-text-output>
+                                    </siat-box>
+                                </siat-row>
+                                <siat-progress-bar [width]="50" background="bg-info"></siat-progress-bar>
+                            </siat-body-card>
+                        </siat-titles-card>
+                        <siat-titles-card title="Nro. 13">
+                            <siat-body-card>
+                                <siat-row>
+                                    <siat-box fxFlex="33" class="border-end pe-3">
+                                        <siat-text-output label="Correctas" value="28"></siat-text-output>
+                                    </siat-box>
+                                    <siat-box fxFlex="34" class="border-end pe-3">
+                                        <siat-text-output label="Esperadas" value="30"></siat-text-output>
+                                    </siat-box>
+                                    <siat-box fxFlex="33">
+                                        <siat-text-output label="Avance" value="95%"></siat-text-output>
+                                    </siat-box>
+                                </siat-row>
+                                <siat-progress-bar [width]="50" background="bg-info"></siat-progress-bar>
+                            </siat-body-card>
+                        </siat-titles-card>
+                    </siat-wrap>
+                </siat-body-card>
+            </siat-form-card>
+        </siat-column>
+        <!-- drawer -->
+        <siat-column drawer fxLayoutGap="0px">
+            <siat-section-card title="MODALIDADES (2)">
+                <siat-column>
+                    <siat-item>
+                        <siat-group label="Electrónica"> </siat-group>
+                    </siat-item>
+                    <siat-item>
+                        <siat-group label="Computarizada"> </siat-group>
+                    </siat-item>
+                </siat-column>
+            </siat-section-card>
+            <siat-section-card title="SECTORES (5)">
+                <siat-list>
+                    <siat-item>
+                        <siat-group label="Compra Venta"> </siat-group>
+                    </siat-item>
+                    <siat-item>
+                        <siat-group label="Alquiler bien inmueble"> </siat-group>
+                    </siat-item>
+                    <siat-item>
+                        <siat-group label="Comercializacion de hidrocarburos"> </siat-group>
+                    </siat-item>
+                    <siat-item>
+                        <siat-group label="Compra Venta Moneda Extranjera"> </siat-group>
+                    </siat-item>
+                    <siat-item>
+                        <siat-group label="Tasa Cero"> </siat-group>
+                    </siat-item>
+                </siat-list>
+            </siat-section-card>
+            <!-- Contactos -->
+            <siat-section-card title="CONTACTOS (2)">
+                <siat-body-card>
+                    <siat-column>
+                        <siat-item>
+                            <div leading>
+                                <siat-fa-icon icon="fa-solid fa-user-check" size="20px"></siat-fa-icon>
+                            </div>
+                            <siat-group label="Contacto 1">
+                                <siat-wrap>
+                                    <siat-text-output fxLayout="row" label="Documento:" value="77777777">
+                                    </siat-text-output>
+                                    <siat-text-output fxLayout="row" label="Email:" value="abc@gmail.com">
+                                    </siat-text-output>
+                                    <siat-text-output fxLayout="row" label="Telefono:" value="25235698">
+                                    </siat-text-output>
+                                </siat-wrap>
+                            </siat-group>
+                        </siat-item>
+                        <siat-item>
+                            <div leading>
+                                <siat-fa-icon icon="fa-solid fa-user-check" size="20px"></siat-fa-icon>
+                            </div>
+                            <siat-group label="Contacto 2 ">
+                                <siat-wrap>
+                                    <siat-text-output fxLayout="row" label="Documento:" value="77777777">
+                                    </siat-text-output>
+                                    <siat-text-output fxLayout="row" label="Email:" value="abc@gmail.com">
+                                    </siat-text-output>
+                                    <siat-text-output fxLayout="row" label="Telefono:" value="2365145">
+                                    </siat-text-output>
+                                </siat-wrap>
+                            </siat-group>
+                        </siat-item>
+                    </siat-column>
+                </siat-body-card>
+
+            </siat-section-card>
+        </siat-column>
+    </siat-detail-layout>
+</siat-titles-page>

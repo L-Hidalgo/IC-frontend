@@ -1,0 +1,8 @@
+server {
+  listen 8080;
+  root /usr/share/nginx/html;
+  location /sin_angular_name/ {
+    index index.html index.htm;
+    try_files $uri $uri/sin_angular_name /sin_angular_name/index.html =404;
+  }
+}

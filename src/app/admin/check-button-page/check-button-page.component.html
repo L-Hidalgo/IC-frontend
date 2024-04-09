@@ -1,0 +1,38 @@
+<siat-titles-page title="Check Button">
+    <siat-code-card title="Simple" code="{{checkButtonSimple}}">
+        <siat-body-card>
+            <siat-row>
+                <siat-check-title title="Computarizada" fxFlex="50" (selectedChange)="simpleSelect($event)">
+                    <siat-label-output label="No requiere firma digital"></siat-label-output>
+                </siat-check-title>
+                <siat-check-title title="Electronica" fxFlex="50">
+                    <siat-label-output label="Requiere firma digital"></siat-label-output>
+                </siat-check-title>
+            </siat-row>
+        </siat-body-card>
+    </siat-code-card>
+    <siat-code-card title="Item" code="{{checkButtonItem}}">
+        <siat-body-card>
+            <siat-column>
+                <siat-check-item title="Computarizada" fxFlex="50" >
+                    <siat-label-output label="No requiere firma digital"></siat-label-output>
+                </siat-check-item>
+                <siat-check-item title="Electronica" fxFlex="50">
+                    <siat-label-output label="Requiere firma digital"></siat-label-output>
+                </siat-check-item>
+            </siat-column>
+        </siat-body-card>
+    </siat-code-card>
+    <siat-code-card title="List BottomSheet Clasificador" code="{{checkButtonSheet}}">
+        <siat-body-card>
+            <ng-template #bottomSheetCheck>
+                <!-- <siat-clasificador-radio-select [clasificadoresService]="radioClasificadorService" (closeSelect)="closeRadio()"></siat-clasificador-radio-select> -->
+                <siat-clasificador-checkbox [clasificadoresService]="checkBoxClasificadorService" (closeSelect)="closeCombo()" [visibleButton]="true"></siat-clasificador-checkbox>
+            </ng-template>
+            <p>Selección Multiple: {{selectedCheckBox | json}}</p>
+            <siat-row>
+                <siat-button color="btn-outline-primary" (onClick)="openBottom(bottomSheetCheck)">Open CheckBox</siat-button>
+            </siat-row>
+        </siat-body-card>
+    </siat-code-card>
+</siat-titles-page>

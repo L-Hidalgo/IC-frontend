@@ -1,0 +1,69 @@
+<siat-titles-page title="Administración">
+    <div>
+        <mat-toolbar class="custom-toolbar">
+            <siat-row>
+                <siat-box fxFlex="50%">
+                    <div class="cont-toolbar">
+                        <div class="toolbar-imagen">
+                            <img src="./assets/images/admin.jpg" alt="Imagen de perfil" class="img-toolbar">
+                            <mat-icon class="icon-toolbar">camera_alt</mat-icon>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; color: #475569">Nombre de la persona</div>
+                            <div style="font-size: 14px; color: #777e89;">Administrador</div>
+                        </div>
+                    </div>
+                </siat-box>
+                <div class="linea-vertical"></div>
+                <siat-box fxFlex="50%">
+                    <div class="cont-toolbar"></div>
+                </siat-box>
+            </siat-row>
+        </mat-toolbar>
+        <mat-tab-group>
+            <mat-tab label="Planilla e Incorporacion">
+                <div class="espacio-superior">
+                    <siat-master-layout>
+                        <siat-column drawer fxLayoutGap="0px">
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-title>Planilla</mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <mat-divider></mat-divider>
+                                    <div class="button-container">
+                                        <label for="file-input" class="file-button">Seleccionar</label>
+                                        <input id="file-input" type="file" style="display: none;"
+                                            (change)="onFileSelected($event)">
+                                        <button mat-flat-button class="small-button" color="primary"
+                                            (click)="onUpload()">Subir</button>
+                                        <button mat-flat-button class="small-button" color="primary" (click)="onCancel()">Cancelar</button>
+                                    </div>
+                                </mat-card-content>
+                                <mat-card-footer>
+                                    <mat-progress-bar mode="indeterminate" *ngIf="uploading"></mat-progress-bar>
+                                    <div class="file-info" *ngIf="selectedFile">
+                                        <img src="./assets/images/excel.png" alt="Imagen" class="img-excel">
+                                        <div class="file-details">
+                                            <p class="file-name">{{ fileName }}</p>
+                                            <p class="file-size">Tamaño del Archivo: {{ fileSize }}</p>
+                                        </div>
+                                    </div>
+                                </mat-card-footer>
+                            </mat-card>
+                            <!--<siat-body-card>
+                                    <div>
+                                        <input type="file" (change)="onFileSelected($event)">
+                                        <button (click)="onUpload()">Cargar archivo</button>
+                                    </div>
+                                </siat-body-card>-->
+                        </siat-column>
+                    </siat-master-layout>
+                </div>
+            </mat-tab>
+            <mat-tab label="Seguimineto">
+                <div class="espacio-superior"></div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</siat-titles-page>

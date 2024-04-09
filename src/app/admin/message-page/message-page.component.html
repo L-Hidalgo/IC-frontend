@@ -1,0 +1,27 @@
+<siat-message-service></siat-message-service>
+<siat-titles-page title="Inputs">    
+    <siat-column>
+        <siat-code-card title="Alert Messages" code="{{alertMessage}}">
+            <siat-body-card>
+                <siat-modal-message type="success" title="Opps" message="Desea imprimir registro?" [(model)]="success" (clickOk)="modalOk()" (clickCancel)="modalCancel()"></siat-modal-message>
+                <siat-modal-message type="error" title="Error title"  [(model)]="error"></siat-modal-message>
+                <siat-modal-message type="info" title="info title"  [(model)]="info"></siat-modal-message>
+                <siat-modal-message type="warning" title="warning title"  [(model)]="warning"></siat-modal-message>
+                <siat-wrap>
+                    <siat-button color="btn-outline-success" (click)="success = true" label="success "></siat-button>
+                    <siat-button color="btn-outline-danger" (click)="error = true" label="Error"> </siat-button>
+                    <siat-button color="btn-outline-info" (click)="info = true" label="info"></siat-button>
+                    <siat-button color="btn-outline-warning" (click)="warning = true" label="warning"></siat-button>
+                </siat-wrap>
+            </siat-body-card>
+        </siat-code-card>
+        <siat-code-card title="Dialgo Alerts service" code="{{dialogAlert}}">
+            <siat-body-card>
+                <siat-wrap>
+                    <siat-button color="btn-success" label="Mostrar success" (onClick)="setMessage()"></siat-button>
+                    <siat-button color="btn-danger" label="Mostrar false" (onClick)="setFalseMessage()"></siat-button>
+                </siat-wrap>
+            </siat-body-card>
+        </siat-code-card>
+    </siat-column>
+</siat-titles-page>

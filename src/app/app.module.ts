@@ -25,7 +25,6 @@ import { RegistroRequisitosComponent } from './incorporaciones/registro-requisit
 @NgModule({
   declarations: [
     AppComponent,
-    // RadioButtonComponent,
     AdministracionComponent,
     IncorporacionComponent,
     RegistroPersonaComponent,

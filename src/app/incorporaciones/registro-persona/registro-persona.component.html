@@ -1,120 +1,136 @@
-<h2 mat-dialog-title>Información de Persona</h2>
+<siat-titles-page title="Datos de Persona">
+  <h2 mat-dialog-title>Información de la Persona</h2>
+  <div mat-dialog-content>
+    <form [formGroup]="personaForm" (ngSubmit)="onSubmit()">
+      <siat-row>
+        <!-- CI -->
+        <mat-form-field>
+          <mat-label>CI</mat-label>
+          <input matInput formControlName="ci">
+          <mat-error *ngIf="personaForm.get('ci')?.hasError('required')">El CI es requerido</mat-error>
+        </mat-form-field>
 
-<div mat-dialog-content>
-  <form [formGroup]="personaForm" (ngSubmit)="onSubmit()">
-    <!-- CI -->
-    <mat-form-field>
-      <mat-label>CI</mat-label>
-      <input matInput formControlName="ci">
-      <mat-error *ngIf="personaForm.get('ci')?.hasError('required')">El CI es requerido</mat-error>
-    </mat-form-field>
+        <!-- Exp -->
+        <mat-form-field class="custom-input">
+          <mat-label>Exp</mat-label>
+          <input matInput formControlName="exp">
+          <mat-error *ngIf="personaForm.get('exp')?.hasError('required')">La expedicion es requerida</mat-error>
+        </mat-form-field>
 
-    <!-- Exp -->
-    <mat-form-field>
-      <mat-label>Exp</mat-label>
-      <input matInput formControlName="exp">
-      <mat-error *ngIf="personaForm.get('exp')?.hasError('required')">La expedicion es requerida</mat-error>
-    </mat-form-field>
+        <!-- Género -->
+        <mat-form-field class="custom-input">
+          <mat-label>Género</mat-label>
+          <mat-select formControlName="genero">
+            <mat-option value="opcion1">F</mat-option>
+            <mat-option value="opcion2">M</mat-option>
+          </mat-select>
+          <mat-error *ngIf="personaForm.get('genero')?.hasError('required')">El respaldo es requerido</mat-error>
+        </mat-form-field>
 
-    <!-- Género -->
-    <mat-form-field>
-      <mat-label>Género</mat-label>
-      <input matInput formControlName="genero">
-      <mat-error *ngIf="personaForm?.get('genero')?.hasError('required')">El género es requerido</mat-error>
-    </mat-form-field>
+        <!-- Nombre -->
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre">
+          <mat-error *ngIf="personaForm.get('nombre')?.hasError('required')">El nombre es requerido</mat-error>
+        </mat-form-field>
 
-    <!-- Nombre -->
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="nombre">
-      <mat-error *ngIf="personaForm.get('nombre')?.hasError('required')">El nombre es requerido</mat-error>
-    </mat-form-field>
+        <!-- Primer Apellido -->
+        <mat-form-field>
+          <mat-label>Primer Apellido</mat-label>
+          <input matInput formControlName="primerApellido">
+          <mat-error *ngIf="personaForm.get('primerApellido')?.hasError('required')">El primer apellido es
+            requerido</mat-error>
+        </mat-form-field>
+      </siat-row>
 
-    <!-- Primer Apellido -->
-    <mat-form-field>
-      <mat-label>Primer Apellido</mat-label>
-      <input matInput formControlName="primerApellido">
-      <mat-error *ngIf="personaForm.get('primerApellido')?.hasError('required')">El primer apellido es requerido</mat-error>
-    </mat-form-field>
+      <siat-row>
+        <!-- Segundo Apellido -->
+        <mat-form-field>
+          <mat-label>Segundo Apellido</mat-label>
+          <input matInput formControlName="segundoApellido">
+          <mat-error *ngIf="personaForm.get('segundoApellido')?.hasError('required')">El segundo apellido es
+            requerido</mat-error>
+        </mat-form-field>
 
-    <!-- Segundo Apellido -->
-    <mat-form-field>
-      <mat-label>Segundo Apellido</mat-label>
-      <input matInput formControlName="segundoApellido">
-      <mat-error *ngIf="personaForm.get('segundoApellido')?.hasError('required')">El segundo apellido es requerido</mat-error>
-    </mat-form-field>
+        <!-- Área de Profesión -->
+        <mat-form-field>
+          <mat-label>Área de Formacion</mat-label>
+          <input matInput formControlName="areaProfesion">
+          <mat-error *ngIf="personaForm.get('areaProfesion')?.hasError('required')">El área de profesión es
+            requerida</mat-error>
+        </mat-form-field>
 
-    <!-- Área de Profesión -->
-    <mat-form-field>
-      <mat-label>Área de Formacion</mat-label>
-      <input matInput formControlName="areaProfesion">
-      <mat-error *ngIf="personaForm.get('areaProfesion')?.hasError('required')">El área de profesión es requerida</mat-error>
-    </mat-form-field>
+        <!-- Grado Académico -->
+        <mat-form-field>
+          <mat-label>Grado Académico</mat-label>
+          <input matInput formControlName="gradoAcademico">
+          <mat-error *ngIf="personaForm.get('gradoAcademico')?.hasError('required')">El grado académico es
+            requerido</mat-error>
+        </mat-form-field>
 
-    <!-- Grado Académico -->
-    <mat-form-field>
-      <mat-label>Grado Académico</mat-label>
-      <input matInput formControlName="gradoAcademico">
-      <mat-error *ngIf="personaForm.get('gradoAcademico')?.hasError('required')">El grado académico es requerido</mat-error>
-    </mat-form-field>
+        <!-- Institución de Estudios -->
+        <mat-form-field>
+          <mat-label>Institución de Estudios</mat-label>
+          <input matInput formControlName="institucionEstudios">
+          <mat-error *ngIf="personaForm.get('institucionEstudios')?.hasError('required')">La institución de estudios es
+            requerida</mat-error>
+        </mat-form-field>
 
-    <!-- Institución de Estudios -->
-    <mat-form-field>
-      <mat-label>Institución de Estudios</mat-label>
-      <input matInput formControlName="institucionEstudios">
-      <mat-error *ngIf="personaForm.get('institucionEstudios')?.hasError('required')">La institución de estudios es requerida</mat-error>
-    </mat-form-field>
+        <!-- Gestion -->
+        <mat-form-field class="custom-input">
+          <mat-label>Gestion</mat-label>
+          <input matInput formControlName="gestion">
+          <mat-error *ngIf="personaForm.get('gestion')?.hasError('required')">La gestion es requerida</mat-error>
+        </mat-form-field>
+      </siat-row>
 
-    <!-- Gestion -->
-    <mat-form-field>
-      <mat-label>Gestion</mat-label>
-      <input matInput formControlName="gestion">
-      <mat-error *ngIf="personaForm.get('gestion')?.hasError('required')">La gestion es requerida</mat-error>
-    </mat-form-field>
+      <siat-row>
+        <!-- Selector de Respaldo -->
+        <mat-form-field>
+          <mat-label>Respaldo?</mat-label>
+          <mat-select formControlName="respaldo">
+            <mat-option value="opcion1">Opción 1</mat-option>
+            <mat-option value="opcion2">Opción 2</mat-option>
+            <mat-option value="opcion3">Opción 3</mat-option>
+          </mat-select>
+          <mat-error *ngIf="personaForm.get('respaldo')?.hasError('required')">El respaldo es requerido</mat-error>
+        </mat-form-field>
 
-    <!-- Selector de Respaldo -->
-    <mat-form-field>
-      <mat-label>Selector de Respaldo</mat-label>
-      <mat-select formControlName="respaldo">
-        <mat-option value="opcion1">Opción 1</mat-option>
-        <mat-option value="opcion2">Opción 2</mat-option>
-        <mat-option value="opcion3">Opción 3</mat-option>
-      </mat-select>
-      <mat-error *ngIf="personaForm.get('respaldo')?.hasError('required')">El respaldo es requerido</mat-error>
-    </mat-form-field>
+        <!-- Fecha de Incorporación -->
+        <mat-form-field>
+          <mat-label>Fecha de Incorporación</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaIncorporacion">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="personaForm.get('fechaIncorporacion')?.hasError('required')">La fecha de incorporación es
+            requerida</mat-error>
+        </mat-form-field>
 
-    <!-- Fecha de Incorporación -->
-    <mat-form-field>
-      <mat-label>Fecha de Incorporación</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="fechaIncorporacion">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="personaForm.get('fechaIncorporacion')?.hasError('required')">La fecha de incorporación es requerida</mat-error>
-    </mat-form-field>
+        <!-- HP -->
+        <mat-form-field>
+          <mat-label>HP</mat-label>
+          <input matInput formControlName="hp">
+          <mat-error *ngIf="personaForm.get('hp')?.hasError('required')">HP es requerido</mat-error>
+        </mat-form-field>
 
-    <!-- HP -->
-    <mat-form-field>
-      <mat-label>HP</mat-label>
-      <input matInput formControlName="hp">
-      <mat-error *ngIf="personaForm.get('hp')?.hasError('required')">HP es requerido</mat-error>
-    </mat-form-field>
+        <!-- Selector de Observacion -->
+        <mat-form-field>
+          <mat-label>Obs. Procs. Evaluacion</mat-label>
+          <mat-select formControlName="observacion">
+            <mat-option value="opcion1">Cumple</mat-option>
+            <mat-option value="opcion2">No cumple</mat-option>
+          </mat-select>
+          <mat-error *ngIf="personaForm.get('observacion')?.hasError('required')">El respaldo es requerido</mat-error>
+        </mat-form-field>
+      </siat-row>
 
-    <!-- Selector de Observacion -->
-    <mat-form-field>
-      <mat-label>Observacion</mat-label>
-      <mat-select formControlName="observacion">
-        <mat-option value="opcion1">Cumple</mat-option>
-        <mat-option value="opcion2">No cumple</mat-option>
-      </mat-select>
-      <mat-error *ngIf="personaForm.get('observacion')?.hasError('required')">El respaldo es requerido</mat-error>
-    </mat-form-field>
-    <mat-divider></mat-divider>
-    <h2 mat-dialog-title>Referencia para Cite de Informe en SIAT</h2>
+      <h2 mat-dialog-title>Referencia para Cite de Informe en SIAT</h2>
+    </form>
+  </div>
 
-  </form>
-</div>
-
-<div mat-dialog-actions>
-  <button mat-button (click)="onClose()">Cancelar</button>
-  <button mat-button color="primary" type="submit" [disabled]="!personaForm.valid" (click)="onSubmit()">Guardar</button>
-</div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClose()">Cancelar</button>
+    <button mat-button color="primary" type="submit" [disabled]="!personaForm.valid"
+      (click)="onSubmit()">Guardar</button>
+  </div>
+</siat-titles-page>

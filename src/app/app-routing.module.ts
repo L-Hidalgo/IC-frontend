@@ -19,8 +19,8 @@ import { TableViewComponent } from './admin/table-view/table-view.component';
 import { AlertsPageComponent } from './admin/alerts-page/alerts-page.component';
 //administracion
 import { AdministracionComponent } from './administracion/administracion/administracion.component';
-//incorporaciones
-import { IncorporacionComponent } from './incorporaciones/incorporacion/incorporacion.component';
+//incorporacion
+import { IncorporacionComponent } from './incorporacion/incorporacion/incorporacion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -52,7 +52,7 @@ const routes: Routes = [
   //administracion
   { path: 'administracion', component: AdministracionComponent},
 
-  //incorporaciones
+  //incorporacion
    { path: 'incorporacion', component: IncorporacionComponent},
 
   /* { path: '404', component: NotFoundPage },

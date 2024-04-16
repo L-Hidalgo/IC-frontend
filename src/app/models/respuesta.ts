@@ -11,6 +11,9 @@ export interface RespuestaObjeto<T> extends Respuesta {
 
 export interface RespuestaLista<T> extends Respuesta {
     objetosList?: T[];
+    total?: number;
+    pageIndex?: number;
+    limit?: number; 
 }
 
 export interface RespuestaMap<T> extends Respuesta {

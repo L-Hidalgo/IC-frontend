@@ -16,5 +16,6 @@ export const environment = {
   production: true,
   baseUrl: '',
   api: '/sen-safe-launcher-rest',
-  api2: '/sen-safe-launcher-rest'
+  api2: '/sen-safe-launcher-rest',
+  apiIcBack: 'http://localhost:8000',
 };

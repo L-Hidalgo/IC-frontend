@@ -1,0 +1,141 @@
+<siat-titles-page title="Datos de Persona">
+  <h2 mat-dialog-title>Información de la Persona</h2>
+  <div mat-dialog-content>
+    <form [formGroup]="personaForm" (ngSubmit)="onSubmit()">
+      <siat-row>
+        <!-- CI -->
+        <mat-form-field>
+          <mat-label>CI</mat-label>
+          <input matInput formControlName="ciPersona" (keydown.enter)="getDataPersonaByCi()">
+          <mat-error *ngIf="personaForm.get('ciPersona')?.hasError('required')">El CI es requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Exp -->
+        <mat-form-field class="custom-input">
+          <mat-label>Exp</mat-label>
+          <input matInput formControlName="expPersona">
+          <mat-error *ngIf="personaForm.get('expPersona')?.hasError('required')">La expedicion es requerida</mat-error>
+        </mat-form-field>
+
+        <!-- Género -->
+        <mat-form-field class="custom-input">
+          <mat-label>Género</mat-label>
+          <mat-select formControlName="generoPersona">
+            <mat-option value="F">F</mat-option>
+            <mat-option value="M">M</mat-option>
+          </mat-select>
+          <mat-error *ngIf="personaForm.get('generoPersona')?.hasError('required')">El genero es requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Nombre -->
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombrePersona">
+          <mat-error *ngIf="personaForm.get('nombrePersona')?.hasError('required')">El nombre es requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Primer Apellido -->
+        <mat-form-field>
+          <mat-label>Primer Apellido</mat-label>
+          <input matInput formControlName="primerApellidoPersona">
+          <mat-error *ngIf="personaForm.get('primerApellidoPersona')?.hasError('required')">El primer apellido es
+            requerido</mat-error>
+        </mat-form-field>
+      </siat-row>
+
+      <siat-row>
+        <!-- Segundo Apellido -->
+        <mat-form-field>
+          <mat-label>Segundo Apellido</mat-label>
+          <input matInput formControlName="segundoApellidoPersona">
+          <mat-error *ngIf="personaForm.get('segundoApellidoPersona')?.hasError('required')">El segundo apellido es
+            requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Área de Profesión -->
+        <mat-form-field>
+          <mat-label>Área de Formacion</mat-label>
+          <input matInput formControlName="areaFormacion" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let af of listAreasFormacion" [value]="af.nombreAreaFormacion">
+              {{af.nombreAreaFormacion}}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <app-select-auto-comp-area ></app-select-auto-comp-area> -->
+          <mat-error *ngIf="personaForm.get('areaFormacion')?.hasError('required')">El área de profesión es
+            requerida</mat-error>
+        </mat-form-field>
+
+        <!-- Grado Académico -->
+        <mat-form-field>
+          <mat-label>Grado Académico</mat-label>
+          <input matInput formControlName="gradoAcademicoId">
+          <mat-error *ngIf="personaForm.get('gradoAcademicoId')?.hasError('required')">El grado académico es
+            requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Institución de Estudios -->
+        <mat-form-field>
+          <mat-label>Institución de Estudios</mat-label>
+          <input matInput formControlName="institucionId">
+          <mat-error *ngIf="personaForm.get('institucionId')?.hasError('required')">La institución de estudios es
+            requerida</mat-error>
+        </mat-form-field>
+
+        <!-- Gestion -->
+        <mat-form-field class="custom-input">
+          <mat-label>Gestion</mat-label>
+          <input matInput formControlName="gestionFormacion">
+          <mat-error *ngIf="personaForm.get('gestionFormacion')?.hasError('required')">La gestion es requerida</mat-error>
+        </mat-form-field>
+      </siat-row>
+
+      <siat-row>
+        <!-- Selector de Respaldo -->
+        <mat-form-field>
+          <mat-label>Respaldo?</mat-label>
+          <mat-select formControlName="conRespaldoFormacion">
+            <mat-option value="1">Si</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+          <mat-error *ngIf="personaForm.get('conRespaldoFormacion')?.hasError('required')">El respaldo es requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Fecha de Incorporación -->
+        <mat-form-field>
+          <mat-label>Fecha de Incorporación</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fchIncorporacion">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="personaForm.get('fchIncorporacion')?.hasError('required')">La fecha de incorporación es
+            requerida</mat-error>
+        </mat-form-field>
+
+        <!-- HP -->
+        <mat-form-field>
+          <mat-label>HP</mat-label>
+          <input matInput formControlName="hpIncorporacion">
+          <mat-error *ngIf="personaForm.get('hpIncorporacion')?.hasError('required')">HP es requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Selector de Observacion -->
+        <mat-form-field>
+          <mat-label>Obs. Procs. Evaluacion</mat-label>
+          <mat-select formControlName="observacionIncorporacion">
+            <mat-option value="Cumple">Cumple</mat-option>
+            <mat-option value="No cumple">No cumple</mat-option>
+          </mat-select>
+          <mat-error *ngIf="personaForm.get('observacionIncorporacion')?.hasError('required')">El respaldo es requerido</mat-error>
+        </mat-form-field>
+      </siat-row>
+
+      <h2 mat-dialog-title>Referencia para Cite de Informe en SIAT</h2>
+    </form>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClose()">Cancelar</button>
+    <button mat-button color="primary" type="submit" [disabled]="!personaForm.valid"
+      (click)="onSubmit()">Guardar</button>
+  </div>
+</siat-titles-page>

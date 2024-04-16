@@ -1,0 +1,77 @@
+<siat-titles-page title="Requisitos Item">
+    <div mat-dialog-content>
+        <form [formGroup]="requisitosForm" (ngSubmit)="onSubmit()">
+            <siat-row>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Requisito segun Exp. Profesional</mat-label>
+                    <textarea matInput placeholder="Ex. 100 Main St">{{ requisitoPuesto?.expAreaRequisito }}</textarea>
+                </mat-form-field>
+                <mat-form-field class="custom-input">
+                    <mat-label>Cumple con la exp. Profesional</mat-label>
+                    <mat-select formControlName="cumpleExpProfesionalIncorporacion">
+                        <mat-option [value]="1">Si</mat-option>
+                        <mat-option [value]="2">No</mat-option>
+                        <mat-option [value]="3">No Corresponde</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="requisitosForm.get('cumpleExpProfesionalIncorporacion')?.hasError('required')">La exp. profesional es
+                        requerido</mat-error>
+                </mat-form-field>
+            </siat-row>
+            <siat-row>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Requisito segun Exp. Especifica</mat-label>
+                    <textarea matInput placeholder="Ex. 100 Main St">{{requisitoPuesto?.expCargoRequisito}}</textarea>
+                </mat-form-field>
+                <mat-form-field class="custom-input">
+                    <mat-label>Cumple con la exp Especifica</mat-label>
+                    <mat-select formControlName="cumpleExpEspecificaIncorporacion">
+                        <mat-option [value]="1">Si</mat-option>
+                        <mat-option [value]="2">No</mat-option>
+                        <mat-option [value]="3">No Corresponde</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="requisitosForm.get('cumpleExpEspecificaIncorporacion')?.hasError('required')">El respaldo es
+                        requerido</mat-error>
+                </mat-form-field>
+            </siat-row>
+            <siat-row>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Requisito segun Exp. segun Mando</mat-label>
+                    <textarea matInput placeholder="Ex. 100 Main St">{{requisitoPuesto?.expMandoRequisito}}</textarea>
+                </mat-form-field>
+
+                <mat-form-field class="custom-input">
+                    <mat-label>Cumple con la exp segun Mando</mat-label>
+                    <mat-select formControlName="cumpleExpMandoIncorporacion">
+                        <mat-option [value]="1">Si</mat-option>
+                        <mat-option [value]="2">No</mat-option>
+                        <mat-option [value]="3">No Corresponde</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="requisitosForm.get('cumpleExpMandoIncorporacion')?.hasError('required')">El respaldo es
+                        requerido</mat-error>
+                </mat-form-field>
+            </siat-row>
+            <siat-row>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Requisito segun Formacion</mat-label>
+                    <textarea matInput placeholder="Ex. 100 Main St">{{requisitoPuesto?.formacionRequisito}}</textarea>
+                </mat-form-field>
+                <mat-form-field class="custom-input">
+                    <mat-label>Selector de Respaldo</mat-label>
+                    <mat-select formControlName="cumpleFormacionIncorporacion">
+                        <mat-option [value]="1">Si</mat-option>
+                        <mat-option [value]="2">No</mat-option>
+                        <mat-option [value]="3">No Corresponde</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="requisitosForm.get('cumpleFormacionIncorporacion')?.hasError('required')">El respaldo es
+                        requerido</mat-error>
+                </mat-form-field>
+            </siat-row>
+        </form>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button (click)="onClose()">Cancelar</button>
+        <button mat-button color="primary" type="submit" [disabled]="!requisitosForm.valid"
+            (click)="onSubmit()">Guardar</button>
+    </div>
+</siat-titles-page>

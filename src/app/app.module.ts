@@ -17,10 +17,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //Mis links
 import { HttpClientModule } from '@angular/common/http';
 import { AdministracionComponent} from './administracion/administracion/administracion.component';
-import { IncorporacionComponent } from './incorporaciones/incorporacion/incorporacion.component';
-import { RegistroPersonaComponent } from './incorporaciones/registro-persona/registro-persona.component';
-import { RegistroRequisitosComponent } from './incorporaciones/registro-requisitos/registro-requisitos.component'
-
+import { IncorporacionComponent } from './incorporacion/incorporacion/incorporacion.component';
+import { RegistroPersonaComponent } from './incorporacion/registro-persona/registro-persona.component';
+import { RegistroRequisitosComponent } from './incorporacion/registro-requisitos/registro-requisitos.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { RegistroRequisitosComponent } from './incorporaciones/registro-requisit
     AdministracionComponent,
     IncorporacionComponent,
     RegistroPersonaComponent,
-    RegistroRequisitosComponent
+    RegistroRequisitosComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +42,8 @@ import { RegistroRequisitosComponent } from './incorporaciones/registro-requisit
     PagesModule,
     UserModule,
     FormsModule, // Agrega FormsModule aquí
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
     // StrAuthLibModule //Esta linea se debe comentar para iniciar la aplicacion en modo PRODUCCION
   ],
   providers: [

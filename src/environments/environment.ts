@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   environmentName: "desarrollo",
-  api: 'https://desasiatservicios.impuestos.gob.bo/sen-safe-launcher-rest'
+  api: 'https://desasiatservicios.impuestos.gob.bo/sen-safe-launcher-rest',
+  apiIcBack: 'http://localhost:8000',
 };
 
 /*

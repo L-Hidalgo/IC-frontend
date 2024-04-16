@@ -1,0 +1,86 @@
+//----------------------------------------------------------------diseño------------------------------------------------------------
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medium {
+  width: 300px;
+}
+
+.custom-width-acciones {
+  width: 150px !important;
+  margin: 10px;
+}
+
+.custom-width {
+  width: 100px !important;
+  margin: 10px;
+}
+
+.persona-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.example-form-persona {
+  display: flex;
+  align-items: center;
+  width: 200px !important;
+  margin: 10px;
+}
+
+.example-form-inputs {
+  display: flex;
+  align-items: center;
+  width: auto !important;
+}
+
+.custom-width-fecha {
+  width: 150px !important;
+  margin: 10px;
+}
+
+.custom-width-fecha .date-picker-container {
+  display: flex;
+  align-items: center;
+}
+
+.custom-width-fecha .mat-form-field-wrapper {
+  flex: 1;
+}
+
+.custom-datepicker-toggle {
+  margin-top: -25px;
+}
+.contenedor-tabla {
+  width: auto;
+  overflow-x: auto;
+}
+.badge {
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.badge-red {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.badge-yellow {
+  background-color: #f39c12;
+  color: white;
+}
+
+.badge-green {
+  background-color: #2ecc71;
+  color: white;
+}
+.mat-cell,
+.mat-header-cell {
+  text-align: center !important;
+}

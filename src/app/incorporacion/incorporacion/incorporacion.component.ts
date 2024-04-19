@@ -3,12 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { RegistroPersonaComponent } from '../registro-persona/registro-persona.component';
 import { RegistroRequisitosComponent } from '../registro-requisitos/registro-requisitos.component';
 import { EstadosIncorporacion, Incorporacion } from '../incorporacion';
@@ -34,12 +29,12 @@ export interface ItemForm {
 export class IncorporacionComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'idIncorporacion',
-    'acciones',
-    'itemNuevo',
-    'itemActual',
-    'persona',
-    'responsable',
     'estado',
+    'itemNuevo',
+    //'itemActual',
+    'persona',
+    //'acciones',
+    'evaluacion',
     'cumpleRequisitos',
     'notaMinuta',
     'informe',
@@ -50,19 +45,7 @@ export class IncorporacionComponent implements AfterViewInit {
 
   selectedOption!: string;
 
-  itemNuevoFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('^(20000|[1-9]\\d{0,4})$'),
-  ]);
-
-  itemActualFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('^(20000|[1-9]\\d{0,4})$'),
-  ]);
-
-  dataSource: MatTableDataSource<
-    Incorporacion & { formsDescargar?: Array<ItemForm> }
-  >;
+  dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
   totalItems: number = 10; // Total de elementos en el servidor
   pageSize = 10; // Número de elementos por página
   pageIndex = 0; // Índice de la página actual
@@ -108,6 +91,7 @@ export class IncorporacionComponent implements AfterViewInit {
             this.dataSource.data = listWithItem;
             this.dataSource._updateChangeSubscription();
             this.totalItems = resp.total || 0;
+            console.log(this.dataSource.data);
           }
         },
         (error) => console.log(error)
@@ -129,7 +113,11 @@ export class IncorporacionComponent implements AfterViewInit {
       puestoNuevoId: undefined,
       estadoIncorporacion: null,
       // cumpleRequisitos: false,
+      conRespaldoFormacion: null,
+      observacionIncorporacion: null,
       // Nota minuta
+      fchIncorporacion: undefined,
+      hpIncorporacion: null,
       citeNotaMinutaIncorporacion: null,
       codigoNotaMinutaIncorporacion: null,
       fchNotaMinutaIncorporacion: undefined,
@@ -169,7 +157,7 @@ export class IncorporacionComponent implements AfterViewInit {
   }
 
   /* ----------------------------------- BUSCAR PUESTO POR ITEM ----------------------------------- */
-  buscarItemNuevo(rowIndex: number): void {
+  /*buscarItemNuevo(rowIndex: number): void {
     const nuevoItemRow = this.dataSource?.data[rowIndex]?.puestoNuevoItem;
     if (nuevoItemRow) {
       this.puestosService.findPuestoByItem(nuevoItemRow).subscribe(
@@ -208,16 +196,67 @@ export class IncorporacionComponent implements AfterViewInit {
         }
       );
     }
-  }
+  }*/
+  mostrarFormularioCambioItem = false;
 
-  buscarItemCambio(rowIndex: number): void {}
+  buscarItemNuevo(rowIndex: number): void {
+    const nuevoItemRow = this.dataSource?.data[rowIndex]?.puestoNuevoItem;
+    if (nuevoItemRow) {
+      this.puestosService.findPuestoByItem(nuevoItemRow).subscribe(
+        (resp) => {
+          const puesto = resp.objeto;
+          if (!puesto) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'El puesto no existe!!!',
+            });
+          } else {
+            const estaOcupado = !!puesto.personaActual?.idPersona;
+            const message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto
+              } ${estaOcupado
+                ? `está ocupado por ${puesto.personaActual?.nombrePersona} ${puesto.personaActual?.primerApellidoPersona} ${puesto.personaActual?.segundoApellidoPersona}`
+                : 'está acefalo'
+              }`;
+
+            // Mostrar el cuadro de diálogo con el mensaje modificado y los botones "Si" y "No"
+            Swal.fire({
+              icon: 'info',
+              title: 'Información',
+              text: message + '\n¿Desea realizar un cambio de item?',
+              showCancelButton: true,
+              confirmButtonText: 'Sí',
+              cancelButtonText: 'No',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.mostrarFormularioCambioItem = true;
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                this.mostrarFormularioCambioItem = false;
+              }
+            });
+
+            // Agregar el id del puesto al registro para cuando se actualice o se cree
+            this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
+          }
+        },
+        (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error buscando puesto: ' + error,
+          });
+        }
+      );
+    }
+  }
 
   /* --------------------------------------- BUSCAR PERSONA --------------------------------------- */
   abrirModalRegistroPersona(rowIndex: number): void {
     const personaData = this.dataSource?.data[rowIndex];
 
     const dialogRef = this.dialog.open(RegistroPersonaComponent, {
-      width: '1000px',
+      width: '500px',
+      height: 'auto',
       data: personaData,
     });
 
@@ -232,11 +271,9 @@ export class IncorporacionComponent implements AfterViewInit {
         };
         this.dataSource.data[rowIndex].personaId = result.idPersona;
         this.dataSource.data[rowIndex].idIncorporacion = result.idIncorporacion;
-        this.dataSource.data[rowIndex].fchIncorporacion =
-          result.fchIncorporacion;
+        this.dataSource.data[rowIndex].fchIncorporacion = result.fchIncorporacion;
         this.dataSource.data[rowIndex].hpIncorporacion = result.hpIncorporacion;
-        this.dataSource.data[rowIndex].observacionIncorporacion =
-          result.observacionIncorporacion;
+        //this.dataSource.data[rowIndex].observacionIncorporacion =result.observacionIncorporacion;
         await this.dataSource._updateChangeSubscription();
         // Guardar incorporacion
         this.sendDataIncorporacion(rowIndex);
@@ -252,6 +289,11 @@ export class IncorporacionComponent implements AfterViewInit {
         puestoNuevoId: data.puestoNuevoId,
         personaId: data.personaId,
         // estadoIncorporacion: data.estadoIncorporacion,
+        conRespaldoFormacion: data.conRespaldoFormacion,
+        observacionIncorporacion: data.observacionIncorporacion,
+
+        fchIncorporacion: data.fchIncorporacion,
+        hpIncorporacion: data.hpIncorporacion,
         citeNotaMinutaIncorporacion: data.citeNotaMinutaIncorporacion,
         codigoNotaMinutaIncorporacion: data.codigoNotaMinutaIncorporacion,
         fchNotaMinutaIncorporacion: data.fchNotaMinutaIncorporacion,
@@ -325,6 +367,7 @@ export class IncorporacionComponent implements AfterViewInit {
   /*                                      Descargar Formularios                                     */
   /* ---------------------------------------------------------------------------------------------- */
 
+
   listForms: Array<ItemForm> = [
     {
       nombreForm: 'R-0078',
@@ -347,7 +390,7 @@ export class IncorporacionComponent implements AfterViewInit {
       ],
     },
     {
-      nombreForm: 'Inf. con Nota',
+      nombreForm: 'Inf.conNota',
       callback: (incId: number) => this.incorporacionesService.genUrlInfNota(incId),
       cambioItem: false,
       incorporacion: true,
@@ -422,7 +465,6 @@ export class IncorporacionComponent implements AfterViewInit {
       cambioItem: false,
       incorporacion: true,
       porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
@@ -432,14 +474,9 @@ export class IncorporacionComponent implements AfterViewInit {
       cambioItem: false,
       incorporacion: true,
       porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
-
-
-
-
   ];
 
   filterFormularios(incorporacion: Incorporacion) {
@@ -453,7 +490,7 @@ export class IncorporacionComponent implements AfterViewInit {
     });
   }
 
-  onDownloadForms(rowIndex: number) {
+  /*onDownloadForms(rowIndex: number) {
     const data = this.dataSource.data[rowIndex];
     if (typeof data.idIncorporacion === 'number') {
       const urls = data?.formsDescargar?.map((form) => {
@@ -463,6 +500,16 @@ export class IncorporacionComponent implements AfterViewInit {
       });
       console.log('Urls to open and downloads forms:', urls);
     }
-
+  }*/
+  onDownloadForms(rowIndex: number, formNombre: string) {
+    const data = this.dataSource.data[rowIndex];
+    if (typeof data.idIncorporacion === 'number') {
+      const form = this.listForms.find(form => form.nombreForm === formNombre);
+      if (form) {
+        const url = form.callback(data.idIncorporacion);
+        window.open(url, '_blank');
+      }
+    }
   }
+
 }

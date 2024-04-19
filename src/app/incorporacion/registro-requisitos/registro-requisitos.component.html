@@ -4,7 +4,7 @@
             <siat-row>
                 <mat-form-field class="example-full-width">
                     <mat-label>Requisito segun Exp. Profesional</mat-label>
-                    <textarea matInput placeholder="Ex. 100 Main St">{{ requisitoPuesto?.expAreaRequisito }}</textarea>
+                    <textarea matInput placeholder="Ex. 100 Main St">{{requisitoPuesto?.expCargoRequisito}}</textarea>
                 </mat-form-field>
                 <mat-form-field class="custom-input">
                     <mat-label>Cumple con la exp. Profesional</mat-label>
@@ -20,7 +20,7 @@
             <siat-row>
                 <mat-form-field class="example-full-width">
                     <mat-label>Requisito segun Exp. Especifica</mat-label>
-                    <textarea matInput placeholder="Ex. 100 Main St">{{requisitoPuesto?.expCargoRequisito}}</textarea>
+                    <textarea matInput placeholder="Ex. 100 Main St">{{ requisitoPuesto?.expAreaRequisito }}</textarea>
                 </mat-form-field>
                 <mat-form-field class="custom-input">
                     <mat-label>Cumple con la exp Especifica</mat-label>
@@ -53,10 +53,11 @@
             <siat-row>
                 <mat-form-field class="example-full-width">
                     <mat-label>Requisito segun Formacion</mat-label>
-                    <textarea matInput placeholder="Ex. 100 Main St">{{requisitoPuesto?.formacionRequisito}}</textarea>
+                    <textarea matInput class="custom-textarea">{{requisitoPuesto?.formacionRequisito}}</textarea>
                 </mat-form-field>
+                
                 <mat-form-field class="custom-input">
-                    <mat-label>Selector de Respaldo</mat-label>
+                    <mat-label>Seleccione una opcion</mat-label>
                     <mat-select formControlName="cumpleFormacionIncorporacion">
                         <mat-option [value]="1">Si</mat-option>
                         <mat-option [value]="2">No</mat-option>

@@ -7,6 +7,8 @@ export interface Incorporacion {
   puestoNuevoItem?: number;
   puestoActualId?: number;
   personaId?: number | null;
+  conRespaldoFormacion?: number | null;
+  observacionIncorporacion?: string |null;
   fchIncorporacion?: string;
   estadoIncorporacion?: number | null;
   // Requisitos puestos
@@ -32,10 +34,9 @@ export interface Incorporacion {
   fchRapIncorporacion?: Date | null;
 
   hpIncorporacion?: string | null;
-  observacionIncorporacion?: string | null;
   // Relaciones
   persona?: Pick<Persona, 'idPersona' | 'primerApellidoPersona' | 'segundoApellidoPersona' | 'nombrePersona'>;
-  puestoNuevo?: Pick<Puesto, 'idPuesto' | 'itemPuesto' >;
+  puestoNuevo?: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto'>;
 }
 
 export enum EstadosIncorporacion {

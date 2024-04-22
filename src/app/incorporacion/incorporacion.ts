@@ -6,6 +6,7 @@ export interface Incorporacion {
   puestoNuevoId?: number | null;
   puestoNuevoItem?: number;
   puestoActualId?: number;
+  puestoActualItem?: number;
   personaId?: number | null;
   conRespaldoFormacion?: number | null;
   observacionIncorporacion?: string |null;
@@ -37,6 +38,7 @@ export interface Incorporacion {
   // Relaciones
   persona?: Pick<Persona, 'idPersona' | 'primerApellidoPersona' | 'segundoApellidoPersona' | 'nombrePersona'>;
   puestoNuevo?: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto'>;
+  puestoActual?: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto'>;
 }
 
 export enum EstadosIncorporacion {

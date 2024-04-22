@@ -18,6 +18,10 @@ export class PuestosService {
     return this.http.get<RespuestaObjeto<Puesto>>(`${this.baseUrl}/${this.path}/${item}/by-item`);
   }
 
+  findPuestoByItemActual(item: number) {
+    return this.http.get<RespuestaObjeto<Puesto>>(`${this.baseUrl}/${this.path}/${item}/by-item-actual`);
+  }
+
   getPuestoRequisito(puestoId: number) {
     return this.http.get<RespuestaObjeto<Requisito>>(`${this.baseUrl}/${this.path}/${puestoId}/requisito`);
   }

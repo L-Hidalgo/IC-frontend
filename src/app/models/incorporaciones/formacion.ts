@@ -1,5 +1,6 @@
 import { AreaFormacion } from "./area-formacion";
 import { GradoAcademico } from "./grado-academico";
+import { Institucion } from "./institucion";
 
 export interface Formacion {
   idFormacion: number;
@@ -15,4 +16,5 @@ export interface Formacion {
   // relations
   areaFormacion?: AreaFormacion;
   gradoAcademico?: GradoAcademico;
+  institucion?: Institucion;
 }

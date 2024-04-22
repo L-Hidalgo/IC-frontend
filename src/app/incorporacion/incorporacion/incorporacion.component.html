@@ -23,7 +23,8 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
           <td mat-cell *matCellDef="let row; index as i">
             <div class="custom-width">
-              <ng-container *ngIf="row.puestoNuevoId || row.personaId">
+              <ng-container *ngIf="row.estadoIncorporacion !== null && row.estadoIncorporacion !== undefined">
+
                 <span [ngClass]="{
                   'badge': true,
                   'badge-yellow': row.estadoIncorporacion === 1,
@@ -32,7 +33,7 @@
                   {{ row.estadoIncorporacion === 1 ? 'Con registro' : 'Finalizado' }}
                 </span>
               </ng-container>
-              <ng-container *ngIf="!(row.puestoNuevoItem && row.personaId)">
+              <ng-container *ngIf="!(row.estadoIncorporacion !== null && row.estadoIncorporacion !== undefined)">
                 <span style=" background-color: red;
                 color: white;" class="badge">Sin Registro</span>
               </ng-container>
@@ -45,7 +46,7 @@
           <td mat-cell *matCellDef="let row; index as i">
             <mat-form-field class="custom-width">
               <mat-label>Item</mat-label>
-              <input type="number" matInput placeholder="Ex. 1" (keydown.enter)="buscarItemNuevo(i)"
+              <input type="number" matInput placeholder="Ex. 213" (keydown.enter)="buscarItemNuevo(i)"
                 [(ngModel)]="row.puestoNuevoItem" />
               <mat-hint><span *ngIf="row.puestoNuevo">
                   Item {{ row.puestoNuevo.itemPuesto }}, {{ row.puestoNuevo.denominacionPuesto }}
@@ -56,8 +57,16 @@
             </mat-form-field>
             <div *ngIf="mostrarFormularioCambioItem">
               <mat-form-field class="custom-width">
-                <mat-label>Cambio de item</mat-label>
-                <input type="number" matInput placeholder="Ex. 1" />
+                <mat-label>Cambio de Item</mat-label>
+                <input type="number" matInput placeholder="Ex. 144" (keydown.enter)="buscarItemActual(i)"
+                  [(ngModel)]="row.puestoActualItem" />
+                <mat-hint><span *ngIf="row.puestoActual">
+                    Item {{ row.puestoActual.itemPuesto }}, {{ row.puestoActual.denominacionPuesto }}
+                  </span>
+                  <span *ngIf="!row.puestoActual">
+                    Cambio de Item sin registro
+                  </span>
+                </mat-hint>
               </mat-form-field>
             </div>
           </td>
@@ -67,7 +76,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>PERSONA</th>
           <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)">
             <div class="example-form-persona">
-              <img src="./assets/images/admin.jpg" alt="Pedro" class="persona-img" />
+              <img src="./assets/images/admin.jpg" alt="Pedro" class="persona-img" /><br>
               <ng-container *ngIf="row.puestoNuevoId || row.personaId">
                 <div>
                   <span>{{ row.persona?.ciPersona || ' ' }} {{ row.persona?.expPersona || ' ' }}</span>

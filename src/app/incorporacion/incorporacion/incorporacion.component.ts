@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { Formacion } from 'src/app/models/incorporaciones/formacion';
 import { Persona } from 'src/app/models/incorporaciones/persona';
 import { IncorporacionesService } from 'src/app/services/incorporaciones/incorporaciones.service';
+import { NotificationService } from 'src/app/services/incorporaciones/notification.service';
 
 export interface ItemForm {
   nombreForm: string;
@@ -31,9 +32,7 @@ export class IncorporacionComponent implements AfterViewInit {
     'idIncorporacion',
     'estado',
     'itemNuevo',
-    //'itemActual',
     'persona',
-    //'acciones',
     'evaluacion',
     'cumpleRequisitos',
     'notaMinuta',
@@ -64,6 +63,7 @@ export class IncorporacionComponent implements AfterViewInit {
 
   constructor(
     private dialog: MatDialog,
+    private notificationService: NotificationService,
     private elementRef: ElementRef,
     private puestosService: PuestosService,
     private incorporacionesService: IncorporacionesService,
@@ -87,6 +87,7 @@ export class IncorporacionComponent implements AfterViewInit {
             const listWithItem = resp.objetosList.map((el) => ({
               ...el,
               puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
+             // puestoActaulItem
             }));
             this.dataSource.data = listWithItem;
             this.dataSource._updateChangeSubscription();
@@ -250,6 +251,22 @@ export class IncorporacionComponent implements AfterViewInit {
     }
   }
 
+  buscarItemActual(rowIndex: number): void {
+    const actualItemRow = this.dataSource?.data[rowIndex]?.puestoActualItem;
+    if (actualItemRow) {
+      this.puestosService.findPuestoByItemActual(actualItemRow).subscribe(
+        (resp) => {
+          const puesto = resp.objeto;
+          if (puesto) {
+            // Agregar el id del puesto al registro para cuando se actualice o se cree
+            this.dataSource.data[rowIndex].puestoActualId = puesto.idPuesto;
+          }
+        }
+      );
+    }
+  }
+
+
   /* --------------------------------------- BUSCAR PERSONA --------------------------------------- */
   abrirModalRegistroPersona(rowIndex: number): void {
     const personaData = this.dataSource?.data[rowIndex];
@@ -271,8 +288,8 @@ export class IncorporacionComponent implements AfterViewInit {
         };
         this.dataSource.data[rowIndex].personaId = result.idPersona;
         this.dataSource.data[rowIndex].idIncorporacion = result.idIncorporacion;
-        this.dataSource.data[rowIndex].fchIncorporacion = result.fchIncorporacion;
-        this.dataSource.data[rowIndex].hpIncorporacion = result.hpIncorporacion;
+        //this.dataSource.data[rowIndex].fchIncorporacion = result.fchIncorporacion;
+        //this.dataSource.data[rowIndex].hpIncorporacion = result.hpIncorporacion;
         //this.dataSource.data[rowIndex].observacionIncorporacion =result.observacionIncorporacion;
         await this.dataSource._updateChangeSubscription();
         // Guardar incorporacion
@@ -288,7 +305,6 @@ export class IncorporacionComponent implements AfterViewInit {
         idIncorporacion: data.idIncorporacion,
         puestoNuevoId: data.puestoNuevoId,
         personaId: data.personaId,
-        // estadoIncorporacion: data.estadoIncorporacion,
         conRespaldoFormacion: data.conRespaldoFormacion,
         observacionIncorporacion: data.observacionIncorporacion,
 
@@ -313,11 +329,9 @@ export class IncorporacionComponent implements AfterViewInit {
       .subscribe(
         (resp) => {
           if (!!resp.objeto) {
-            // actualizado correctamente
-            console.log('creado o actualizado exitosamente');
+            console.log('Se actualizo exitosamente la incorporacion');
           }
-        },
-        (error) => console.log(error)
+        }, (error) => console.log(error)
       );
   }
 

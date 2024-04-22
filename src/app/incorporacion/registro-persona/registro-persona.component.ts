@@ -43,7 +43,6 @@ export class RegistroPersonaComponent implements OnInit {
 
     // inicializar forms
     this.personaForm = this.formBuilder.group({
-      // Datos persona
       idPersona: [undefined],
       generoPersona: ['', Validators.required],
       nombrePersona: [dataIncorporacion?.persona?.nombrePersona, Validators.required],
@@ -51,7 +50,6 @@ export class RegistroPersonaComponent implements OnInit {
       segundoApellidoPersona: [dataIncorporacion?.persona?.segundoApellidoPersona, Validators.required],
       ciPersona: ['', Validators.required],
       expPersona: ['', Validators.required],
-      // Datos Formacion
       idFormacion: [undefined],
       gradoAcademicoId: [undefined],
       gradoAcademico: [''],
@@ -61,11 +59,6 @@ export class RegistroPersonaComponent implements OnInit {
       institucion: [''],
       gestionFormacion: [undefined],
       //conRespaldoFormacion: [undefined],
-      // Datos Incorporacion
-      //idIncorporacion: [dataIncorporacion.idIncorporacion],
-      //fchIncorporacion: [dataIncorporacion.fchIncorporacion],
-      //hpIncorporacion: [dataIncorporacion.hpIncorporacion],
-      //observacionIncorporacion: [dataIncorporacion.observacionIncorporacion]
     });
 
     // se obtiene todos los datos de la persona
@@ -76,6 +69,8 @@ export class RegistroPersonaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadGradosAcademico();
+    this.loadInstituciones();
   }
 
   /* --------------------------------------- AREA FORMACION --------------------------------------- */
@@ -100,71 +95,32 @@ export class RegistroPersonaComponent implements OnInit {
   }
 
   /* ------------------------------------------ REGISTRO ------------------------------------------ */
-  /*async onSubmit(): Promise<void> {
-     if (this.personaForm.valid) {
-       // guardar datos de persona
-       const resp = await firstValueFrom(this.personasService.createUpdatePersona({
-         idPersona: this.personaForm.get('idPersona')?.value,
-         generoPersona: this.personaForm.get('generoPersona')?.value,
-         nombrePersona: this.personaForm.get('nombrePersona')?.value,
-         primerApellidoPersona: this.personaForm.get('primerApellidoPersona')?.value,
-         segundoApellidoPersona: this.personaForm.get('segundoApellidoPersona')?.value,
-         ciPersona: this.personaForm.get('ciPersona')?.value,
-         expPersona: this.personaForm.get('expPersona')?.value,
-       })).catch(error => console.log(error));
-       if(resp?.objeto){
-         console.log('Se registro exitosamente!!');
-         await this.personaForm.patchValue(resp.objeto);
-       } else {
-         console.log('Hubo un error al registrar!!');
-       }
-       // guardar datos de formacion
-       if(this.personaForm.get('idPersona')?.value)
-         await this.saveDataFormacion();
-       // guardar datos de incorporacon
-       if((this.personaForm.get('idPersona')?.value && this.dataIncorporacion.puestoNuevoId)|| this.personaForm.get('idIncorporacion')?.value)
-         await this.saveDataIncorporacion();
- 
-       this.dialogRef.close(this.personaForm.value);
-     }
-   }*/
   async onSubmit(): Promise<void> {
     if (this.personaForm.valid) {
-      try {
-        const resp = await firstValueFrom(this.personasService.createUpdatePersona({
-          idPersona: this.personaForm.get('idPersona')?.value,
-          generoPersona: this.personaForm.get('generoPersona')?.value,
-          nombrePersona: this.personaForm.get('nombrePersona')?.value,
-          primerApellidoPersona: this.personaForm.get('primerApellidoPersona')?.value,
-          segundoApellidoPersona: this.personaForm.get('segundoApellidoPersona')?.value,
-          ciPersona: this.personaForm.get('ciPersona')?.value,
-          expPersona: this.personaForm.get('expPersona')?.value,
-        }));
-
-        if (resp?.objeto) {
-          await this.personaForm.patchValue(resp.objeto);
-          this.notificationService.showSuccess('Se registró exitosamente!!');
-        } else {
-          this.notificationService.showError('Hubo un error al registrar!!');
-        }
-
-        if (this.personaForm.get('idPersona')?.value) {
-          await this.saveDataFormacion();
-        }
-
-        if ((this.personaForm.get('idPersona')?.value && this.dataIncorporacion.puestoNuevoId) || this.personaForm.get('idIncorporacion')?.value) {
-          await this.saveDataIncorporacion();
-        }
-
-        this.dialogRef.close(this.personaForm.value);
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      } catch (error) {
-        console.log(error);
-        this.notificationService.showError('Hubo un error al registrar!!');
+      // guardar datos de persona
+      const resp = await firstValueFrom(this.personasService.createUpdatePersona({
+        idPersona: this.personaForm.get('idPersona')?.value,
+        generoPersona: this.personaForm.get('generoPersona')?.value,
+        nombrePersona: this.personaForm.get('nombrePersona')?.value,
+        primerApellidoPersona: this.personaForm.get('primerApellidoPersona')?.value,
+        segundoApellidoPersona: this.personaForm.get('segundoApellidoPersona')?.value,
+        ciPersona: this.personaForm.get('ciPersona')?.value,
+        expPersona: this.personaForm.get('expPersona')?.value,
+      })).catch(error => console.log(error));
+      if (resp?.objeto) {
+        console.log('Se registro exitosamente a la persona!!');
+        await this.personaForm.patchValue(resp.objeto);
+      } else {
+        console.log('Hubo un error al registrar a a persona!!');
       }
+      // guardar datos de formacion
+      if (this.personaForm.get('idPersona')?.value)
+        await this.saveDataFormacion();
+      // guardar datos de incorporacon
+      if ((this.personaForm.get('idPersona')?.value && this.dataIncorporacion.puestoNuevoId) || this.personaForm.get('idIncorporacion')?.value)
+        await this.saveDataIncorporacion();
+
+      this.dialogRef.close(this.personaForm.value);
     }
   }
 
@@ -214,13 +170,12 @@ export class RegistroPersonaComponent implements OnInit {
       gradoAcademicoId: this.personaForm.get('gradoAcademicoId')?.value,
       areaFormacionId: areaFormacionId,
       gestionFormacion: this.personaForm.get('gestionFormacion')?.value,
-      //conRespaldoFormacion: this.personaForm.get('conRespaldoFormacion')?.value,
     })).catch(err => console.log(err));
     if (respFormacion?.objeto) {
-      console.log('se regfistro exitosamente');
+      console.log('se registro exitosamente');
       this.personaForm.patchValue(respFormacion.objeto);
     } else {
-      // mandar mensaje error 
+      console.error('Ocurrió un error al registrar la formación');
     }
   }
 
@@ -229,17 +184,11 @@ export class RegistroPersonaComponent implements OnInit {
       idIncorporacion: this.personaForm.get('idIncorporacion')?.value || this.dataIncorporacion.idIncorporacion,
       personaId: this.personaForm.get('idPersona')?.value || this.dataIncorporacion.personaId,
       puestoNuevoId: this.dataIncorporacion.puestoNuevoId,
-      //fchIncorporacion: this.personaForm.get('fchIncorporacion')?.value,
-      //hpIncorporacion: this.personaForm.get('hpIncorporacion')?.value,
-      //observacionIncorporacion: this.personaForm.get('observacionIncorporacion')?.value,
     })).catch(err => console.log(err));
     if (respIncorporacion?.objeto) {
       // madar mensaje exitoso
       await this.personaForm.patchValue({
         idIncorporacion: respIncorporacion.objeto.idIncorporacion,
-        //fchIncorporacion: respIncorporacion.objeto.fchIncorporacion,
-        //hpIncorporacion: respIncorporacion.objeto.hpIncorporacion,
-        //observacionIncorporacion: respIncorporacion.objeto.observacionIncorporacion,
         idPersona: respIncorporacion.objeto.personaId,
       });
       await setTimeout(() => { return true; }, 300);
@@ -269,7 +218,10 @@ export class RegistroPersonaComponent implements OnInit {
         this.personaForm.patchValue(resp.objeto);
         this.getDataFormacionByPersonaId(resp.objeto.idPersona);
       }
-    }, error => console.log(error));
+    }, error => {
+      console.log('Error en la suscripción:', error);
+      this.notificationService.showError("No se encontro la persona");
+    });
   }
 
   /* ------------------------------------ Datos de su formacion ----------------------------------- */
@@ -279,13 +231,13 @@ export class RegistroPersonaComponent implements OnInit {
       if (!!resp.objeto)
         this.personaForm.patchValue({
           idFormacion: resp.objeto.idFormacion,
-          institucionId: resp.objeto.institucionId,
           gradoAcademicoId: resp.objeto.gradoAcademicoId,
-          gradosAcademico: resp.objeto.gradoAcademico?.nombreGradoAcademico,
           areaFormacionId: resp.objeto.areaFormacionId,
+          institucionId: resp.objeto.institucionId,
           areaFormacion: resp.objeto.areaFormacion?.nombreAreaFormacion,
+          gradoAcademico: resp.objeto.gradoAcademico?.nombreGradoAcademico,
+          institucion: resp.objeto.institucion?.nombreInstitucion,
           gestionFormacion: resp.objeto.gestionFormacion,
-          //conRespaldoFormacion: resp.objeto.conRespaldoFormacion,
         });
     }, error => console.log(error));
   }

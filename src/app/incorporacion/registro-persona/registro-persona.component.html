@@ -26,6 +26,7 @@
           <mat-error *ngIf="personaForm.get('generoPersona')?.hasError('required')">El genero es requerido</mat-error>
         </mat-form-field>
       </siat-row>
+      
       <siat-row>
         <!-- Nombre -->
         <mat-form-field>
@@ -42,6 +43,7 @@
             requerido</mat-error>
         </mat-form-field>
       </siat-row>
+
       <siat-row>
         <!-- Segundo Apellido -->
         <mat-form-field class="input-file-tree">
@@ -62,8 +64,8 @@
         <!-- Grado Académico -->
         <mat-form-field class="input-file-tree">
           <mat-label>Grado Académico</mat-label>
-          <input matInput formControlName="gradoAcademico" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
+          <input matInput formControlName="gradoAcademico" [matAutocomplete]="autoGradoAcademico">
+          <mat-autocomplete #autoGradoAcademico="matAutocomplete">
             <mat-option *ngFor="let ga of listGradosAcademico" [value]="ga.nombreGradoAcademico">
               {{ga.nombreGradoAcademico}}
             </mat-option>
@@ -73,12 +75,13 @@
             requerida</mat-error>
         </mat-form-field>
       </siat-row>
+
       <siat-row>
         <!-- Área de Profesión -->
         <mat-form-field>
           <mat-label>Área de Formación</mat-label>
-          <input matInput formControlName="areaFormacion" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
+          <input matInput formControlName="areaFormacion" [matAutocomplete]="autoAreaFormacion">
+          <mat-autocomplete #autoAreaFormacion="matAutocomplete">
             <mat-option *ngFor="let af of listAreasFormacion" [value]="af.nombreAreaFormacion">
               {{af.nombreAreaFormacion}}
             </mat-option>
@@ -91,8 +94,8 @@
         <!-- Institución de Estudios -->
         <mat-form-field>
           <mat-label>Institución de Estudios</mat-label>
-          <input matInput formControlName="institucion" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
+          <input matInput formControlName="institucion" [matAutocomplete]="autoInstitucion">
+          <mat-autocomplete #autoInstitucion="matAutocomplete">
             <mat-option *ngFor="let i of listInstituciones" [value]="i.nombreInstitucion">
               {{i.nombreInstitucion}}
             </mat-option>
@@ -102,6 +105,7 @@
             requerido</mat-error>
         </mat-form-field>
       </siat-row>
+
       <!--Imagenes-->
       <mat-form-field>
         <mat-label>Seleccionar imagen</mat-label>

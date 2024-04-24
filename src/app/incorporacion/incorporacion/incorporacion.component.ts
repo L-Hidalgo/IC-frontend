@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { RegistroPersonaComponent } from '../registro-persona/registro-persona.component';
+import { RegistroResponsableComponent } from '../registro-responsable/registro-responsable.component';
 import { RegistroRequisitosComponent } from '../registro-requisitos/registro-requisitos.component';
 import { EstadosIncorporacion, Incorporacion } from '../incorporacion';
 import { PuestosService } from 'src/app/services/incorporaciones/puestos.service';
@@ -42,24 +43,13 @@ export class IncorporacionComponent implements AfterViewInit {
     'eliminar',
   ];
 
+  dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
+
   selectedOption!: string;
 
-  dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
-  totalItems: number = 10; // Total de elementos en el servidor
-  pageSize = 10; // Número de elementos por página
-  pageIndex = 0; // Índice de la página actual
-
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator; // Obtener la referencia al paginador
+  //@ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  applyFilter(event: Event) {
-    // this.paginator.pa
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
 
   constructor(
     private dialog: MatDialog,
@@ -69,10 +59,34 @@ export class IncorporacionComponent implements AfterViewInit {
     private incorporacionesService: IncorporacionesService,
     private fb: FormBuilder
   ) {
-    // const incorporacionesData: Incorporacion[] = Array.from({ length: 10 }, (_, k) => this.createNewIncorporacion());
     this.dataSource = new MatTableDataSource();
     this.getListData();
-    // this.incorporacionesFormArray = incorporacionesData.map(incorporacion => this.createIncorporacionFormGroup(incorporacion));
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    /*const tdElement = this.elementRef.nativeElement.querySelector(
+      '.example-form-persona'
+    );*/
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  totalItems: number = 10; // Total de elementos en el servidor
+  pageSize = 10; // Número de elementos por página
+  pageIndex = 0; // Índice de la página actual
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   getListData() {
@@ -87,7 +101,6 @@ export class IncorporacionComponent implements AfterViewInit {
             const listWithItem = resp.objetosList.map((el) => ({
               ...el,
               puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
-             // puestoActaulItem
             }));
             this.dataSource.data = listWithItem;
             this.dataSource._updateChangeSubscription();
@@ -99,19 +112,13 @@ export class IncorporacionComponent implements AfterViewInit {
       );
   }
 
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
 
-    const tdElement = this.elementRef.nativeElement.querySelector(
-      '.example-form-persona'
-    );
-  }
 
   createNewIncorporacion(): Incorporacion {
     return {
       idIncorporacion: undefined,
       puestoNuevoId: undefined,
+      puestoActualId: undefined,
       estadoIncorporacion: null,
       // cumpleRequisitos: false,
       conRespaldoFormacion: null,
@@ -295,8 +302,15 @@ export class IncorporacionComponent implements AfterViewInit {
         // Guardar incorporacion
         this.sendDataIncorporacion(rowIndex);
         console.log('El diálogo se cerró', result);
+        this.actualizarVistaOPage();
       });
   }
+
+  actualizarVistaOPage() {
+    window.location.reload();
+  }
+
+
 
   sendDataIncorporacion(rowIndex: number) {
     const data = this.dataSource.data[rowIndex];
@@ -304,6 +318,7 @@ export class IncorporacionComponent implements AfterViewInit {
       .createUpdateIncorporacion({
         idIncorporacion: data.idIncorporacion,
         puestoNuevoId: data.puestoNuevoId,
+        puestoActualId: data.puestoActualId,
         personaId: data.personaId,
         conRespaldoFormacion: data.conRespaldoFormacion,
         observacionIncorporacion: data.observacionIncorporacion,
@@ -330,6 +345,7 @@ export class IncorporacionComponent implements AfterViewInit {
         (resp) => {
           if (!!resp.objeto) {
             console.log('Se actualizo exitosamente la incorporacion');
+            this.notificationService.showSuccess('Datos registrados exitosamente!!');
           }
         }, (error) => console.log(error)
       );

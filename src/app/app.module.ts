@@ -21,6 +21,7 @@ import { IncorporacionComponent } from './incorporacion/incorporacion/incorporac
 import { RegistroPersonaComponent } from './incorporacion/registro-persona/registro-persona.component';
 import { RegistroRequisitosComponent } from './incorporacion/registro-requisitos/registro-requisitos.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegistroResponsableComponent } from './incorporacion/registro-responsable/registro-responsable.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     IncorporacionComponent,
     RegistroPersonaComponent,
     RegistroRequisitosComponent,
+    RegistroResponsableComponent,
   ],
   imports: [
     BrowserModule,

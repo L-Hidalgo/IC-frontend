@@ -17,7 +17,7 @@ export interface Incorporacion {
   cumpleExpEspecificaIncorporacion?: number; 
   cumpleExpMandoIncorporacion?: number; 
   cumpleFormacionIncorporacion?: number; 
-  // notas y cites
+  // notas y citesp
   citeNotaMinutaIncorporacion?: string | null;
   codigoNotaMinutaIncorporacion?: string | null;
   fchNotaMinutaIncorporacion?: Date | null;

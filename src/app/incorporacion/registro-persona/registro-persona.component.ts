@@ -65,11 +65,11 @@ export class RegistroPersonaComponent implements OnInit {
     if (dataIncorporacion?.persona?.idPersona) {
       this.getDataPersonaById(dataIncorporacion?.persona?.idPersona);
     }
-    this.loadAreasFormacion();
+    this.loadAreasFormacion();//aqui
   }
 
   ngOnInit(): void {
-    this.loadGradosAcademico();
+    this.loadGradosAcademico(); //esto poner arriba
     this.loadInstituciones();
   }
 
@@ -109,6 +109,7 @@ export class RegistroPersonaComponent implements OnInit {
       })).catch(error => console.log(error));
       if (resp?.objeto) {
         console.log('Se registro exitosamente a la persona!!');
+        this.notificationService.showSuccess('Se registro exitosamente a la persona!!!');
         await this.personaForm.patchValue(resp.objeto);
       } else {
         console.log('Hubo un error al registrar a a persona!!');
@@ -173,9 +174,9 @@ export class RegistroPersonaComponent implements OnInit {
     })).catch(err => console.log(err));
     if (respFormacion?.objeto) {
       console.log('se registro exitosamente');
+      this.notificationService.showSuccess('Se registro exitosamente la formacion!!');
       this.personaForm.patchValue(respFormacion.objeto);
     } else {
-      console.error('Ocurrió un error al registrar la formación');
     }
   }
 

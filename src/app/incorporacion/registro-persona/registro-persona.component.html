@@ -113,41 +113,6 @@
         <mat-icon matSuffix (click)="fileInput.click()">attach_file</mat-icon>
         <input type="file" #fileInput style="display: none;">
       </mat-form-field>
-
-      <!--<siat-row>
-        <mat-form-field>
-          <mat-label>Respaldo?</mat-label>
-          <mat-select formControlName="conRespaldoFormacion">
-            <mat-option value="1">Si</mat-option>
-            <mat-option value="2">No</mat-option>
-          </mat-select>
-          <mat-error *ngIf="personaForm.get('conRespaldoFormacion')?.hasError('required')">El respaldo es requerido</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Fecha de Incorporación</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="fchIncorporacion">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="personaForm.get('fchIncorporacion')?.hasError('required')">La fecha de incorporación es
-            requerida</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>HP</mat-label>
-          <input matInput formControlName="hpIncorporacion">
-          <mat-error *ngIf="personaForm.get('hpIncorporacion')?.hasError('required')">HP es requerido</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Obs. Procs. Evaluacion</mat-label>
-          <mat-select formControlName="observacionIncorporacion">
-            <mat-option value="Cumple">Cumple</mat-option>
-            <mat-option value="No cumple">No cumple</mat-option>
-          </mat-select>
-          <mat-error *ngIf="personaForm.get('observacionIncorporacion')?.hasError('required')">El respaldo es requerido</mat-error>
-        </mat-form-field>
-      </siat-row>-->
     </form>
   </div>
   <div mat-dialog-actions>

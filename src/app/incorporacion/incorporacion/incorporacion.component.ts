@@ -14,6 +14,7 @@ import { Formacion } from 'src/app/models/incorporaciones/formacion';
 import { Persona } from 'src/app/models/incorporaciones/persona';
 import { IncorporacionesService } from 'src/app/services/incorporaciones/incorporaciones.service';
 import { NotificationService } from 'src/app/services/incorporaciones/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface ItemForm {
   nombreForm: string;
@@ -34,13 +35,14 @@ export class IncorporacionComponent implements AfterViewInit {
     'estado',
     'itemNuevo',
     'persona',
+    'cite',
     'evaluacion',
     'cumpleRequisitos',
     'notaMinuta',
     'informe',
     'memorandum',
     'rap',
-    'eliminar',
+    'acciones',
   ];
 
   dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
@@ -80,14 +82,21 @@ export class IncorporacionComponent implements AfterViewInit {
   pageSize = 10; // Número de elementos por página
   pageIndex = 0; // Índice de la página actual
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  BuscarPorNombreIncorporacion(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const personaFullName = `${data.persona?.nombrePersona || ''} ${data.persona?.primerApellidoPersona || ''} ${data.persona?.segundoApellidoPersona || ''}`.toLowerCase();
+      return personaFullName.includes(filter);
+    };
+
+    this.dataSource.filter = filterValue.trim();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+
 
   getListData() {
     this.incorporacionesService
@@ -106,13 +115,24 @@ export class IncorporacionComponent implements AfterViewInit {
             this.dataSource._updateChangeSubscription();
             this.totalItems = resp.total || 0;
             console.log(this.dataSource.data);
+
           }
         },
         (error) => console.log(error)
       );
   }
 
+  getDepartmentDescription(departmentName: string): string {
+    const firstChar = departmentName.charAt(0).toUpperCase();
 
+    if (firstChar === "D") {
+      return `del ${departmentName}`;
+    } else if (["G", "A", "U", "P"].includes(firstChar)) {
+      return `de la ${departmentName}`;
+    } else {
+      return `de ${departmentName}`;
+    }
+  }
 
   createNewIncorporacion(): Incorporacion {
     return {
@@ -144,18 +164,15 @@ export class IncorporacionComponent implements AfterViewInit {
     };
   }
 
+
   agregarFila() {
     const newIncorporacion = this.createNewIncorporacion();
-    // const newFormGroup = this.createIncorporacionFormGroup(newIncorporacion);
     this.dataSource.data.unshift(newIncorporacion);
-    // this.incorporacionesFormArray.push(newFormGroup);
     this.dataSource._updateChangeSubscription();
   }
 
   eliminarFila(index: number) {
     this.dataSource.data.splice(index, 1);
-    // recuperar el dato y si ya estaba en la db dar de baja
-    // this.incorporacionesFormArray.splice(index, 1);
     this.dataSource._updateChangeSubscription();
   }
 
@@ -273,7 +290,6 @@ export class IncorporacionComponent implements AfterViewInit {
     }
   }
 
-
   /* --------------------------------------- BUSCAR PERSONA --------------------------------------- */
   abrirModalRegistroPersona(rowIndex: number): void {
     const personaData = this.dataSource?.data[rowIndex];
@@ -302,15 +318,14 @@ export class IncorporacionComponent implements AfterViewInit {
         // Guardar incorporacion
         this.sendDataIncorporacion(rowIndex);
         console.log('El diálogo se cerró', result);
-        this.actualizarVistaOPage();
+        //this.actualizarVistaOPage();
       });
   }
+
 
   actualizarVistaOPage() {
     window.location.reload();
   }
-
-
 
   sendDataIncorporacion(rowIndex: number) {
     const data = this.dataSource.data[rowIndex];
@@ -340,6 +355,7 @@ export class IncorporacionComponent implements AfterViewInit {
         citeRapIncorporacion: data.citeRapIncorporacion,
         codigoRapIncorporacion: data.codigoRapIncorporacion,
         fchRapIncorporacion: data.fchRapIncorporacion,
+
       })
       .subscribe(
         (resp) => {
@@ -347,7 +363,11 @@ export class IncorporacionComponent implements AfterViewInit {
             console.log('Se actualizo exitosamente la incorporacion');
             this.notificationService.showSuccess('Datos registrados exitosamente!!');
           }
-        }, (error) => console.log(error)
+        },
+        (error) => {
+          console.log('Error al actualizar la incorporación:', error);
+          this.notificationService.showError('Error al registrar los datos. Por favor, inténtalo de nuevo.');
+        }
       );
   }
 
@@ -359,9 +379,9 @@ export class IncorporacionComponent implements AfterViewInit {
       data: {
         idIncorporacion: data.idIncorporacion,
         puestoNuevoId: data.puestoNuevoId,
+        personaId: data.personaId,
         // si cumple los rewquisitos,
-        cumpleExpProfesionalIncorporacion:
-          data.cumpleExpProfesionalIncorporacion,
+        cumpleExpProfesionalIncorporacion: data.cumpleExpProfesionalIncorporacion,
         cumpleExpEspecificaIncorporacion: data.cumpleExpEspecificaIncorporacion,
         cumpleExpMandoIncorporacion: data.cumpleExpMandoIncorporacion,
         cumpleFormacionIncorporacion: data.cumpleFormacionIncorporacion,
@@ -380,14 +400,10 @@ export class IncorporacionComponent implements AfterViewInit {
             | 'cumpleFormacionIncorporacion'
           >
         ) => {
-          this.dataSource.data[rowIndex].cumpleExpProfesionalIncorporacion =
-            result.cumpleExpProfesionalIncorporacion;
-          this.dataSource.data[rowIndex].cumpleExpEspecificaIncorporacion =
-            result.cumpleExpEspecificaIncorporacion;
-          this.dataSource.data[rowIndex].cumpleExpMandoIncorporacion =
-            result.cumpleExpMandoIncorporacion;
-          this.dataSource.data[rowIndex].cumpleFormacionIncorporacion =
-            result.cumpleFormacionIncorporacion;
+          this.dataSource.data[rowIndex].cumpleExpProfesionalIncorporacion = result.cumpleExpProfesionalIncorporacion;
+          this.dataSource.data[rowIndex].cumpleExpEspecificaIncorporacion = result.cumpleExpEspecificaIncorporacion;
+          this.dataSource.data[rowIndex].cumpleExpMandoIncorporacion = result.cumpleExpMandoIncorporacion;
+          this.dataSource.data[rowIndex].cumpleFormacionIncorporacion = result.cumpleFormacionIncorporacion;
           this.dataSource._updateChangeSubscription();
         }
       );
@@ -445,27 +461,27 @@ export class IncorporacionComponent implements AfterViewInit {
       cambioItem: false,
       incorporacion: true,
       porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
+        EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
     {
-      nombreForm: 'Act. Entrega',
+      nombreForm: 'Act-Entrega',
       callback: (incId: number) => this.incorporacionesService.genUrlActEntrega(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
+        EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
     {
-      nombreForm: 'Act. Posecion',
+      nombreForm: 'Act-Posecion',
       callback: (incId: number) => this.incorporacionesService.genUrlActPosecion(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
+        EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
@@ -475,7 +491,7 @@ export class IncorporacionComponent implements AfterViewInit {
       cambioItem: false,
       incorporacion: true,
       porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
+        EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
@@ -531,15 +547,18 @@ export class IncorporacionComponent implements AfterViewInit {
       console.log('Urls to open and downloads forms:', urls);
     }
   }*/
-  onDownloadForms(rowIndex: number, formNombre: string) {
+  onDownloadForms(rowIndex: number, formNombres: string[]) {
     const data = this.dataSource.data[rowIndex];
-    if (typeof data.idIncorporacion === 'number') {
-      const form = this.listForms.find(form => form.nombreForm === formNombre);
-      if (form) {
-        const url = form.callback(data.idIncorporacion);
-        window.open(url, '_blank');
-      }
+    if (typeof data.idIncorporacion === 'number' || data.idIncorporacion === undefined) {
+      formNombres.forEach(formNombre => {
+        const form = this.listForms.find(form => form.nombreForm === formNombre);
+        if (form) {
+          const url = form.callback(data.idIncorporacion ?? -1);
+          window.open(url, '_blank');
+        }
+      });
     }
   }
+
 
 }

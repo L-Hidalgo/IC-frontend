@@ -3,9 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { RegistroPersonaComponent } from '../registro-persona/registro-persona.component';
-import { RegistroResponsableComponent } from '../registro-responsable/registro-responsable.component';
 import { RegistroRequisitosComponent } from '../registro-requisitos/registro-requisitos.component';
 import { EstadosIncorporacion, Incorporacion } from '../incorporacion';
 import { PuestosService } from 'src/app/services/incorporaciones/puestos.service';
@@ -14,7 +13,6 @@ import { Formacion } from 'src/app/models/incorporaciones/formacion';
 import { Persona } from 'src/app/models/incorporaciones/persona';
 import { IncorporacionesService } from 'src/app/services/incorporaciones/incorporaciones.service';
 import { NotificationService } from 'src/app/services/incorporaciones/notification.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export interface ItemForm {
   nombreForm: string;
@@ -69,10 +67,6 @@ export class IncorporacionComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    /*const tdElement = this.elementRef.nativeElement.querySelector(
-      '.example-form-persona'
-    );*/
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -125,7 +119,7 @@ export class IncorporacionComponent implements AfterViewInit {
 
   getDepartmentDescription(departmentName: string | null): string {
     if (!departmentName) {
-      return ""; // or any default value you prefer
+      return ""; 
     }
 
     const firstChar = departmentName.charAt(0).toUpperCase();
@@ -215,46 +209,6 @@ export class IncorporacionComponent implements AfterViewInit {
   }
 
   /* ----------------------------------- BUSCAR PUESTO POR ITEM ----------------------------------- */
-  /*buscarItemNuevo(rowIndex: number): void {
-    const nuevoItemRow = this.dataSource?.data[rowIndex]?.puestoNuevoItem;
-    if (nuevoItemRow) {
-      this.puestosService.findPuestoByItem(nuevoItemRow).subscribe(
-        (resp) => {
-          const puesto = resp.objeto;
-          if (!puesto) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'El puesto no existe!!!',
-            });
-          } else {
-            const estaOcupado = !!puesto.personaActual?.idPersona;
-            const message = `Puesto: ${puesto.itemPuesto}, ${
-              puesto.denominacionPuesto
-            } ${
-              estaOcupado
-                ? `está ocupado por ${puesto.personaActual?.nombrePersona} ${puesto.personaActual?.primerApellidoPersona} ${puesto.personaActual?.segundoApellidoPersona}`
-                : 'está acefalo'
-            }`;
-            Swal.fire({
-              icon: 'info',
-              title: 'Información',
-              text: message,
-            });
-            // Agregar el id del puesto al registro para cuando se actualice o se cree
-            this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
-          }
-        },
-        (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Error buscando puesto: ' + error,
-          });
-        }
-      );
-    }
-  }*/
   mostrarFormularioCambioItem = false;
 
   buscarItemNuevo(rowIndex: number): void {
@@ -429,6 +383,9 @@ export class IncorporacionComponent implements AfterViewInit {
             console.log('Se actualizo exitosamente la incorporacion');
             this.notificationService.showSuccess('Datos registrados exitosamente!!');
             this.dataSource.data[rowIndex].estadoIncorporacion = resp.objeto.estadoIncorporacion;
+            this.dataSource.data[rowIndex].observacionIncorporacion = resp.objeto.observacionIncorporacion;
+            this.dataSource.data[rowIndex].puestoNuevoId = resp.objeto.puestoNuevoId;
+            this.dataSource.data[rowIndex].puestoActualId = resp.objeto.puestoActualId;
           }
         },
         (error) => {
@@ -505,6 +462,16 @@ export class IncorporacionComponent implements AfterViewInit {
     {
       nombreForm: 'Inf.conNota',
       callback: (incId: number) => this.incorporacionesService.genUrlInfNota(incId),
+      cambioItem: false,
+      incorporacion: true,
+      porEstado: [
+        // EstadosIncorporacion.SIN_REGISTRO,
+        EstadosIncorporacion.CON_REGISTRO,
+      ],
+    }, 
+    {
+      nombreForm: 'Inf.conMinuta',
+      callback: (incId: number) => this.incorporacionesService.genUrlInfMinuta(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -677,17 +644,6 @@ export class IncorporacionComponent implements AfterViewInit {
     });
   }
 
-  /*onDownloadForms(rowIndex: number) {
-    const data = this.dataSource.data[rowIndex];
-    if (typeof data.idIncorporacion === 'number') {
-      const urls = data?.formsDescargar?.map((form) => {
-        const url = form.callback(data.idIncorporacion || -1);
-        window.open(url, '_blank');
-        return url;
-      });
-      console.log('Urls to open and downloads forms:', urls);
-    }
-  }*/
   onDownloadForms(rowIndex: number, formNombres: string[]) {
     const data = this.dataSource.data[rowIndex];
     if (typeof data.idIncorporacion === 'number' || data.idIncorporacion === undefined) {

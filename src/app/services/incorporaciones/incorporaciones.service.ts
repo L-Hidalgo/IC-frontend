@@ -44,6 +44,10 @@ export class IncorporacionesService {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-informe-con-nota`;
   }
 
+  genUrlInfMinuta(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-informe-con-minuta`;
+  }
+
   genUrlMemo(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-memo`;
   }

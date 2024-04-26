@@ -75,17 +75,20 @@ export class IncorporacionesService {
   genUrlRSGC0033(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-confidencialidad`;
   }
-  //cambio de item
-  genUrlR1023(incorporacionId: number) {
+  //form cambio item
+  genUrlR0980(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-0980`;
   }
-  genUrlR0980(incorporacionId: number) {
+
+  genUrlR1023(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1023`;
   }
+
   genUrlR1129(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1129`;
   }
+
   genUrlR1401(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1129`;
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1401`;
   }
 }

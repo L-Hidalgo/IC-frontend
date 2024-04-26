@@ -3,7 +3,12 @@
     <div class="container-filtro-boton">
       <mat-form-field class="medium">
         <mat-label>Buscar por nombre</mat-label>
-        <input matInput (keyup)="BuscarPorNombreIncorporacion($event)" placeholder="Ej. Pedro" #input />
+        <input
+          matInput
+          (keyup)="BuscarPorNombreIncorporacion($event)"
+          placeholder="Ej. Pedro"
+          #input
+        />
       </mat-form-field>
 
       <button mat-raised-button color="primary" (click)="agregarFila()">
@@ -14,9 +19,12 @@
   <siat-column>
     <div class="contenedor-tabla">
       <table mat-table [dataSource]="dataSource" matSort>
-
         <ng-container matColumnDef="idIncorporacion" sticky>
-          <th mat-header-cell *matHeaderCellDef style="width: 100px; position: sticky; left: 0">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="width: 100px; position: sticky; left: 0"
+          >
             No.
           </th>
           <td mat-cell *matCellDef="let row; index as i">{{ i + 1 }}</td>
@@ -26,12 +34,20 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
           <td mat-cell *matCellDef="let row; index as i">
             <div class="custom-width">
-              <ng-container *ngIf="(row.puestoNuevoId && row.personaId)">
-                <span *ngIf="row.estadoIncorporacion === 1" class="badge badge-yellow">Con Registro</span>
-                <span *ngIf="row.estadoIncorporacion === 2" class="badge badge-green">Finalizado</span>
+              <ng-container *ngIf="row.puestoNuevoId && row.personaId">
+                <span
+                  *ngIf="row.estadoIncorporacion === 1"
+                  class="badge badge-yellow"
+                  >Con Registro</span
+                >
+                <span
+                  *ngIf="row.estadoIncorporacion === 2"
+                  class="badge badge-green"
+                  >Finalizado</span
+                >
               </ng-container>
               <ng-container *ngIf="!(row.puestoNuevoId && row.personaId)">
-                <span class="badge badge-red ">Sin Registro</span>
+                <span class="badge badge-red">Sin Registro</span>
               </ng-container>
             </div>
             <mat-hint>Responsable?</mat-hint>
@@ -41,31 +57,55 @@
         <ng-container matColumnDef="itemNuevo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ITEM</th>
           <td mat-cell *matCellDef="let row; index as i">
-
+            <div
+              *ngIf="
+                !mostrarFormularioCambioItem && row.puestoNuevoId">
             <mat-form-field class="custom-width">
               <mat-label>Item</mat-label>
-              <input type="number" matInput placeholder="Ex. 213" (keydown.enter)="buscarItemNuevo(i)"
-                [disabled]="row.puestoNuevoId && row.personaId" [(ngModel)]="row.puestoNuevoItem">
-              <mat-hint><span *ngIf="row.puestoNuevoId">
-                  Item {{ row.puestoNuevo.itemPuesto }}, {{ row.puestoNuevo.denominacionPuesto }}
+              <input
+                type="number"
+                matInput
+                placeholder="Ex. 213"
+                (keydown.enter)="buscarItemNuevo(i)"
+                [disabled]="row.puestoNuevoId && row.personaId"
+                [(ngModel)]="row.puestoNuevoItem"
+              />
+              <mat-hint
+                ><span *ngIf="row.puestoNuevoId">
+                  Item {{ row.puestoNuevo.itemPuesto }},
+                  {{ row.puestoNuevo.denominacionPuesto }}
                 </span>
                 <span *ngIf="!row.puestoNuevoId">
                   Item sin registro
-                </span></mat-hint>
-            </mat-form-field>
+                </span></mat-hint
+              >
+            </mat-form-field></div>
 
-            <div *ngIf="mostrarFormularioCambioItem">
+            <div
+              *ngIf="
+                mostrarFormularioCambioItem ||
+                (row.puestoActualId && row.puestoNuevoId)
+              "
+            >
               <mat-form-field class="custom-width">
                 <mat-label>Cambio de Item</mat-label>
-                <input type="number" matInput placeholder="Ex. 144" (keydown.enter)="buscarItemActual(i)"
-                  [(ngModel)]="row.puestoActualItem" />
-                <mat-hint><span *ngIf="row.puestoActual">
-                    Cambio de Item {{ row.puestoActual.itemPuesto }}, {{ row.puestoActual.denominacionPuesto }}
+                <input
+                  type="number"
+                  matInput
+                  placeholder="Ex. 144"
+                  (keydown.enter)="buscarItemActual(i)"
+                  [disabled]="row.puestoActualId && row.personaId"
+                  [(ngModel)]="row.puestoActualItem"
+                />
+                <mat-hint
+                  ><span *ngIf="row.puestoActualId">
+                    Item {{ row.puestoNuevo.itemPuesto }},
+                    {{ row.puestoNuevo.denominacionPuesto }}
                   </span>
-                  <span *ngIf="!row.puestoActual">
+                  <span *ngIf="!row.puestoActualId">
                     Cambio de Item sin registro
-                  </span>
-                </mat-hint>
+                  </span></mat-hint
+                >
               </mat-form-field>
             </div>
           </td>
@@ -73,19 +113,32 @@
 
         <ng-container matColumnDef="persona">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>PERSONA</th>
-          <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)">
+          <td
+            mat-cell
+            *matCellDef="let row; index as i"
+            (click)="abrirModalRegistroPersona(i)"
+          >
             <div class="example-form-persona">
-              <img src="./assets/images/admin.jpg" alt="Pedro" class="persona-img" /><br>
-              <ng-container *ngIf="row.puestoNuevoId || row.personaId">
+              <img
+                src="./assets/images/admin.jpg"
+                alt="Pedro"
+                class="persona-img"
+              /><br />
+              <ng-container
+                *ngIf="row.puestoNuevoId || row.puestoNuevoId || row.personaId"
+              >
                 <div>
-                  <span>{{ row.persona?.ciPersona || ' ' }} {{ row.persona?.expPersona || ' ' }}</span>
+                  <span
+                    >{{ row.persona?.ciPersona || " " }}
+                    {{ row.persona?.expPersona || " " }}</span
+                  >
                   <br *ngIf="row.persona" />
                   <span *ngIf="row.persona">
-                    {{ row.persona?.nombrePersona || '' }}
-                  </span><br>
+                    {{ row.persona?.nombrePersona || "" }} </span
+                  ><br />
                   <span *ngIf="row.persona">
-                    {{ row.persona?.primerApellidoPersona || '' }}
-                    {{ row.persona?.segundoApellidoPersona || '' }}
+                    {{ row.persona?.primerApellidoPersona || "" }}
+                    {{ row.persona?.segundoApellidoPersona || "" }}
                   </span>
                 </div>
               </ng-container>
@@ -97,40 +150,79 @@
         </ng-container>
 
         <ng-container matColumnDef="cite">
-          <th mat-header-cell *matHeaderCellDef class="left-border">CITE PARA EL SIAT</th>
+          <th mat-header-cell *matHeaderCellDef class="left-border">
+            CITE PARA EL SIAT
+          </th>
           <td mat-cell *matCellDef="let row; index as i" class="left-border">
             <siat-column>
-              <div *ngIf="row.puestoNuevoId && row.personaId && !row.puestoActualId" class="example-form-cite">
-                Evaluación curricular para designación como <ng-container *ngIf="row.persona?.generoPersona === 'F'">
-                  servidora pública interina de la señora {{row.persona?.nombrePersona}}
-                  {{row.persona?.primerApellidoPersona}} {{row.persona?.segundoApellidoPersona}}
+              <div
+                *ngIf="
+                  row.puestoNuevoId && !row.puestoActualId && row.personaId
+                "
+                class="example-form-cite"
+              >
+                Evaluación curricular para designación como
+                <ng-container *ngIf="row.persona?.generoPersona === 'F'">
+                  servidora pública interina de la señora
+                  {{ row.persona?.nombrePersona }}
+                  {{ row.persona?.primerApellidoPersona }}
+                  {{ row.persona?.segundoApellidoPersona }}
                 </ng-container>
                 <ng-container *ngIf="row.persona?.generoPersona === 'M'">
-                  servidor público interino del señor {{row.persona?.nombrePersona}}
-                </ng-container> al Ítem N° {{ row.puestoNuevo?.itemPuesto }}, {{ row.puestoNuevo?.denominacionPuesto }}
+                  servidor público interino del señor
+                  {{ row.persona?.nombrePersona }}
+                </ng-container>
+                al Ítem N° {{ row.puestoNuevo?.itemPuesto }}
+                {{ row.puestoNuevo?.denominacionPuesto }}
                 {{
-                getDepartmentDescription(row.puestoNuevo?.departamento?.nombreDepartamento) }} de
-                la
-                {{
-                row.puestoNuevo?.departamento?.gerencia?.nombreGerencia || ''
+                  getDepartmentDescription(
+                    row.puestoNuevo?.departamento?.nombreDepartamento
+                  )
                 }}
+                dependiente de la
+                {{ row.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}
               </div>
-              <div *ngIf="row.puestoNuevoId && row.puestoActualId && row.personaId" class="example-form-cite">
-                Evaluación curricular para designación como  <ng-container *ngIf="row.persona?.generoPersona === 'F'">
-                  servidora pública interina de la señora {{row.persona?.nombrePersona}}
-                  {{row.persona?.primerApellidoPersona}} {{row.persona?.segundoApellidoPersona}}
+              <div
+                *ngIf="row.puestoNuevoId && row.puestoActualId && row.personaId"
+                class="example-form-cite"
+              >
+                Evaluación curricular para cambio de Ítem
+                <ng-container *ngIf="row.persona?.generoPersona === 'F'">
+                  de la servidora pública interina
+                  {{ row.persona?.nombrePersona }}
+                  {{ row.persona?.primerApellidoPersona }}
+                  {{ row.persona?.segundoApellidoPersona }}
                 </ng-container>
                 <ng-container *ngIf="row.persona?.generoPersona === 'M'">
-                  servidor público interino del señor {{row.persona?.nombrePersona}}
-                </ng-container> al Ítem N° {{ row.puestoActual?.itemPuesto }}, {{ row.puestoActual?.denominacionPuesto }}
+                  del servidor público interino {{ row.persona?.nombrePersona }}
+                </ng-container>
+                del Ítem {{ row.puestoActual?.itemPuesto }}
+                {{ row.puestoActual?.denominacionPuesto }}
                 {{
-                getDepartmentDescription(row.puestoActual?.departamento?.nombreDepartamento) }} de
-                la
-                {{
-                row.puestoActual?.departamento?.gerencia?.nombreGerencia || ''
+                  getDepartmentDescription(
+                    row.puestoActual?.departamento?.nombreDepartamento
+                  )
                 }}
+                dependiente de la
+                {{
+                  row.puestoActual?.departamento?.gerencia?.nombreGerencia
+                }}
+                al Ítem Nº {{ row.puestoNuevo?.itemPuesto }}
+                {{ row.puestoNuevo?.denominacionPuesto }}
+                {{
+                  getDepartmentDescription(
+                    row.puestoNuevo?.departamento?.nombreDepartamento
+                  )
+                }}
+                dependiente de la
+                {{ row.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}
               </div>
-              <div *ngIf="!row.puestoNuevoId && !row.personaId && !row.puestoActualId" class="example-form-cite">
+              <div
+                *ngIf="
+                  !row.puestoNuevoId || (!row.puestoActualId && !row.personaId)
+                "
+                class="example-form-cite"
+              >
                 Incorporación sin registro
               </div>
             </siat-column>
@@ -138,31 +230,54 @@
         </ng-container>
 
         <ng-container matColumnDef="evaluacion">
-          <th mat-header-cell *matHeaderCellDef class="left-border">EVALUACION</th>
+          <th mat-header-cell *matHeaderCellDef class="left-border">
+            EVALUACION
+          </th>
           <td mat-cell *matCellDef="let row; index as i" class="left-border">
             <siat-column>
               <div class="example-form-inputs">
                 <mat-form-field class="custom-width">
                   <mat-label>Obs. Procs. Evaluacion</mat-label>
-                  <mat-select [(ngModel)]="row.observacionIncorporacion" (blur)="sendDataIncorporacion(i)">
+                  <mat-select
+                    [(ngModel)]="row.observacionIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  >
                     <mat-option value="Cumple">Cumple</mat-option>
                     <mat-option value="No cumple">No cumple</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div *ngIf="row.observacionIncorporacion==='Cumple' && row.puestoNuevoId && !row.puestoActualId"
-                class="example-form-inputs">
+              <div
+                *ngIf="
+                  row.observacionIncorporacion === 'Cumple' &&
+                  row.puestoNuevoId &&
+                  !row.puestoActualId
+                "
+                class="example-form-inputs"
+              >
                 <siat-row>
-                  <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0078'])">
+                  <siat-button-link
+                    class="small-button"
+                    (click)="onDownloadForms(i, ['R-0078'])"
+                  >
                     R-0078
                   </siat-button-link>
-                  <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
+                  <siat-button-link
+                    class="small-button"
+                    (click)="onDownloadForms(i, ['R-1401'])"
+                  >
                     R-1401
                   </siat-button-link>
                 </siat-row>
               </div>
-              <div *ngIf="row.observacionIncorporacion=='Cumple' && row.puestoNuevoId && row.puestoActualId"
-                class="example-form-inputs">
+              <div
+                *ngIf="
+                  row.observacionIncorporacion == 'Cumple' &&
+                  row.puestoNuevoId &&
+                  row.puestoActualId
+                "
+                class="example-form-inputs"
+              >
                 <siat-column>
                   <siat-row>
                     <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0980'])">
@@ -170,7 +285,8 @@
                     </siat-button-link>
                     <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1023'])">
                       R-1023
-                    </siat-button-link></siat-row>
+                    </siat-button-link></siat-row
+                  >
                   <siat-row>
                     <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1129'])">
                       R-1129
@@ -186,30 +302,49 @@
         </ng-container>
 
         <ng-container matColumnDef="cumpleRequisitos">
-          <th mat-header-cell *matHeaderCellDef class="left-border"> REQUISITOS</th>
-          <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroRequisitos(i)" class="left-border">
+          <th mat-header-cell *matHeaderCellDef class="left-border">
+            REQUISITOS
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row; index as i"
+            (click)="abrirModalRegistroRequisitos(i)"
+            class="left-border"
+          >
             <siat-column>
               <div class="example-form-other">
-                <ng-container *ngIf="row.cumpleExpProfesionalIncorporacion === 1 &&
-            row.cumpleExpEspecificaIncorporacion === 1 &&
-            row.cumpleExpMandoIncorporacion === 1 &&
-            row.cumpleFormacionIncorporacion === 1">
+                <ng-container
+                  *ngIf="
+                    row.cumpleExpProfesionalIncorporacion === 1 &&
+                    row.cumpleExpEspecificaIncorporacion === 1 &&
+                    row.cumpleExpMandoIncorporacion === 1 &&
+                    row.cumpleFormacionIncorporacion === 1
+                  "
+                >
                   Cumple
                 </ng-container>
-                <ng-container *ngIf="row.cumpleExpProfesionalIncorporacion === 2 ||
-            row.cumpleExpEspecificaIncorporacion === 2 ||
-            row.cumpleExpMandoIncorporacion === 2 ||
-            row.cumpleFormacionIncorporacion === 2">
+                <ng-container
+                  *ngIf="
+                    row.cumpleExpProfesionalIncorporacion === 2 ||
+                    row.cumpleExpEspecificaIncorporacion === 2 ||
+                    row.cumpleExpMandoIncorporacion === 2 ||
+                    row.cumpleFormacionIncorporacion === 2
+                  "
+                >
                   No cumple
                 </ng-container>
-                <ng-container *ngIf="row.cumpleExpProfesionalIncorporacion !== 1 &&
-            row.cumpleExpProfesionalIncorporacion !== 2 &&
-            row.cumpleExpEspecificaIncorporacion !== 1 &&
-            row.cumpleExpEspecificaIncorporacion !== 2 &&
-            row.cumpleExpMandoIncorporacion !== 1 &&
-            row.cumpleExpMandoIncorporacion !== 2 &&
-            row.cumpleFormacionIncorporacion !== 1 &&
-            row.cumpleFormacionIncorporacion !== 2">
+                <ng-container
+                  *ngIf="
+                    row.cumpleExpProfesionalIncorporacion !== 1 &&
+                    row.cumpleExpProfesionalIncorporacion !== 2 &&
+                    row.cumpleExpEspecificaIncorporacion !== 1 &&
+                    row.cumpleExpEspecificaIncorporacion !== 2 &&
+                    row.cumpleExpMandoIncorporacion !== 1 &&
+                    row.cumpleExpMandoIncorporacion !== 2 &&
+                    row.cumpleFormacionIncorporacion !== 1 &&
+                    row.cumpleFormacionIncorporacion !== 2
+                  "
+                >
                   Registre los requisitos
                 </ng-container>
               </div>
@@ -218,17 +353,26 @@
         </ng-container>
 
         <ng-container matColumnDef="notaMinuta">
-          <th mat-header-cell *matHeaderCellDef class="left-border">NOTA/MINUTA</th>
+          <th mat-header-cell *matHeaderCellDef class="left-border">
+            NOTA/MINUTA
+          </th>
           <td mat-cell *matCellDef="let row; index as i" class="left-border">
             <siat-column>
               <siat-row>
                 <mat-form-field class="custom-width-fecha">
                   <mat-label>Fch. Incor..</mat-label>
                   <div class="date-picker-container">
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchIncorporacion"
-                      (blur)="sendDataIncorporacion(i)" />
-                    <mat-datepicker-toggle matSuffix [for]="picker"
-                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      [(ngModel)]="row.fchIncorporacion"
+                      (blur)="sendDataIncorporacion(i)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                      class="custom-datepicker-toggle"
+                    ></mat-datepicker-toggle>
                   </div>
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker #picker></mat-datepicker>
@@ -236,17 +380,29 @@
 
                 <mat-form-field class="custom-width">
                   <mat-label>HP</mat-label>
-                  <input matInput [(ngModel)]="row.hpIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                  <input
+                    matInput
+                    [(ngModel)]="row.hpIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
                 </mat-form-field>
 
                 <mat-form-field class="custom-width">
                   <mat-label>Cité Nota/Minuta</mat-label>
-                  <input matInput [(ngModel)]="row.citeNotaMinutaIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                  <input
+                    matInput
+                    [(ngModel)]="row.citeNotaMinutaIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
                 </mat-form-field>
 
                 <mat-form-field class="custom-width">
                   <mat-label>Código Nota/Minuta</mat-label>
-                  <input matInput [(ngModel)]="row.codigoNotaMinutaIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                  <input
+                    matInput
+                    [(ngModel)]="row.codigoNotaMinutaIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
                 </mat-form-field>
               </siat-row>
 
@@ -254,10 +410,17 @@
                 <mat-form-field class="custom-width-fecha">
                   <mat-label>Fecha Nota/Minuta</mat-label>
                   <div class="date-picker-container">
-                    <input matInput [matDatepicker]="pickerFecha" [(ngModel)]="row.fchNotaMinutaIncorporacion"
-                      (blur)="sendDataIncorporacion(i)" />
-                    <mat-datepicker-toggle matSuffix [for]="pickerFecha"
-                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                    <input
+                      matInput
+                      [matDatepicker]="pickerFecha"
+                      [(ngModel)]="row.fchNotaMinutaIncorporacion"
+                      (blur)="sendDataIncorporacion(i)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="pickerFecha"
+                      class="custom-datepicker-toggle"
+                    ></mat-datepicker-toggle>
                   </div>
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker #pickerFecha></mat-datepicker>
@@ -266,16 +429,27 @@
                 <mat-form-field class="custom-width-fecha">
                   <mat-label>Fch. Recep. Nota</mat-label>
                   <div class="date-picker-container">
-                    <input matInput [matDatepicker]="pickerRecepNota" [(ngModel)]="row.fchRecepcionNotaIncorporacion"
-                      (blur)="sendDataIncorporacion(i)" />
-                    <mat-datepicker-toggle matSuffix [for]="pickerRecepNota"
-                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                    <input
+                      matInput
+                      [matDatepicker]="pickerRecepNota"
+                      [(ngModel)]="row.fchRecepcionNotaIncorporacion"
+                      (blur)="sendDataIncorporacion(i)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="pickerRecepNota"
+                      class="custom-datepicker-toggle"
+                    ></mat-datepicker-toggle>
                   </div>
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker #pickerRecepNota></mat-datepicker>
                 </mat-form-field>
-                <siat-button-link (click)="onDownloadForms(i, ['Inf.conNota'])">Nota</siat-button-link>
-                <siat-button-link (click)="onDownloadForms(i, ['R-0078'])">Minuta</siat-button-link>
+                <siat-button-link (click)="onDownloadForms(i, ['Inf.conNota'])"
+                  >Nota</siat-button-link
+                >
+                <siat-button-link (click)="onDownloadForms(i, ['R-0078'])"
+                  >Minuta</siat-button-link
+                >
               </siat-row>
             </siat-column>
           </td>
@@ -287,15 +461,26 @@
             <siat-column>
               <mat-form-field class="custom-width">
                 <mat-label>Cité Informe</mat-label>
-                <input matInput [(ngModel)]="row.citeInformeIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                <input
+                  matInput
+                  [(ngModel)]="row.citeInformeIncorporacion"
+                  (blur)="sendDataIncorporacion(i)"
+                />
               </mat-form-field>
               <mat-form-field class="custom-width-fecha">
                 <mat-label>Fecha Informe</mat-label>
                 <div class="date-picker-container">
-                  <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchInformeIncorporacion"
-                    (blur)="sendDataIncorporacion(i)" />
-                  <mat-datepicker-toggle matSuffix [for]="picker"
-                    class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    [(ngModel)]="row.fchInformeIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                    class="custom-datepicker-toggle"
+                  ></mat-datepicker-toggle>
                 </div>
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker #picker></mat-datepicker>
@@ -305,28 +490,45 @@
         </ng-container>
 
         <ng-container matColumnDef="memorandum">
-          <th mat-header-cell *matHeaderCellDef class="left-border">MEMORANDUM</th>
+          <th mat-header-cell *matHeaderCellDef class="left-border">
+            MEMORANDUM
+          </th>
           <td mat-cell *matCellDef="let row; index as i" class="left-border">
             <siat-column>
               <siat-row>
                 <mat-form-field class="custom-width">
                   <mat-label>Cité Memorandum</mat-label>
-                  <input matInput [(ngModel)]="row.citeMemorandumIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                  <input
+                    matInput
+                    [(ngModel)]="row.citeMemorandumIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
                 </mat-form-field>
 
                 <mat-form-field class="custom-width">
                   <mat-label>Código Memorándum</mat-label>
-                  <input matInput [(ngModel)]="row.codigoMemorandumIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                  <input
+                    matInput
+                    [(ngModel)]="row.codigoMemorandumIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
                 </mat-form-field>
               </siat-row>
               <siat-row>
                 <mat-form-field class="custom-width-fecha">
                   <mat-label>Fecha Memorándum</mat-label>
                   <div class="date-picker-container">
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchMemorandumIncorporacion"
-                      (blur)="sendDataIncorporacion(i)" />
-                    <mat-datepicker-toggle matSuffix [for]="picker"
-                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      [(ngModel)]="row.fchMemorandumIncorporacion"
+                      (blur)="sendDataIncorporacion(i)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                      class="custom-datepicker-toggle"
+                    ></mat-datepicker-toggle>
                   </div>
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker #picker></mat-datepicker>
@@ -346,21 +548,36 @@
               <siat-row>
                 <mat-form-field class="custom-width">
                   <mat-label>Cité RAP</mat-label>
-                  <input matInput [(ngModel)]="row.citeRapIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                  <input
+                    matInput
+                    [(ngModel)]="row.citeRapIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  />
                 </mat-form-field>
 
                 <mat-form-field class="custom-width">
                   <mat-label>Código RAP</mat-label>
-                  <input matInput [(ngModel)]="row.codigoRapIncorporacion" (blur)="sendDataIncorporacion(i)" />
-                </mat-form-field></siat-row>
+                  <input
+                    matInput
+                    [(ngModel)]="row.codigoRapIncorporacion"
+                    (blur)="sendDataIncorporacion(i)"
+                  /> </mat-form-field
+              ></siat-row>
               <siat-row>
                 <mat-form-field class="custom-width-fecha">
                   <mat-label>Fecha RAP</mat-label>
                   <div class="date-picker-container">
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchRapIncorporacion"
-                      (blur)="sendDataIncorporacion(i)" />
-                    <mat-datepicker-toggle matSuffix [for]="picker"
-                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      [(ngModel)]="row.fchRapIncorporacion"
+                      (blur)="sendDataIncorporacion(i)"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                      class="custom-datepicker-toggle"
+                    ></mat-datepicker-toggle>
                   </div>
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker #picker></mat-datepicker>
@@ -374,12 +591,41 @@
         </ng-container>
 
         <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef class="left-border">ACCIONES</th>
+          <th mat-header-cell *matHeaderCellDef class="left-border">
+            ACCIONES
+          </th>
           <td mat-cell *matCellDef="let row; index as i" class="left-border">
             <siat-column>
               <siat-row>
-                <button mat-icon-button color="info"
-                  (click)="onDownloadForms(i, ['Act-Entrega', 'Act-Posecion', 'R-0716', 'R-0921', 'R-0976', 'R-SGC-0033'])">
+                <button
+                  mat-icon-button
+                  color="info"
+                  (click)="
+                    onDownloadForms(i, [
+                      'Act-Entrega',
+                      'Act-Posecion',
+                      'R-0716',
+                      'R-0921',
+                      'R-0976',
+                      'R-SGC-0033'
+                    ])
+                  "
+                *ngIf="
+                row.puestoNuevoId && !row.puestoActualId">
+                  <mat-icon>cloud_upload</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="info"
+                  (click)="
+                    onDownloadForms(i, [
+                      'Act-Entrega',
+                      'Act-Posecion',
+                      'R-SGC-0033'
+                    ])
+                  "
+                *ngIf="
+                row.puestoNuevoId && row.puestoActualId">
                   <mat-icon>cloud_upload</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="eliminarFila(i)">
@@ -400,6 +646,9 @@
         </tr>
       </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página"></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Seleccionar página"
+    ></mat-paginator>
   </siat-column>
 </siat-titles-page>

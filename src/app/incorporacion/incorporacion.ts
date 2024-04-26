@@ -1,6 +1,5 @@
 import { Persona } from "../models/incorporaciones/persona";
 import { Puesto } from "../models/incorporaciones/puesto";
-import { Departamento } from "../models/incorporaciones/departamento"; 
 
 export interface Incorporacion {
   idIncorporacion?: number;
@@ -38,8 +37,8 @@ export interface Incorporacion {
   hpIncorporacion?: string | null;
   // Relaciones
   persona?: Pick<Persona, 'idPersona' | 'primerApellidoPersona' | 'segundoApellidoPersona' | 'nombrePersona' | 'ciPersona' | 'generoPersona'>;
-  puestoNuevo: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto' | 'departamento'>;
-  puestoActual?: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto'>;
+  puestoActual?: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto' | "departamento">;
+  puestoNuevo?: Pick<Puesto, "idPuesto" | "itemPuesto" | "denominacionPuesto" | "departamento">;
 }
 
 export enum EstadosIncorporacion {

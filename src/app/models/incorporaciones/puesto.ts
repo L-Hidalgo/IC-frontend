@@ -11,7 +11,7 @@ export interface Puesto {
   estadoId?: number;
   departamentoId?: number;
   personaActualId?: number;
-  personaActual?: Pick< Persona,| 'idPersona'| 'nombrePersona' | 'primerApellidoPersona'| 'segundoApellidoPersona'>;
+  personaActual?: Pick< Persona,| 'idPersona'| 'nombrePersona' | 'primerApellidoPersona'| 'segundoApellidoPersona' | 'ciPersona' | 'generoPersona'>;
   departamento?: Pick< Departamento, "idDepartamento" | "nombreDepartamento" | "gerencia">;
   createdAt: string;
   updatedAt: string;

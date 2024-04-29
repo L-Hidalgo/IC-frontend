@@ -1246,15 +1246,20 @@ progress {
   --bs-gutter-y: 0;
   display: flex;
   flex-wrap: wrap;
-  margin-top: calc( var(--bs-gutter-y) * -1);
-  margin-right: calc( var(--bs-gutter-x) / -2);
-  margin-left: calc( var(--bs-gutter-x) / -2); }
+  margin-top: calc(
+ var(--bs-gutter-y) * -1);
+  margin-right: calc(
+ var(--bs-gutter-x) / -2);
+  margin-left: calc(
+ var(--bs-gutter-x) / -2); }
   .row > * {
     flex-shrink: 0;
     width: 100%;
     max-width: 100%;
-    padding-right: calc( var(--bs-gutter-x) / 2);
-    padding-left: calc( var(--bs-gutter-x) / 2);
+    padding-right: calc(
+ var(--bs-gutter-x) / 2);
+    padding-left: calc(
+ var(--bs-gutter-x) / 2);
     margin-top: var(--bs-gutter-y); }
 
 .col {
@@ -10868,7 +10873,7 @@ Notify
   .theme-color .theme-item .theme-link[data-logobg="skin3"], .theme-color .theme-item .theme-link[data-navbarbg="skin3"], .theme-color .theme-item .theme-link[data-sidebarbg="skin3"] {
     background: #fc4b6c; }
   .theme-color .theme-item .theme-link[data-logobg="skin4"], .theme-color .theme-item .theme-link[data-navbarbg="skin4"], .theme-color .theme-item .theme-link[data-sidebarbg="skin4"] {
-    background: #002B5E; }
+    background: #042b5b ; }
   .theme-color .theme-item .theme-link[data-logobg="skin5"], .theme-color .theme-item .theme-link[data-navbarbg="skin5"], .theme-color .theme-item .theme-link[data-sidebarbg="skin5"] {
     background: #040505; }
   .theme-color .theme-item .theme-link[data-logobg="skin6"], .theme-color .theme-item .theme-link[data-navbarbg="skin6"], .theme-color .theme-item .theme-link[data-sidebarbg="skin6"] {
@@ -13354,7 +13359,7 @@ html[dir="rtl"] #main-wrapper[data-layout="horizontal"] #main-wrapper[data-sideb
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin3"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin3"] {
     background: #fc4b6c; }
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin4"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin4"] {
-    background: #002B5E; }
+    background:  #042b5b; }
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin5"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin5"] {
     background: #040505; }
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin6"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin6"] {
@@ -13382,7 +13387,7 @@ html[dir="rtl"] #main-wrapper[data-layout="horizontal"] #main-wrapper[data-sideb
   #main-wrapper[data-layout="vertical"] .topbar .navbar-collapse[data-navbarbg="skin4"],
   #main-wrapper[data-layout="vertical"] .topbar[data-navbarbg="skin4"], #main-wrapper[data-layout="horizontal"] .topbar .navbar-collapse[data-navbarbg="skin4"],
   #main-wrapper[data-layout="horizontal"] .topbar[data-navbarbg="skin4"] {
-    background: #002B5E; }
+    background:  #042b5b; }
   #main-wrapper[data-layout="vertical"] .topbar .navbar-collapse[data-navbarbg="skin5"],
   #main-wrapper[data-layout="vertical"] .topbar[data-navbarbg="skin5"], #main-wrapper[data-layout="horizontal"] .topbar .navbar-collapse[data-navbarbg="skin5"],
   #main-wrapper[data-layout="horizontal"] .topbar[data-navbarbg="skin5"] {
@@ -13432,11 +13437,11 @@ html[dir="rtl"] #main-wrapper[data-layout="horizontal"] #main-wrapper[data-sideb
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"],
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"],
   #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"] ul {
-    background: #002B5E; }
+    background: #042b5b ; }
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"] .sidebar-footer,
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"] ul .sidebar-footer, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"] .sidebar-footer,
     #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"] ul .sidebar-footer {
-      background: #002B5E; }
+      background: #042b5b; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin5"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin5"] {
     background: #040505; }
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin5"] .sidebar-footer, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin5"] .sidebar-footer {
@@ -13805,8 +13810,10 @@ button:focus {
     top: 70px; } }
 
 .dropdown-menu-animate-up {
-  -webkit-animation: animation-dropdown-menu-fade-in 0.5s ease 1, animation-dropdown-menu-move-up 0.5s ease-out 1;
-  animation: animation-dropdown-menu-fade-in 0.5s ease 1, animation-dropdown-menu-move-up 0.5s ease-out 1; }
+  -webkit-animation: animation-dropdown-menu-fade-in 0.5s ease 1,
+ animation-dropdown-menu-move-up 0.5s ease-out 1;
+  animation: animation-dropdown-menu-fade-in 0.5s ease 1,
+ animation-dropdown-menu-move-up 0.5s ease-out 1; }
 
 .btn-light-primary:hover {
   background-color: #002B5E;
@@ -14361,7 +14368,7 @@ form label {
 .dtp div.dtp-date,
 .dtp div.dtp-time,
 .dtp table.dtp-picker-days tr > td > a.selected {
-  background: #002B5E; }
+  background: #042b5b; }
 
 .dtp .p10 > a {
   color: #fff; }
@@ -17960,7 +17967,7 @@ table.customize-table th {
   color: #fff;
   text-align: center;
   min-width: 140px;
-  background: #002B5E; }
+  background: #042b5b; }
   .calendar-event a {
     opacity: 0.6;
     font-size: 10px;
@@ -18183,12 +18190,20 @@ html body .jqstooltip {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
-  transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
-  -o-transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  -moz-transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out, -moz-border-radius 0.2s ease-in-out;
-  transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out, -moz-border-radius 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
+  transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
+  -o-transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out,
+ -moz-border-radius 0.2s ease-in-out;
+  transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out,
+ -webkit-border-radius 0.2s ease-in-out, -moz-border-radius 0.2s ease-in-out;
   bottom: 2px;
   height: 6px; }
 
@@ -18213,12 +18228,20 @@ html body .jqstooltip {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
-  transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
-  -o-transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  -moz-transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out, -moz-border-radius 0.2s ease-in-out;
-  transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  transition: background-color 0.2s linear, height 0.2s linear, width 0.2s ease-in-out, border-radius 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out, -moz-border-radius 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
+  transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, -webkit-border-radius 0.2s ease-in-out;
+  -o-transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out,
+ -moz-border-radius 0.2s ease-in-out;
+  transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  transition: background-color 0.2s linear, height 0.2s linear,
+ width 0.2s ease-in-out, border-radius 0.2s ease-in-out,
+ -webkit-border-radius 0.2s ease-in-out, -moz-border-radius 0.2s ease-in-out;
   right: 2px;
   width: 6px; }
 
@@ -18826,7 +18849,8 @@ form p:last-child {
   left: 0;
   position: absolute;
   /* .1s delay is for check animation */
-  transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s, height 0.2s 0.1s, top 0.2s 0.1s, left 0.2s 0.1s;
+  transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s,
+ height 0.2s 0.1s, top 0.2s 0.1s, left 0.2s 0.1s;
   z-index: 1; }
 
 [type="checkbox"].material-inputs.filled-in:not(:checked) + label:before {

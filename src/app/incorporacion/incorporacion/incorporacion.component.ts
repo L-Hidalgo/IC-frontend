@@ -71,6 +71,7 @@ export class IncorporacionComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  
 
   totalItems: number = 10; // Total de elementos en el servidor
   pageSize = 10; // Número de elementos por página
@@ -119,7 +120,7 @@ export class IncorporacionComponent implements AfterViewInit {
 
   getDepartmentDescription(departmentName: string | null): string {
     if (!departmentName) {
-      return ""; 
+      return "";
     }
 
     const firstChar = departmentName.charAt(0).toUpperCase();
@@ -216,6 +217,15 @@ export class IncorporacionComponent implements AfterViewInit {
     if (nuevoItemRow) {
       this.puestosService.findPuestoByItem(nuevoItemRow).subscribe(
         (resp) => {
+          if (!resp) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'El puesto no existe!!!',
+            });
+            return; 
+          }
+  
           const puesto = resp.objeto;
           if (!puesto) {
             Swal.fire({
@@ -223,43 +233,45 @@ export class IncorporacionComponent implements AfterViewInit {
               title: 'Error',
               text: 'El puesto no existe!!!',
             });
+            return; 
+          }
+          
+          const estaOcupado = puesto.estadoId === 2 && puesto.personaActualId;
+          let message: string;
+  
+          if (estaOcupado) {
+            message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto} está ocupado por ${puesto.personaActual?.nombrePersona} ${puesto.personaActual?.primerApellidoPersona} ${puesto.personaActual?.segundoApellidoPersona}`;
           } else {
-            const estaOcupado = !!puesto.personaActual?.idPersona;
-            const message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto
-              } ${estaOcupado
-                ? `está ocupado por ${puesto.personaActual?.nombrePersona} ${puesto.personaActual?.primerApellidoPersona} ${puesto.personaActual?.segundoApellidoPersona}`
-                : 'está acefalo'
-              }`;
-
-            // Mostrar el cuadro de diálogo con el mensaje modificado y los botones "Si" y "No"
-            Swal.fire({
-              icon: 'info',
-              title: 'Información',
-              text: message + '\n¿Desea realizar un cambio de item?',
-              showCancelButton: true,
-              confirmButtonText: 'Sí',
-              cancelButtonText: 'No',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.mostrarFormularioCambioItem = true;
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                this.mostrarFormularioCambioItem = false;
-              }
-            });
-
-            // Agregar el id del puesto al registro para cuando se actualice o se cree
-            this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
-            const incorporacion = this.dataSource.data[rowIndex];
-            if (incorporacion.puestoNuevo) {
-              incorporacion.puestoNuevo.itemPuesto = puesto.itemPuesto;
-              incorporacion.puestoNuevo.denominacionPuesto = puesto.denominacionPuesto;
-
-              if (incorporacion.puestoNuevo.departamento) {
-                incorporacion.puestoNuevo.departamento.nombreDepartamento = puesto.departamento?.nombreDepartamento;
-
-                if (incorporacion.puestoNuevo.departamento.gerencia) {
-                  incorporacion.puestoNuevo.departamento.gerencia.nombreGerencia = puesto.departamento?.gerencia?.nombreGerencia;
-                }
+            message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto} está acéfalo`;
+          }
+  
+          Swal.fire({
+            icon: 'info',
+            title: 'Información',
+            text: `${message}\n¿Desea realizar un cambio de item?`,
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.mostrarFormularioCambioItem = true;
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              this.mostrarFormularioCambioItem = false;
+            }
+          });
+  
+          // Agregar el id del puesto al registro para cuando se actualice o se cree
+          this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
+          const incorporacion = this.dataSource.data[rowIndex];
+          if (incorporacion.puestoNuevo) {
+            incorporacion.puestoNuevo.itemPuesto = puesto.itemPuesto;
+            incorporacion.puestoNuevo.denominacionPuesto = puesto.denominacionPuesto;
+  
+            if (incorporacion.puestoNuevo.departamento) {
+              incorporacion.puestoNuevo.departamento.nombreDepartamento = puesto.departamento?.nombreDepartamento;
+  
+              if (incorporacion.puestoNuevo.departamento.gerencia) {
+                incorporacion.puestoNuevo.departamento.gerencia.nombreGerencia = puesto.departamento?.gerencia?.nombreGerencia;
               }
             }
           }
@@ -268,13 +280,13 @@ export class IncorporacionComponent implements AfterViewInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Error buscando puesto: ' + error,
+            text: 'Error buscando puesto: ' + error.message,
           });
         }
       );
     }
   }
-
+  
   buscarItemActual(rowIndex: number): void {
     const actualItemRow = this.dataSource?.data[rowIndex]?.puestoActualItem;
     if (actualItemRow) {
@@ -282,13 +294,29 @@ export class IncorporacionComponent implements AfterViewInit {
         (resp) => {
           const puesto = resp.objeto;
           if (puesto) {
+            console.log('puesto a cambiar:', puesto);
             // Agregar el id del puesto al registro para cuando se actualice o se cree
             this.dataSource.data[rowIndex].puestoActualId = puesto.idPuesto;
+            this.dataSource.data[rowIndex].personaId= puesto.personaActualId;
+
+            // Adjuntar Datos de persona del Puesto actual
+            if(puesto.personaActual) {
+              const personaActual = puesto.personaActual;
+              this.dataSource.data[rowIndex].persona = {
+                idPersona: personaActual.idPersona,
+                ciPersona: personaActual.ciPersona,
+                generoPersona: personaActual.generoPersona,
+                nombrePersona: personaActual.nombrePersona,
+                primerApellidoPersona: personaActual.primerApellidoPersona,
+                segundoApellidoPersona: personaActual.segundoApellidoPersona,
+              };
+              this.dataSource.data[rowIndex].personaId = personaActual.idPersona;
+            }
+
             const incorporacion = this.dataSource.data[rowIndex];
             if (incorporacion.puestoActual) {
               incorporacion.puestoActual.itemPuesto = puesto.itemPuesto;
               incorporacion.puestoActual.denominacionPuesto = puesto.denominacionPuesto;
-
               if (incorporacion.puestoActual.departamento) {
                 incorporacion.puestoActual.departamento.nombreDepartamento = puesto.departamento?.nombreDepartamento;
 
@@ -297,6 +325,8 @@ export class IncorporacionComponent implements AfterViewInit {
                 }
               }
             }
+            // Guardar datos
+            this.sendDataIncorporacion(rowIndex);
           }
         }
       );
@@ -349,7 +379,9 @@ export class IncorporacionComponent implements AfterViewInit {
 
   sendDataIncorporacion(rowIndex: number) {
     const data = this.dataSource.data[rowIndex];
-    this.incorporacionesService
+  
+    setTimeout(() => {
+      this.incorporacionesService
       .createUpdateIncorporacion({
         idIncorporacion: data.idIncorporacion,
         puestoNuevoId: data.puestoNuevoId,
@@ -380,12 +412,13 @@ export class IncorporacionComponent implements AfterViewInit {
       .subscribe(
         (resp) => {
           if (!!resp.objeto) {
-            console.log('Se actualizo exitosamente la incorporacion');
-            this.notificationService.showSuccess('Datos registrados exitosamente!!');
+            this.dataSource.data[rowIndex].idIncorporacion = resp.objeto.idIncorporacion;
             this.dataSource.data[rowIndex].estadoIncorporacion = resp.objeto.estadoIncorporacion;
             this.dataSource.data[rowIndex].observacionIncorporacion = resp.objeto.observacionIncorporacion;
             this.dataSource.data[rowIndex].puestoNuevoId = resp.objeto.puestoNuevoId;
             this.dataSource.data[rowIndex].puestoActualId = resp.objeto.puestoActualId;
+            // Agregar Otros no se actualizan
+            this.notificationService.showSuccess('Datos registrados exitosamente!!');
           }
         },
         (error) => {
@@ -393,6 +426,7 @@ export class IncorporacionComponent implements AfterViewInit {
           this.notificationService.showError('Error al registrar los datos. Por favor, inténtalo de nuevo.');
         }
       );
+    },300);
   }
 
   /* ------------------------------------- REGISTRAR REQUISIRO ------------------------------------ */
@@ -468,7 +502,7 @@ export class IncorporacionComponent implements AfterViewInit {
         // EstadosIncorporacion.SIN_REGISTRO,
         EstadosIncorporacion.CON_REGISTRO,
       ],
-    }, 
+    },
     {
       nombreForm: 'Inf.conMinuta',
       callback: (incId: number) => this.incorporacionesService.genUrlInfMinuta(incId),
@@ -630,7 +664,7 @@ export class IncorporacionComponent implements AfterViewInit {
         EstadosIncorporacion.CON_REGISTRO,
       ],
     },
-    
+
   ];
 
   filterFormularios(incorporacion: Incorporacion) {
@@ -656,6 +690,4 @@ export class IncorporacionComponent implements AfterViewInit {
       });
     }
   }
-
-
 }

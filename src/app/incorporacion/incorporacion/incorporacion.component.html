@@ -62,8 +62,8 @@
                 <input type="number" matInput placeholder="Ex. 144" (keydown.enter)="buscarItemActual(i)"
                   [disabled]="row.puestoActualId && row.personaId" [(ngModel)]="row.puestoActualItem" />
                 <mat-hint><span *ngIf="row.puestoActualId">
-                    Item {{ row.puestoNuevo.itemPuesto }},
-                    {{ row.puestoNuevo.denominacionPuesto }}
+                    Item {{ row.puestoActual.itemPuesto }},
+                    {{ row.puestoActual.denominacionPuesto }}
                   </span>
                   <span *ngIf="!row.puestoActualId">
                     Cambio de Item sin registro

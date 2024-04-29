@@ -110,6 +110,7 @@ export class RegistroPersonaComponent implements OnInit {
       if (resp?.objeto) {
         console.log('Se registro exitosamente a la persona!!');
         this.notificationService.showSuccess('Se registro exitosamente a la persona!!!');
+        console.log('datos de la persona: ', resp.objeto);
         await this.personaForm.patchValue(resp.objeto);
       } else {
         console.log('Hubo un error al registrar a a persona!!');
@@ -182,7 +183,7 @@ export class RegistroPersonaComponent implements OnInit {
 
   async saveDataIncorporacion(): Promise<void> {
     const respIncorporacion = await firstValueFrom(this.incorporacionesService.createUpdateIncorporacion({
-      idIncorporacion: this.personaForm.get('idIncorporacion')?.value || this.dataIncorporacion.idIncorporacion,
+      idIncorporacion: this.dataIncorporacion.idIncorporacion,
       personaId: this.personaForm.get('idPersona')?.value || this.dataIncorporacion.personaId,
       puestoNuevoId: this.dataIncorporacion.puestoNuevoId,
     })).catch(err => console.log(err));

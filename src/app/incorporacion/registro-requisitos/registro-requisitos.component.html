@@ -58,11 +58,10 @@
                     {{requisitoPuesto?.formacionRequisito}}
                 </div>
                 <mat-form-field class="custom-input">
-                    <mat-label>Seleccione una opcion</mat-label>
+                    <mat-label>Resultado de Verificación</mat-label>
                     <mat-select formControlName="cumpleFormacionIncorporacion">
-                        <mat-option [value]="1">Si</mat-option>
-                        <mat-option [value]="2">No</mat-option>
-                        <mat-option [value]="3">No Corresponde</mat-option>
+                        <mat-option [value]="1">Cumple</mat-option>
+                        <mat-option [value]="2">No cumple</mat-option>
                     </mat-select>
                     <mat-error *ngIf="requisitosForm.get('cumpleFormacionIncorporacion')?.hasError('required')">El
                         respaldo es

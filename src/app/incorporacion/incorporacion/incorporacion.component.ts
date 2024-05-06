@@ -118,19 +118,33 @@ export class IncorporacionComponent implements AfterViewInit {
       );
   }
 
-  getDepartmentDescription(departmentName: string | null): string {
-    if (!departmentName) {
+  getDepartamentoConector(departamentoNombre: string | null): string {
+    if (!departamentoNombre) {
       return "";
     }
 
-    const firstChar = departmentName.charAt(0).toUpperCase();
+    const firstChar = departamentoNombre.charAt(0).toUpperCase();
 
     if (firstChar === "D") {
-      return `del ${departmentName}`;
-    } else if (["G", "A", "U", "P"].includes(firstChar)) {
-      return `de la ${departmentName}`;
+      return `del ${departamentoNombre}`;
+    } else if (["G", "U"].includes(firstChar)) {
+      return `de la ${departamentoNombre}`;
     } else {
-      return `de ${departmentName}`;
+      return `de ${departamentoNombre}`;
+    }
+  }
+
+  getGerenciaConector(gerenciaNombre: string | null): string {
+    if (!gerenciaNombre) {
+      return "";
+    }
+
+    const firstChar = gerenciaNombre.charAt(0).toUpperCase();
+
+    if (firstChar === "P") {
+      return `de ${gerenciaNombre}`;
+    } else {
+      return `de la ${gerenciaNombre}`;
     }
   }
 
@@ -494,6 +508,15 @@ export class IncorporacionComponent implements AfterViewInit {
       ],
     },
     {
+      nombreForm: 'R-0980',
+      callback: (incId: number) => this.incorporacionesService.genUrlR0980(incId),
+      cambioItem: false,
+      incorporacion: true,
+      porEstado: [
+        EstadosIncorporacion.CON_REGISTRO,
+      ],
+    },
+    {
       nombreForm: 'Inf.conNota',
       callback: (incId: number) => this.incorporacionesService.genUrlInfNota(incId),
       cambioItem: false,
@@ -628,15 +651,6 @@ export class IncorporacionComponent implements AfterViewInit {
       ],
     },
     //Form cambio item
-    {
-      nombreForm: 'R-0980',
-      callback: (incId: number) => this.incorporacionesService.genUrlR0980(incId),
-      cambioItem: false,
-      incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
-    },
     {
       nombreForm: 'R-1023',
       callback: (incId: number) => this.incorporacionesService.genUrlR1023(incId),

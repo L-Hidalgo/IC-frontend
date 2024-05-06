@@ -121,12 +121,15 @@
                 al Ítem N° {{ row.puestoNuevo?.itemPuesto }}
                 {{ row.puestoNuevo?.denominacionPuesto }}
                 {{
-                getDepartmentDescription(
+                getDepartamentoConector(
                 row.puestoNuevo?.departamento?.nombreDepartamento
                 )
                 }}
-                dependiente de la
-                {{ row.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}
+                dependiente {{
+                getGerenciaConector(
+                row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
+                )
+                }}
               </div>
               <div *ngIf="row.puestoNuevoId && row.puestoActualId && row.personaId" class="example-form-cite">
                 Evaluación curricular para cambio de Ítem
@@ -142,23 +145,27 @@
                 del Ítem {{ row.puestoActual?.itemPuesto }}
                 {{ row.puestoActual?.denominacionPuesto }}
                 {{
-                getDepartmentDescription(
+                getDepartamentoConector(
                 row.puestoActual?.departamento?.nombreDepartamento
                 )
                 }}
-                dependiente de la
-                {{
-                row.puestoActual?.departamento?.gerencia?.nombreGerencia
+                dependiente {{
+                getGerenciaConector(
+                row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
+                )
                 }}
                 al Ítem Nº {{ row.puestoNuevo?.itemPuesto }}
                 {{ row.puestoNuevo?.denominacionPuesto }}
                 {{
-                getDepartmentDescription(
+                getDepartamentoConector(
                 row.puestoNuevo?.departamento?.nombreDepartamento
                 )
                 }}
-                dependiente de la
-                {{ row.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}
+                dependiente dependiente {{
+                getGerenciaConector(
+                row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
+                )
+                }}
               </div>
               <div *ngIf="
                   !row.puestoNuevoId || (!row.puestoActualId && !row.personaId)
@@ -189,14 +196,21 @@
                   row.puestoNuevoId &&
                   !row.puestoActualId
                 " class="example-form-inputs">
-                <siat-row>
-                  <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0078'])">
-                    R-0078
-                  </siat-button-link>
-                  <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
-                    R-1401
-                  </siat-button-link>
-                </siat-row>
+                <siat-column>
+                  <siat-row>
+                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0078'])">
+                      R-0078
+                    </siat-button-link>
+                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
+                      R-1401
+                    </siat-button-link>
+                  </siat-row>
+                  <siat-row>
+                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0980'])">
+                      R-0980
+                    </siat-button-link>
+                  </siat-row>
+                </siat-column>
               </div>
               <div *ngIf="
                   row.observacionIncorporacion == 'Cumple' &&
@@ -232,34 +246,9 @@
           <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroRequisitos(i)" class="left-border">
             <siat-column>
               <div class="example-form-other">
-                <ng-container *ngIf="
-                    row.cumpleExpProfesionalIncorporacion === 1 &&
-                    row.cumpleExpEspecificaIncorporacion === 1 &&
-                    row.cumpleExpMandoIncorporacion === 1 &&
-                    row.cumpleFormacionIncorporacion === 1
-                  ">
-                  Cumple
-                </ng-container>
-                <ng-container *ngIf="
-                    row.cumpleExpProfesionalIncorporacion === 2 ||
-                    row.cumpleExpEspecificaIncorporacion === 2 ||
-                    row.cumpleExpMandoIncorporacion === 2 ||
-                    row.cumpleFormacionIncorporacion === 2
-                  ">
-                  No cumple
-                </ng-container>
-                <ng-container *ngIf="
-                    row.cumpleExpProfesionalIncorporacion !== 1 &&
-                    row.cumpleExpProfesionalIncorporacion !== 2 &&
-                    row.cumpleExpEspecificaIncorporacion !== 1 &&
-                    row.cumpleExpEspecificaIncorporacion !== 2 &&
-                    row.cumpleExpMandoIncorporacion !== 1 &&
-                    row.cumpleExpMandoIncorporacion !== 2 &&
-                    row.cumpleFormacionIncorporacion !== 1 &&
-                    row.cumpleFormacionIncorporacion !== 2
-                  ">
-                  Registre los requisitos
-                </ng-container>
+                <ng-container *ngIf="row.cumpleFormacionIncorporacion === 1">Cumple</ng-container>
+                <ng-container *ngIf="row.cumpleFormacionIncorporacion === 2">No cumpleExpProfesionalIncorporacion</ng-container>
+                <ng-container *ngIf="row.cumpleFormacionIncorporacion !== 1 && row.cumpleFormacionIncorporacion !== 2 "> Registre los requisitos</ng-container>
               </div>
             </siat-column>
           </td>

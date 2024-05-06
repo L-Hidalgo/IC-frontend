@@ -44,12 +44,13 @@ export class RegistroPersonaComponent implements OnInit {
     // inicializar forms
     this.personaForm = this.formBuilder.group({
       idPersona: [undefined],
+      ciPersona: ['', Validators.required],
+      expPersona: ['', Validators.required],
       generoPersona: ['', Validators.required],
       nombrePersona: [dataIncorporacion?.persona?.nombrePersona, Validators.required],
       primerApellidoPersona: [dataIncorporacion?.persona?.primerApellidoPersona, Validators.required],
       segundoApellidoPersona: [dataIncorporacion?.persona?.segundoApellidoPersona, Validators.required],
-      ciPersona: ['', Validators.required],
-      expPersona: ['', Validators.required],
+      fchNacimientoPersona: ['', Validators.required],
       idFormacion: [undefined],
       gradoAcademicoId: [undefined],
       gradoAcademico: [''],
@@ -106,6 +107,7 @@ export class RegistroPersonaComponent implements OnInit {
         segundoApellidoPersona: this.personaForm.get('segundoApellidoPersona')?.value,
         ciPersona: this.personaForm.get('ciPersona')?.value,
         expPersona: this.personaForm.get('expPersona')?.value,
+        fchNacimientoPersona: this.personaForm.get('fchNacimientoPersona')?.value,
       })).catch(error => console.log(error));
       if (resp?.objeto) {
         console.log('Se registro exitosamente a la persona!!');

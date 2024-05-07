@@ -352,7 +352,7 @@ export class IncorporacionComponent implements AfterViewInit {
     const personaData = this.dataSource?.data[rowIndex];
 
     const dialogRef = this.dialog.open(RegistroPersonaComponent, {
-      width: '500px',
+      width: '550px',
       height: 'auto',
       data: personaData,
     });

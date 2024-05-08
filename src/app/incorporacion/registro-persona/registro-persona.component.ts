@@ -22,6 +22,7 @@ import { NotificationService } from 'src/app/services/incorporaciones/notificati
   styleUrls: ['./registro-persona.component.scss']
 })
 export class RegistroPersonaComponent implements OnInit {
+  
   personaForm: FormGroup;
 
   listAreasFormacion: Array<AreaFormacion> = [];
@@ -66,13 +67,12 @@ export class RegistroPersonaComponent implements OnInit {
     if (dataIncorporacion?.persona?.idPersona) {
       this.getDataPersonaById(dataIncorporacion?.persona?.idPersona);
     }
-    this.loadAreasFormacion();//aqui
-  }
-
-  ngOnInit(): void {
-    this.loadGradosAcademico(); //esto poner arriba
+    this.loadAreasFormacion();
+    this.loadGradosAcademico(); 
     this.loadInstituciones();
   }
+
+  ngOnInit(): void {}
 
   /* --------------------------------------- AREA FORMACION --------------------------------------- */
   loadAreasFormacion() {
@@ -87,7 +87,7 @@ export class RegistroPersonaComponent implements OnInit {
       this.listGradosAcademico = resp.objetosList || [];
     })
   }
-
+  
   /* --------------------------------------- GRADO ACADEMICO --------------------------------------- */
   loadInstituciones() {
     this.institucionesService.getAll().subscribe((resp: RespuestaLista<Institucion>) => {

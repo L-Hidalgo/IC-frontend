@@ -36,6 +36,7 @@ export class IncorporacionComponent implements AfterViewInit {
     'cite',
     'evaluacion',
     'cumpleRequisitos',
+    'incorporacion',
     'notaMinuta',
     'informe',
     'memorandum',
@@ -156,6 +157,7 @@ export class IncorporacionComponent implements AfterViewInit {
       estadoIncorporacion: null,
       conRespaldoFormacion: null,
       observacionIncorporacion: null,
+      experienciaIncorporacion: undefined,
       fchIncorporacion: undefined,
       hpIncorporacion: null,
       citeNotaMinutaIncorporacion: null,
@@ -374,7 +376,7 @@ export class IncorporacionComponent implements AfterViewInit {
         if (incorporacion.persona) {
           incorporacion.persona.generoPersona = result.generoPersona;
           incorporacion.persona.nombrePersona = result.nombrePersona;
-          incorporacion.persona.primerApellidoPersona = result.persona?.segundoApellidoPersona;
+          incorporacion.persona.primerApellidoPersona = result.primerApellidoPersona;
           incorporacion.persona.segundoApellidoPersona = result.segundoApellidoPersona;
         }
 
@@ -403,6 +405,7 @@ export class IncorporacionComponent implements AfterViewInit {
         personaId: data.personaId,
         conRespaldoFormacion: data.conRespaldoFormacion,
         observacionIncorporacion: data.observacionIncorporacion,
+        experienciaIncorporacion: data.experienciaIncorporacion,
 
         fchIncorporacion: data.fchIncorporacion,
         hpIncorporacion: data.hpIncorporacion,

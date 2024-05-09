@@ -34,7 +34,7 @@
                                     <div class="button-container">
                                         <label for="file-input" class="file-button">Seleccionar</label>
                                         <input id="file-input" type="file" style="display: none;"
-                                            (change)="onFileSelected($event)">
+                                            (change)="onFileSelected($event)" accept=".xls, .xlsm, .xlsx">
                                         <button mat-flat-button class="small-button" color="primary"
                                             (click)="onUpload()">Subir</button>
                                         <button mat-flat-button class="small-button" color="primary" (click)="onCancel()">Cancelar</button>

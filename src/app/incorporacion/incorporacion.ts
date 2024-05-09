@@ -10,6 +10,7 @@ export interface Incorporacion {
   personaId?: number | null;
   conRespaldoFormacion?: number | null;
   observacionIncorporacion?: string |null;
+  experienciaIncorporacion?: number;
   fchIncorporacion?: string;
   estadoIncorporacion?: number | null;
   // Requisitos puestos

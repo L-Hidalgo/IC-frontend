@@ -46,7 +46,7 @@ export class AdministracionComponent implements OnDestroy {
           error => {
             console.error('Error al cargar archivo:', error);
             this.uploading = false;
-            this.showErrorDialog('Error al cargar archivo');
+            this.showErrorDialog('Error al cargar archivo, verifique el formato y columnas del archivo');
           }
         );
     } else {

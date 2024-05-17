@@ -37,10 +37,10 @@ export class IncorporacionComponent implements AfterViewInit {
     'evaluacion',
     'cumpleRequisitos',
     'incorporacion',
-    'notaMinuta',
     'informe',
-    'memorandum',
+    'notaMinuta',
     'rap',
+    'memorandum',
     'acciones',
   ];
 

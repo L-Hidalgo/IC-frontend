@@ -125,7 +125,8 @@
                 row.puestoNuevo?.departamento?.nombreDepartamento
                 )
                 }}
-                dependiente {{
+                dependiente
+                {{
                 getGerenciaConector(
                 row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
                 )
@@ -149,7 +150,8 @@
                 row.puestoActual?.departamento?.nombreDepartamento
                 )
                 }}
-                dependiente {{
+                dependiente
+                {{
                 getGerenciaConector(
                 row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
                 )
@@ -161,7 +163,8 @@
                 row.puestoNuevo?.departamento?.nombreDepartamento
                 )
                 }}
-                dependiente dependiente {{
+                dependiente dependiente
+                {{
                 getGerenciaConector(
                 row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
                 )
@@ -191,35 +194,37 @@
                   </mat-select>
                 </mat-form-field>
                 <div *ngIf="
-                row.observacionIncorporacion === 'Cumple' &&
-                row.puestoNuevoId &&
-                !row.puestoActualId">
-                <mat-form-field class="custom-width">
-                  <mat-label>Experiencia</mat-label>
-                  <mat-select [(ngModel)]="row.experienciaIncorporacion" (blur)="sendDataIncorporacion(i)">
-                    <mat-option value="0">No tiene</mat-option>
-                    <mat-option value="1">1 año</mat-option>
-                    <mat-option value="2">2 año</mat-option>
-                    <mat-option value="3">3 año</mat-option>
-                    <mat-option value="4">4 año</mat-option>
-                    <mat-option value="5">Mayor o igual a 5 año</mat-option>
-                  </mat-select>
-                </mat-form-field></div>
+                    row.observacionIncorporacion === 'Cumple' &&
+                    row.puestoNuevoId &&
+                    !row.puestoActualId
+                  ">
+                  <mat-form-field class="custom-width">
+                    <mat-label>Experiencia</mat-label>
+                    <mat-select [(ngModel)]="row.experienciaIncorporacion" (blur)="sendDataIncorporacion(i)">
+                      <mat-option value="0">No tiene</mat-option>
+                      <mat-option value="1">1 año</mat-option>
+                      <mat-option value="2">2 año</mat-option>
+                      <mat-option value="3">3 año</mat-option>
+                      <mat-option value="4">4 año</mat-option>
+                      <mat-option value="5">Mayor o igual a 5 año</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
               <div *ngIf="
                   row.observacionIncorporacion === 'Cumple' &&
                   row.puestoNuevoId &&
                   !row.puestoActualId
                 " class="example-form-inputs">
-                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0078'])">
-                      R-0078
-                    </siat-button-link>
-                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
-                      R-1401
-                    </siat-button-link>
-                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0980'])">
-                      R-0980
-                    </siat-button-link>
+                <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0078'])">
+                  R-0078
+                </siat-button-link>
+                <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
+                  R-1401
+                </siat-button-link>
+                <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-0980'])">
+                  R-0980
+                </siat-button-link>
               </div>
               <div *ngIf="
                   row.observacionIncorporacion == 'Cumple' &&
@@ -238,9 +243,6 @@
                     <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1129'])">
                       R-1129
                     </siat-button-link>
-                    <siat-button-link class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
-                      R-1401
-                    </siat-button-link>
                   </siat-row>
                 </siat-column>
               </div>
@@ -256,8 +258,13 @@
             <siat-column>
               <div class="example-form-other">
                 <ng-container *ngIf="row.cumpleFormacionIncorporacion === 1">Cumple</ng-container>
-                <ng-container *ngIf="row.cumpleFormacionIncorporacion === 2">No cumpleExpProfesionalIncorporacion</ng-container>
-                <ng-container *ngIf="row.cumpleFormacionIncorporacion !== 1 && row.cumpleFormacionIncorporacion !== 2 "> Registre los requisitos</ng-container>
+                <ng-container *ngIf="row.cumpleFormacionIncorporacion === 2">No
+                  cumpleExpProfesionalIncorporacion</ng-container>
+                <ng-container *ngIf="
+                    row.cumpleFormacionIncorporacion !== 1 &&
+                    row.cumpleFormacionIncorporacion !== 2
+                  ">
+                  Registre los requisitos</ng-container>
               </div>
             </siat-column>
           </td>
@@ -293,6 +300,29 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="informe">
+          <th mat-header-cell *matHeaderCellDef class="left-border">INFORME</th>
+          <td mat-cell *matCellDef="let row; index as i" class="left-border">
+            <siat-column>
+              <mat-form-field class="custom-width">
+                <mat-label>Cité Informe</mat-label>
+                <input matInput [(ngModel)]="row.citeInformeIncorporacion" (blur)="sendDataIncorporacion(i)" />
+              </mat-form-field>
+              <mat-form-field class="custom-width-fecha">
+                <mat-label>Fecha Informe</mat-label>
+                <div class="date-picker-container">
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchInformeIncorporacion"
+                    (blur)="sendDataIncorporacion(i)" />
+                  <mat-datepicker-toggle matSuffix [for]="picker"
+                    class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                </div>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </siat-column>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="notaMinuta">
           <th mat-header-cell *matHeaderCellDef class="left-border">
             NOTA/MINUTA
@@ -306,7 +336,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="custom-width">
-                  <mat-label>Código Nota/Minuta</mat-label>
+                  <mat-label>Código Minuta</mat-label>
                   <input matInput [(ngModel)]="row.codigoNotaMinutaIncorporacion" (blur)="sendDataIncorporacion(i)" />
                 </mat-form-field>
 
@@ -335,32 +365,45 @@
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker #pickerRecepNota></mat-datepicker>
                 </mat-form-field>
-                <siat-button-link (click)="onDownloadForms(i, ['Inf.conNota'])">Nota</siat-button-link>
-                <siat-button-link (click)="onDownloadForms(i, ['Inf.conMinuta'])">Minuta</siat-button-link>
+                <siat-button-link (click)="onDownloadForms(i, ['Inf.conNota'])">Informe con Nota</siat-button-link>
+                <siat-button-link (click)="onDownloadForms(i, ['Inf.conMinuta'])">Informe con Minuta</siat-button-link>
               </siat-row>
             </siat-column>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="informe">
-          <th mat-header-cell *matHeaderCellDef class="left-border">INFORME</th>
+        <ng-container matColumnDef="rap">
+          <th mat-header-cell *matHeaderCellDef class="left-border">RAP</th>
           <td mat-cell *matCellDef="let row; index as i" class="left-border">
             <siat-column>
-              <mat-form-field class="custom-width">
-                <mat-label>Cité Informe</mat-label>
-                <input matInput [(ngModel)]="row.citeInformeIncorporacion" (blur)="sendDataIncorporacion(i)" />
-              </mat-form-field>
-              <mat-form-field class="custom-width-fecha">
-                <mat-label>Fecha Informe</mat-label>
-                <div class="date-picker-container">
-                  <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchInformeIncorporacion"
-                    (blur)="sendDataIncorporacion(i)" />
-                  <mat-datepicker-toggle matSuffix [for]="picker"
-                    class="custom-datepicker-toggle"></mat-datepicker-toggle>
-                </div>
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+              <siat-row>
+                <mat-form-field class="custom-width">
+                  <mat-label>Cité RAP</mat-label>
+                  <input matInput [(ngModel)]="row.citeRapIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                </mat-form-field>
+
+                <mat-form-field class="custom-width">
+                  <mat-label>Código RAP</mat-label>
+                  <input matInput [(ngModel)]="row.codigoRapIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                </mat-form-field>
+              </siat-row>
+              <siat-row>
+                <mat-form-field class="custom-width-fecha">
+                  <mat-label>Fecha RAP</mat-label>
+                  <div class="date-picker-container">
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchRapIncorporacion"
+                      (blur)="sendDataIncorporacion(i)" [ngModelOptions]="{ standalone: true }" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"
+                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                  </div>
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <siat-button-link (click)="onDownloadForms(i, ['RAP'])">
+                  RAP
+                </siat-button-link>
+              </siat-row>
             </siat-column>
           </td>
         </ng-container>
@@ -402,40 +445,6 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="rap">
-          <th mat-header-cell *matHeaderCellDef class="left-border">RAP</th>
-          <td mat-cell *matCellDef="let row; index as i" class="left-border">
-            <siat-column>
-              <siat-row>
-                <mat-form-field class="custom-width">
-                  <mat-label>Cité RAP</mat-label>
-                  <input matInput [(ngModel)]="row.citeRapIncorporacion" (blur)="sendDataIncorporacion(i)" />
-                </mat-form-field>
-
-                <mat-form-field class="custom-width">
-                  <mat-label>Código RAP</mat-label>
-                  <input matInput [(ngModel)]="row.codigoRapIncorporacion" (blur)="sendDataIncorporacion(i)" />
-                </mat-form-field></siat-row>
-              <siat-row>
-                <mat-form-field class="custom-width-fecha">
-                  <mat-label>Fecha RAP</mat-label>
-                  <div class="date-picker-container">
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="row.fchRapIncorporacion"
-                      (blur)="sendDataIncorporacion(i)" />
-                    <mat-datepicker-toggle matSuffix [for]="picker"
-                      class="custom-datepicker-toggle"></mat-datepicker-toggle>
-                  </div>
-                  <mat-hint>MM/DD/YYYY</mat-hint>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <siat-button-link (click)="onDownloadForms(i, ['RAP'])">
-                  RAP
-                </siat-button-link>
-              </siat-row>
-            </siat-column>
-          </td>
-        </ng-container>
-
         <ng-container matColumnDef="acciones">
           <th mat-header-cell *matHeaderCellDef class="left-border">
             ACCIONES
@@ -452,18 +461,15 @@
                       'R-0976',
                       'R-SGC-0033'
                     ])
-                  " *ngIf="
-                row.puestoNuevoId && !row.puestoActualId">
+                  " *ngIf="row.puestoNuevoId && !row.puestoActualId">
                   <mat-icon>cloud_upload</mat-icon>
                 </button>
                 <button mat-icon-button color="info" (click)="
                     onDownloadForms(i, [
                       'Act-Entrega',
                       'Act-Posecion',
-                      'R-SGC-0033'
                     ])
-                  " *ngIf="
-                row.puestoNuevoId && row.puestoActualId">
+                  " *ngIf="row.puestoNuevoId && row.puestoActualId">
                   <mat-icon>cloud_upload</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="eliminarFila(i)">

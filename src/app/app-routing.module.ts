@@ -2,9 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdministracionComponent } from './administracion/administracion/administracion.component';
 import { IncorporacionComponent } from './incorporacion/incorporacion/incorporacion.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/incorporacion', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+
+  //administracion
+  { path: 'login', component: LoginComponent},
 
   //administracion
   { path: 'administracion', component: AdministracionComponent},

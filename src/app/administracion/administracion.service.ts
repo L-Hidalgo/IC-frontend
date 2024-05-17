@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdministracionService {
-  //private baseUrl = 'http://localhost:8000/api'; 
-  private baseUrl = 'http://10.1.4.84:8000/api'; 
+  private baseUrl = 'http://localhost:8000/api'; 
+  //private baseUrl = 'http://10.1.4.84:8000/api'; 
 
   constructor(private http: HttpClient) { }
 

@@ -72,12 +72,12 @@
 }
 
 .contenedor-tabla::-webkit-scrollbar {
-  height: 8px; 
+  height: 8px;
 }
 
 .contenedor-tabla::-webkit-scrollbar-thumb {
-  background-color: #e5e7eb; 
-  border-radius: 8px; 
+  background-color: #e5e7eb;
+  border-radius: 8px;
 }
 
 .contenedor-tabla::-webkit-scrollbar-thumb:hover {
@@ -122,7 +122,7 @@
   border-left: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1;
 }
-.example-form-other{
+.example-form-other {
   width: 100px !important;
   margin: 10px !important;
 }
@@ -130,6 +130,14 @@
   width: 190px !important;
   margin: 10px;
 }
-.example-form-incorporacion, .custom-datepicker-toggle {
+.example-form-incorporacion,
+.custom-datepicker-toggle {
   float: right;
+}
+.example-form-inputs-inc {
+  width: 120px;
+}
+.center-content {
+  padding-left: 20px;
+  padding-right: 20px;
 }

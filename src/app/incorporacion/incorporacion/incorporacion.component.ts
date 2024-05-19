@@ -67,13 +67,13 @@ export class IncorporacionComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
+    this.sort.sort({ id: 'idIncorporacion', start: 'desc', disableClear: true });
+  
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
+  }  
   
-
   totalItems: number = 10; // Total de elementos en el servidor
   pageSize = 10; // Número de elementos por página
   pageIndex = 0; // Índice de la página actual
@@ -93,7 +93,6 @@ export class IncorporacionComponent implements AfterViewInit {
     }
   }
 
-
   getListData() {
     this.incorporacionesService
       .listar('', {
@@ -108,17 +107,20 @@ export class IncorporacionComponent implements AfterViewInit {
               puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
               puestoActualItem: el?.puestoActual?.itemPuesto,
             }));
+    
+            // Ordenar por idIncorporacion de forma descendente
+            listWithItem.sort((a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0));
+    
             this.dataSource.data = listWithItem;
             this.dataSource._updateChangeSubscription();
             this.totalItems = resp.total || 0;
             console.log(this.dataSource.data);
-
           }
         },
         (error) => console.log(error)
       );
   }
-
+  
   getDepartamentoConector(departamentoNombre: string | null): string {
     if (!departamentoNombre) {
       return "";

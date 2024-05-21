@@ -1,0 +1,30 @@
+.custom-input {
+  width: 110px;
+}
+.custom-input-demas {
+  width: 150px;
+}
+.input-file-tree {
+  width: 110px;
+}
+.custom-width-fecha {
+  width: 115px !important;
+}
+.custom-width-fecha .date-picker-container {
+  display: flex;
+  align-items: center;
+}
+.custom-width-fecha .mat-form-field-wrapper {
+  flex: 1;
+}
+.custom-datepicker-toggle {
+  margin-top: -25px;
+}
+mat-form-field {
+  margin-right: 20px !important;
+  margin-bottom: 25x !important;
+}
+.container {
+  display: flex;
+  align-items: center;
+}

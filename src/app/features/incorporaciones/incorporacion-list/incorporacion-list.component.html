@@ -35,7 +35,14 @@
                     <span class="badge badge-red">Sin Registro</span>
                   </ng-container>
                 </div>
-                <mat-hint>Responsable?</mat-hint>
+                <mat-hint>
+                  <span *ngIf="row.user?.username">
+                    {{ row.user.username }}
+                  </span>
+                  <span *ngIf="!row.user?.username">
+                    Responsable
+                  </span>
+                </mat-hint>                              
               </td>
             </ng-container>
 
@@ -77,7 +84,8 @@
 
             <ng-container matColumnDef="persona" sticky>
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="white-background">PERSONA</th>
-              <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)" class="white-background">
+              <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)"
+                class="white-background">
                 <div class="example-form-persona">
                   <img src="./assets/images/user.png" alt="Pedro" class="persona-img" /><br />
                   <ng-container *ngIf="!(row.puestoNuevoItem && row.personaId)">

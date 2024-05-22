@@ -1,22 +1,30 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { NGXLogger } from 'ngx-logger';
-import { Title } from '@angular/platform-browser';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
-import { PuestosService } from 'src/app/core/services/incorporaciones/puestos.service';
-import { IncorporacionesService } from 'src/app/core/services/incorporaciones/incorporaciones.service';
-import { RegistroPersonaComponent } from '../registro-persona/registro-persona.component';
-import { RegistroRequisitosComponent } from '../registro-requisitos/registro-requisitos.component';
-import { EstadosIncorporacion, Incorporacion } from 'src/app/shared/models/incorporaciones/incorporacion';
-import { Formacion } from 'src/app/shared/models/incorporaciones/formacion';
-import { Persona} from 'src/app/shared/models/incorporaciones/persona';
-import Swal from 'sweetalert2';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
-
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { NGXLogger } from "ngx-logger";
+import { Title } from "@angular/platform-browser";
+import { NotificationService } from "src/app/core/services/notification.service";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatDialog } from "@angular/material/dialog";
+import { FormBuilder } from "@angular/forms";
+import { PuestosService } from "src/app/core/services/incorporaciones/puestos.service";
+import { IncorporacionesService } from "src/app/core/services/incorporaciones/incorporaciones.service";
+import { RegistroPersonaComponent } from "../registro-persona/registro-persona.component";
+import { RegistroRequisitosComponent } from "../registro-requisitos/registro-requisitos.component";
+import {
+  EstadosIncorporacion,
+  Incorporacion,
+} from "src/app/shared/models/incorporaciones/incorporacion";
+import { Formacion } from "src/app/shared/models/incorporaciones/formacion";
+import { Persona } from "src/app/shared/models/incorporaciones/persona";
+import Swal from "sweetalert2";
+import { AuthenticationService } from "src/app/core/services/auth.service";
 
 export interface ItemForm {
   nombreForm: string;
@@ -26,35 +34,36 @@ export interface ItemForm {
   porEstado: Array<number>;
 }
 @Component({
-  selector: 'app-incorporacion-list',
-  templateUrl: './incorporacion-list.component.html',
-  styleUrls: ['./incorporacion-list.component.css']
+  selector: "app-incorporacion-list",
+  templateUrl: "./incorporacion-list.component.html",
+  styleUrls: ["./incorporacion-list.component.css"],
 })
 export class IncorporacionListComponent implements OnInit, AfterViewInit {
-
   userId!: number;
-  
+
   displayedColumns: string[] = [
-    'idIncorporacion',
-    'estado',
-    'itemNuevo',
-    'persona',
-    'cite',
-    'evaluacion',
-    'cumpleRequisitos',
-    'incorporacion',
-    'informe',
-    'notaMinuta',
-    'rap',
-    'memorandum',
-    'acciones',
+    "idIncorporacion",
+    "estado",
+    "itemNuevo",
+    "persona",
+    "cite",
+    "evaluacion",
+    "cumpleRequisitos",
+    "incorporacion",
+    "informe",
+    "notaMinuta",
+    "rap",
+    "memorandum",
+    "acciones",
   ];
 
-  dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
+  dataSource: MatTableDataSource<
+    Incorporacion & { formsDescargar?: Array<ItemForm> }
+  >;
 
   selectedOption!: string;
   currentUser: any;
-  
+
   //@ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -69,31 +78,34 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
 
     private logger: NGXLogger,
     private titleService: Title,
-    private authenticationService: AuthenticationService,
-  ) { 
+    private authenticationService: AuthenticationService
+  ) {
     this.dataSource = new MatTableDataSource();
     this.getListData();
   }
 
   ngOnInit() {
-    this.titleService.setTitle('angular-material-template - Incorporaciones');
+    this.titleService.setTitle("angular-material-template - Incorporaciones");
     //this.logger.log('Customers loaded');
-    this.notificationService.openSnackBar('Modulo Incorporaciones Cargando...');
+    this.notificationService.openSnackBar("Modulo Incorporaciones Cargando...");
     this.currentUser = this.authenticationService.getCurrentUser();
-
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.sort.sort({ id: 'idIncorporacion', start: 'desc', disableClear: true });
-  
+    this.sort.sort({
+      id: "idIncorporacion",
+      start: "desc",
+      disableClear: true,
+    });
+
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }  
-  
-  totalItems: number = 10; // Total de elementos en el servidor
+  }
+
+  totalItems: number = 1000; // Total de elementos en el servidor
   pageSize = 10; // Número de elementos por página
   pageIndex = 0; // Índice de la página actual
 
@@ -101,7 +113,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
 
     this.dataSource.filterPredicate = (data: any, filter: string) => {
-      const personaFullName = `${data.persona?.nombrePersona || ''} ${data.persona?.primerApellidoPersona || ''} ${data.persona?.segundoApellidoPersona || ''}`.toLowerCase();
+      const personaFullName = `${data.persona?.nombrePersona || ""} ${
+        data.persona?.primerApellidoPersona || ""
+      } ${data.persona?.segundoApellidoPersona || ""}`.toLowerCase();
       return personaFullName.includes(filter);
     };
 
@@ -114,7 +128,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
 
   getListData() {
     this.incorporacionesService
-      .listar('', {
+      .listar("", {
         page: this.pageIndex + 1,
         limit: this.pageSize,
       })
@@ -126,10 +140,12 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
               puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
               puestoActualItem: el?.puestoActual?.itemPuesto,
             }));
-    
+
             // Ordenar por idIncorporacion de forma descendente
-            listWithItem.sort((a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0));
-    
+            listWithItem.sort(
+              (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
+            );
+
             this.dataSource.data = listWithItem;
             this.dataSource._updateChangeSubscription();
             this.totalItems = resp.total || 0;
@@ -139,7 +155,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         (error) => console.log(error)
       );
   }
-  
+
   getDepartamentoConector(departamentoNombre: string | null): string {
     if (!departamentoNombre) {
       return "";
@@ -194,6 +210,11 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       citeRapIncorporacion: null,
       codigoRapIncorporacion: null,
       fchRapIncorporacion: undefined,
+      user: {
+        id: 0,
+        name: null,
+        username: null,
+      },
       puestoNuevo: {
         idPuesto: 0,
         itemPuesto: undefined,
@@ -204,8 +225,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
           gerencia: {
             idGerencia: 0,
             nombreGerencia: undefined,
-          }
-        }
+          },
+        },
       },
       puestoActual: {
         idPuesto: 0,
@@ -217,8 +238,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
           gerencia: {
             idGerencia: 0,
             nombreGerencia: undefined,
-          }
-        }
+          },
+        },
       },
       persona: {
         idPersona: 0,
@@ -226,10 +247,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         primerApellidoPersona: undefined,
         segundoApellidoPersona: undefined,
         generoPersona: undefined,
-      }
+      },
     };
   }
-
 
   agregarFila() {
     const newIncorporacion = this.createNewIncorporacion();
@@ -244,7 +264,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
 
   /* ----------------------------------------- Pagination ----------------------------------------- */
   onPaginate(ev: any) {
-    console.log('Pagination Data:', ev);
+    console.log("Pagination Data:", ev);
   }
 
   /* ----------------------------------- BUSCAR PUESTO POR ITEM ----------------------------------- */
@@ -257,39 +277,39 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         (resp) => {
           if (!resp) {
             Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'El puesto no existe!!!',
+              icon: "error",
+              title: "Error",
+              text: "El puesto no existe!!!",
             });
-            return; 
+            return;
           }
-  
+
           const puesto = resp.objeto;
           if (!puesto) {
             Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'El puesto no existe!!!',
+              icon: "error",
+              title: "Error",
+              text: "El puesto no existe!!!",
             });
-            return; 
+            return;
           }
-          
+
           const estaOcupado = puesto.estadoId === 2 && puesto.personaActualId;
           let message: string;
-  
+
           if (estaOcupado) {
             message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto} está ocupado por ${puesto.personaActual?.nombrePersona} ${puesto.personaActual?.primerApellidoPersona} ${puesto.personaActual?.segundoApellidoPersona}`;
           } else {
             message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto} está acéfalo`;
           }
-  
+
           Swal.fire({
-            icon: 'info',
-            title: 'Información',
+            icon: "info",
+            title: "Información",
             text: `${message}\n¿Desea realizar un cambio de item?`,
             showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No',
+            confirmButtonText: "Sí",
+            cancelButtonText: "No",
           }).then((result) => {
             if (result.isConfirmed) {
               this.mostrarFormularioCambioItem = true;
@@ -297,48 +317,51 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
               this.mostrarFormularioCambioItem = false;
             }
           });
-  
+
           // Agregar el id del puesto al registro para cuando se actualice o se cree
           this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
           const incorporacion = this.dataSource.data[rowIndex];
           if (incorporacion.puestoNuevo) {
             incorporacion.puestoNuevo.itemPuesto = puesto.itemPuesto;
-            incorporacion.puestoNuevo.denominacionPuesto = puesto.denominacionPuesto;
-  
+            incorporacion.puestoNuevo.denominacionPuesto =
+              puesto.denominacionPuesto;
+
             if (incorporacion.puestoNuevo.departamento) {
-              incorporacion.puestoNuevo.departamento.nombreDepartamento = puesto.departamento?.nombreDepartamento;
-  
+              incorporacion.puestoNuevo.departamento.nombreDepartamento =
+                puesto.departamento?.nombreDepartamento;
+
               if (incorporacion.puestoNuevo.departamento.gerencia) {
-                incorporacion.puestoNuevo.departamento.gerencia.nombreGerencia = puesto.departamento?.gerencia?.nombreGerencia;
+                incorporacion.puestoNuevo.departamento.gerencia.nombreGerencia =
+                  puesto.departamento?.gerencia?.nombreGerencia;
               }
             }
           }
         },
         (error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Error buscando puesto: ' + error.message,
+            icon: "error",
+            title: "Error",
+            text: "Error buscando puesto: " + error.message,
           });
         }
       );
     }
   }
-  
+
   buscarItemActual(rowIndex: number): void {
     const actualItemRow = this.dataSource?.data[rowIndex]?.puestoActualItem;
     if (actualItemRow) {
-      this.puestosService.findPuestoByItemActual(actualItemRow).subscribe(
-        (resp) => {
+      this.puestosService
+        .findPuestoByItemActual(actualItemRow)
+        .subscribe((resp) => {
           const puesto = resp.objeto;
           if (puesto) {
-            console.log('puesto a cambiar:', puesto);
+            console.log("puesto a cambiar:", puesto);
             // Agregar el id del puesto al registro para cuando se actualice o se cree
             this.dataSource.data[rowIndex].puestoActualId = puesto.idPuesto;
-            this.dataSource.data[rowIndex].personaId= puesto.personaActualId;
+            this.dataSource.data[rowIndex].personaId = puesto.personaActualId;
 
-            // Adjuntar Datos de persona del Puesto actual
-            if(puesto.personaActual) {
+            if (puesto.personaActual) {
               const personaActual = puesto.personaActual;
               this.dataSource.data[rowIndex].persona = {
                 idPersona: personaActual.idPersona,
@@ -348,26 +371,29 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
                 primerApellidoPersona: personaActual.primerApellidoPersona,
                 segundoApellidoPersona: personaActual.segundoApellidoPersona,
               };
-              this.dataSource.data[rowIndex].personaId = personaActual.idPersona;
+              this.dataSource.data[rowIndex].personaId =
+                personaActual.idPersona;
             }
 
             const incorporacion = this.dataSource.data[rowIndex];
             if (incorporacion.puestoActual) {
               incorporacion.puestoActual.itemPuesto = puesto.itemPuesto;
-              incorporacion.puestoActual.denominacionPuesto = puesto.denominacionPuesto;
+              incorporacion.puestoActual.denominacionPuesto =
+                puesto.denominacionPuesto;
               if (incorporacion.puestoActual.departamento) {
-                incorporacion.puestoActual.departamento.nombreDepartamento = puesto.departamento?.nombreDepartamento;
+                incorporacion.puestoActual.departamento.nombreDepartamento =
+                  puesto.departamento?.nombreDepartamento;
 
                 if (incorporacion.puestoActual.departamento.gerencia) {
-                  incorporacion.puestoActual.departamento.gerencia.nombreGerencia = puesto.departamento?.gerencia?.nombreGerencia;
+                  incorporacion.puestoActual.departamento.gerencia.nombreGerencia =
+                    puesto.departamento?.gerencia?.nombreGerencia;
                 }
               }
             }
             // Guardar datos
             this.sendDataIncorporacion(rowIndex);
           }
-        }
-      );
+        });
     }
   }
 
@@ -376,8 +402,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     const personaData = this.dataSource?.data[rowIndex];
 
     const dialogRef = this.dialog.open(RegistroPersonaComponent, {
-      width: '550px',
-      height: 'auto',
+      width: "550px",
+      height: "auto",
       data: personaData,
     });
 
@@ -398,14 +424,16 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         if (incorporacion.persona) {
           incorporacion.persona.generoPersona = result.generoPersona;
           incorporacion.persona.nombrePersona = result.nombrePersona;
-          incorporacion.persona.primerApellidoPersona = result.primerApellidoPersona;
-          incorporacion.persona.segundoApellidoPersona = result.segundoApellidoPersona;
+          incorporacion.persona.primerApellidoPersona =
+            result.primerApellidoPersona;
+          incorporacion.persona.segundoApellidoPersona =
+            result.segundoApellidoPersona;
         }
 
         await this.dataSource._updateChangeSubscription();
         // Guardar incorporacion
         this.sendDataIncorporacion(rowIndex);
-        console.log('El diálogo se cerró', result);
+        console.log("El diálogo se cerró", result);
         //this.actualizarVistaOPage();
       });
   }
@@ -416,71 +444,91 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
 
   sendDataIncorporacion(rowIndex: number) {
     const data = this.dataSource.data[rowIndex];
-  
+
     setTimeout(() => {
       this.incorporacionesService
-      .createUpdateIncorporacion({
-        userId: this.currentUser.id,
-        idIncorporacion: data.idIncorporacion,
-        puestoNuevoId: data.puestoNuevoId,
-        puestoActualId: data.puestoActualId,
-        personaId: data.personaId,
-        conRespaldoFormacion: data.conRespaldoFormacion,
-        observacionIncorporacion: data.observacionIncorporacion,
-        experienciaIncorporacion: data.experienciaIncorporacion,
+        .createUpdateIncorporacion({
+          userId: this.currentUser.id,
+          idIncorporacion: data.idIncorporacion,
+          puestoNuevoId: data.puestoNuevoId,
+          puestoActualId: data.puestoActualId,
+          personaId: data.personaId,
+          conRespaldoFormacion: data.conRespaldoFormacion,
+          observacionIncorporacion: data.observacionIncorporacion,
+          experienciaIncorporacion: data.experienciaIncorporacion,
 
-        fchIncorporacion: data.fchIncorporacion,
-        hpIncorporacion: data.hpIncorporacion,
-        citeNotaMinutaIncorporacion: data.citeNotaMinutaIncorporacion,
-        codigoNotaMinutaIncorporacion: data.codigoNotaMinutaIncorporacion,
-        fchNotaMinutaIncorporacion: data.fchNotaMinutaIncorporacion,
-        fchRecepcionNotaIncorporacion: data.fchRecepcionNotaIncorporacion,
+          fchIncorporacion: data.fchIncorporacion,
+          hpIncorporacion: data.hpIncorporacion,
+          citeNotaMinutaIncorporacion: data.citeNotaMinutaIncorporacion,
+          codigoNotaMinutaIncorporacion: data.codigoNotaMinutaIncorporacion,
+          fchNotaMinutaIncorporacion: data.fchNotaMinutaIncorporacion,
+          fchRecepcionNotaIncorporacion: data.fchRecepcionNotaIncorporacion,
 
-        citeInformeIncorporacion: data.citeInformeIncorporacion,
-        fchInformeIncorporacion: data.fchInformeIncorporacion,
+          citeInformeIncorporacion: data.citeInformeIncorporacion,
+          fchInformeIncorporacion: data.fchInformeIncorporacion,
 
-        citeMemorandumIncorporacion: data.citeMemorandumIncorporacion,
-        codigoMemorandumIncorporacion: data.codigoMemorandumIncorporacion,
-        fchMemorandumIncorporacion: data.fchMemorandumIncorporacion,
+          citeMemorandumIncorporacion: data.citeMemorandumIncorporacion,
+          codigoMemorandumIncorporacion: data.codigoMemorandumIncorporacion,
+          fchMemorandumIncorporacion: data.fchMemorandumIncorporacion,
 
-        citeRapIncorporacion: data.citeRapIncorporacion,
-        codigoRapIncorporacion: data.codigoRapIncorporacion,
-        fchRapIncorporacion: data.fchRapIncorporacion,
+          citeRapIncorporacion: data.citeRapIncorporacion,
+          codigoRapIncorporacion: data.codigoRapIncorporacion,
+          fchRapIncorporacion: data.fchRapIncorporacion,
+        })
+        .subscribe(
+          (resp) => {
+            if (!!resp.objeto) {
+              this.dataSource.data[rowIndex].idIncorporacion =
+                resp.objeto.idIncorporacion;
+              this.dataSource.data[rowIndex].estadoIncorporacion =
+                resp.objeto.estadoIncorporacion;
+              this.dataSource.data[rowIndex].observacionIncorporacion =
+                resp.objeto.observacionIncorporacion;
+              this.dataSource.data[rowIndex].puestoNuevoId =
+                resp.objeto.puestoNuevoId;
+              this.dataSource.data[rowIndex].puestoActualId =
+                resp.objeto.puestoActualId;
+              this.dataSource.data[rowIndex].codigoNotaMinutaIncorporacion =
+                resp.objeto.codigoNotaMinutaIncorporacion;
+              this.dataSource.data[rowIndex].codigoMemorandumIncorporacion =
+                resp.objeto.codigoMemorandumIncorporacion;
+              this.dataSource.data[rowIndex].codigoRapIncorporacion =
+                resp.objeto.codigoRapIncorporacion;
 
-      })
-      .subscribe(
-        (resp) => {
-          if (!!resp.objeto) {
-            this.dataSource.data[rowIndex].idIncorporacion = resp.objeto.idIncorporacion;
-            this.dataSource.data[rowIndex].estadoIncorporacion = resp.objeto.estadoIncorporacion;
-            this.dataSource.data[rowIndex].observacionIncorporacion = resp.objeto.observacionIncorporacion;
-            this.dataSource.data[rowIndex].puestoNuevoId = resp.objeto.puestoNuevoId;
-            this.dataSource.data[rowIndex].puestoActualId = resp.objeto.puestoActualId;
+              
 
-            this.dataSource.data[rowIndex].codigoMemorandumIncorporacion = resp.objeto.codigoMemorandumIncorporacion;
-            this.dataSource.data[rowIndex].codigoRapIncorporacion = resp.objeto.codigoRapIncorporacion;
-            this.notificationService.showSuccess('Datos registrados exitosamente!!');
+                if (!!resp.objeto && !!resp.objeto.user && !!resp.objeto.user.username) {
+                  this.dataSource.data[rowIndex].user!.username = resp.objeto.user.username;
+                }                
+                
+   
+              this.notificationService.showSuccess(
+                "Datos registrados exitosamente!!"
+              );
+            }
+          },
+          (error) => {
+            console.log("Error al actualizar la incorporación:", error);
+            this.notificationService.showError(
+              "Error al registrar los datos. Por favor, inténtalo de nuevo."
+            );
           }
-        },
-        (error) => {
-          console.log('Error al actualizar la incorporación:', error);
-          this.notificationService.showError('Error al registrar los datos. Por favor, inténtalo de nuevo.');
-        }
-      );
-    },300);
+        );
+    }, 300);
   }
 
   /* ------------------------------------- REGISTRAR REQUISIRO ------------------------------------ */
   abrirModalRegistroRequisitos(rowIndex: number): void {
     const data = this.dataSource.data[rowIndex];
     const dialogRef = this.dialog.open(RegistroRequisitosComponent, {
-      width: '800px',
+      width: "800px",
       data: {
         idIncorporacion: data.idIncorporacion,
         puestoNuevoId: data.puestoNuevoId,
         personaId: data.personaId,
         // si cumple los rewquisitos,
-        cumpleExpProfesionalIncorporacion: data.cumpleExpProfesionalIncorporacion,
+        cumpleExpProfesionalIncorporacion:
+          data.cumpleExpProfesionalIncorporacion,
         cumpleExpEspecificaIncorporacion: data.cumpleExpEspecificaIncorporacion,
         cumpleExpMandoIncorporacion: data.cumpleExpMandoIncorporacion,
         cumpleFormacionIncorporacion: data.cumpleFormacionIncorporacion,
@@ -493,16 +541,20 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         (
           result: Pick<
             Incorporacion,
-            | 'cumpleExpProfesionalIncorporacion'
-            | 'cumpleExpEspecificaIncorporacion'
-            | 'cumpleExpMandoIncorporacion'
-            | 'cumpleFormacionIncorporacion'
+            | "cumpleExpProfesionalIncorporacion"
+            | "cumpleExpEspecificaIncorporacion"
+            | "cumpleExpMandoIncorporacion"
+            | "cumpleFormacionIncorporacion"
           >
         ) => {
-          this.dataSource.data[rowIndex].cumpleExpProfesionalIncorporacion = result.cumpleExpProfesionalIncorporacion;
-          this.dataSource.data[rowIndex].cumpleExpEspecificaIncorporacion = result.cumpleExpEspecificaIncorporacion;
-          this.dataSource.data[rowIndex].cumpleExpMandoIncorporacion = result.cumpleExpMandoIncorporacion;
-          this.dataSource.data[rowIndex].cumpleFormacionIncorporacion = result.cumpleFormacionIncorporacion;
+          this.dataSource.data[rowIndex].cumpleExpProfesionalIncorporacion =
+            result.cumpleExpProfesionalIncorporacion;
+          this.dataSource.data[rowIndex].cumpleExpEspecificaIncorporacion =
+            result.cumpleExpEspecificaIncorporacion;
+          this.dataSource.data[rowIndex].cumpleExpMandoIncorporacion =
+            result.cumpleExpMandoIncorporacion;
+          this.dataSource.data[rowIndex].cumpleFormacionIncorporacion =
+            result.cumpleFormacionIncorporacion;
           this.dataSource._updateChangeSubscription();
         }
       );
@@ -512,8 +564,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
   /* ---------------------------------------------------------------------------------------------- */
   listForms: Array<ItemForm> = [
     {
-      nombreForm: 'R-0078',
-      callback: (incId: number) => this.incorporacionesService.genUrlFormularioEvalR0078(incId),
+      nombreForm: "R-0078",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlFormularioEvalR0078(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -522,8 +575,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'R-1401',
-      callback: (incId: number) => this.incorporacionesService.genUrlFormularioEvalR1401(incId),
+      nombreForm: "R-1401",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlFormularioEvalR1401(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -532,27 +586,17 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'R-0980',
-      callback: (incId: number) => this.incorporacionesService.genUrlR0980(incId),
+      nombreForm: "R-0980",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR0980(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'Inf.conNota',
-      callback: (incId: number) => this.incorporacionesService.genUrlInfNota(incId),
-      cambioItem: false,
-      incorporacion: true,
-      porEstado: [
-        // EstadosIncorporacion.SIN_REGISTRO,
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
-    },
-    {
-      nombreForm: 'Inf.conMinuta',
-      callback: (incId: number) => this.incorporacionesService.genUrlInfMinuta(incId),
+      nombreForm: "Inf.conNota",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlInfNota(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -561,8 +605,20 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'Memorandum',
-      callback: (incId: number) => this.incorporacionesService.genUrlMemo(incId),
+      nombreForm: "Inf.conMinuta",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlInfMinuta(incId),
+      cambioItem: false,
+      incorporacion: true,
+      porEstado: [
+        // EstadosIncorporacion.SIN_REGISTRO,
+        EstadosIncorporacion.CON_REGISTRO,
+      ],
+    },
+    {
+      nombreForm: "Memorandum",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlMemo(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -571,7 +627,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'RAP',
+      nombreForm: "RAP",
       callback: (incId: number) => this.incorporacionesService.genUrlRAP(incId),
       cambioItem: false,
       incorporacion: true,
@@ -581,8 +637,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'Act-Entrega',
-      callback: (incId: number) => this.incorporacionesService.genUrlActEntrega(incId),
+      nombreForm: "Act-Entrega",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlActEntrega(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -591,8 +648,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'Act-Posecion',
-      callback: (incId: number) => this.incorporacionesService.genUrlActPosecion(incId),
+      nombreForm: "Act-Posecion",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlActPosecion(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -601,8 +659,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'R-0716',
-      callback: (incId: number) => this.incorporacionesService.genUrlR0716(incId),
+      nombreForm: "R-0716",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR0716(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -611,8 +670,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'R-0921',
-      callback: (incId: number) => this.incorporacionesService.genUrlR0921(incId),
+      nombreForm: "R-0921",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR0921(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -621,88 +681,78 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      nombreForm: 'R-0976',
-      callback: (incId: number) => this.incorporacionesService.genUrlR0976(incId),
+      nombreForm: "R-0976",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR0976(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-SGC-0033',
-      callback: (incId: number) => this.incorporacionesService.genUrlRSGC0033(incId),
+      nombreForm: "R-SGC-0033",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlRSGC0033(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-0980',
-      callback: (incId: number) => this.incorporacionesService.genUrlR0980(incId),
+      nombreForm: "R-0980",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR0980(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-1023',
-      callback: (incId: number) => this.incorporacionesService.genUrlR1023(incId),
+      nombreForm: "R-1023",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR1023(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-1129',
-      callback: (incId: number) => this.incorporacionesService.genUrlR1129(incId),
+      nombreForm: "R-1129",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR1129(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-1401',
-      callback: (incId: number) => this.incorporacionesService.genUrlR1401(incId),
+      nombreForm: "R-1401",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR1401(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     //Form cambio item
     {
-      nombreForm: 'R-1023',
-      callback: (incId: number) => this.incorporacionesService.genUrlR1023(incId),
+      nombreForm: "R-1023",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR1023(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-1129',
-      callback: (incId: number) => this.incorporacionesService.genUrlR1129(incId),
+      nombreForm: "R-1129",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR1129(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
     {
-      nombreForm: 'R-1401',
-      callback: (incId: number) => this.incorporacionesService.genUrlR1401(incId),
+      nombreForm: "R-1401",
+      callback: (incId: number) =>
+        this.incorporacionesService.genUrlR1401(incId),
       cambioItem: false,
       incorporacion: true,
-      porEstado: [
-        EstadosIncorporacion.CON_REGISTRO,
-      ],
+      porEstado: [EstadosIncorporacion.CON_REGISTRO],
     },
-
   ];
 
   filterFormularios(incorporacion: Incorporacion) {
@@ -718,12 +768,17 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
 
   onDownloadForms(rowIndex: number, formNombres: string[]) {
     const data = this.dataSource.data[rowIndex];
-    if (typeof data.idIncorporacion === 'number' || data.idIncorporacion === undefined) {
-      formNombres.forEach(formNombre => {
-        const form = this.listForms.find(form => form.nombreForm === formNombre);
+    if (
+      typeof data.idIncorporacion === "number" ||
+      data.idIncorporacion === undefined
+    ) {
+      formNombres.forEach((formNombre) => {
+        const form = this.listForms.find(
+          (form) => form.nombreForm === formNombre
+        );
         if (form) {
           const url = form.callback(data.idIncorporacion ?? -1);
-          window.open(url, '_blank');
+          window.open(url, "_blank");
         }
       });
     }

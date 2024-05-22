@@ -1,7 +1,9 @@
 import { Persona } from "./persona";
 import { Puesto } from "./puesto";
+import { User } from "./user";
 
 export interface Incorporacion {
+  userId?: number;
   idIncorporacion?: number;
   puestoNuevoId?: number | null;
   puestoNuevoItem?: number;
@@ -40,7 +42,8 @@ export interface Incorporacion {
   persona?: Pick<Persona, 'idPersona' | 'primerApellidoPersona' | 'segundoApellidoPersona' | 'nombrePersona' | 'ciPersona' | 'generoPersona'>;
   puestoActual?: Pick<Puesto, 'idPuesto' | 'itemPuesto' | 'denominacionPuesto' | "departamento">;
   puestoNuevo?: Pick<Puesto, "idPuesto" | "itemPuesto" | "denominacionPuesto" | "departamento">;
-  userId: number;
+  user?: Pick<User, 'id' | 'name' | 'username'>;
+  
 }
 
 export enum EstadosIncorporacion {

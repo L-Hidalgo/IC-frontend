@@ -22,11 +22,17 @@ export class IncorporacionesService {
     return this.http.post<RespuestaLista<Incorporacion>>(`${this.baseUrl}/${this.path}/list`, {query, ...pagination});
   }
 
-  getByPersona(name: string) {
-    return this.http.post<RespuestaObjeto<Incorporacion>>(`${this.baseUrl}/${this.path}/by-persona`, {
-      nombrePersona: name,
-    });
+  buscarNombrePersona(nombreCompletoPersona: string) {
+    return this.http.post<RespuestaLista<Incorporacion>>(
+      `${this.baseUrl}/${this.path}/byNombreCompletoPersonaIncorporacion`,{ nombreCompletoPersona }
+    );
   }
+
+  /*buscarNombreUser(nombreCompletoUser: string) {
+    return this.http.post<RespuestaLista<Incorporacion>>(
+      `${this.baseUrl}/${this.path}/byNombreCompletoUserIncorporacion`,{ nombreCompletoUser }
+    );
+  }*/
 
   generarFormularioEvalR0078(incorporacionId: number) {
     return this.http.post<RespuestaObjeto<Incorporacion>>(`${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR0078`,{});

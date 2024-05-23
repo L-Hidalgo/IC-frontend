@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from "@angular/core";
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NGXLogger } from "ngx-logger";
@@ -23,6 +17,7 @@ import {
 } from "src/app/shared/models/incorporaciones/incorporacion";
 import { Formacion } from "src/app/shared/models/incorporaciones/formacion";
 import { Persona } from "src/app/shared/models/incorporaciones/persona";
+import { Institucion } from "src/app/shared/models/incorporaciones/institucion";
 import Swal from "sweetalert2";
 import { AuthenticationService } from "src/app/core/services/auth.service";
 
@@ -105,33 +100,49 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  totalItems: number = 1000; // Total de elementos en el servidor
-  pageSize = 10; // Número de elementos por página
-  pageIndex = 0; // Índice de la página actual
+  //filtros
+  BuscarNombrePersona(event: any) {
+    const nombreCompletoPersona = event.target.value;
+    if (nombreCompletoPersona.trim() !== "") {
+      this.incorporacionesService.buscarNombrePersona(nombreCompletoPersona).subscribe(
+        (resp) => {
+          if (!!resp.objetosList) {
+            const listWithItem = resp.objetosList.map((el) => ({
+              ...el,
+              puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
+              puestoActualItem: el?.puestoActual?.itemPuesto,
+            }));
 
-  BuscarPorNombreIncorporacion(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+            listWithItem.sort(
+              (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
+            );
 
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      const personaFullName = `${data.persona?.nombrePersona || ""} ${
-        data.persona?.primerApellidoPersona || ""
-      } ${data.persona?.segundoApellidoPersona || ""}`.toLowerCase();
-      return personaFullName.includes(filter);
-    };
-
-    this.dataSource.filter = filterValue.trim();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+            this.dataSource.data = listWithItem;
+            this.dataSource._updateChangeSubscription();
+            this.totalItems = resp.total || 0;
+            console.log(this.dataSource.data);
+          } else {
+            this.dataSource.data = [];
+            this.dataSource._updateChangeSubscription();
+            this.totalItems = 0;
+          }
+        },
+        (error) => console.log(error)
+      );
+    } else {
+      this.getListData();
     }
   }
 
+  //listUsers: Array<Usuario> = [];
+  
+
+  totalItems: number = 1000; // Total de elementos en el servidor
+  pageSize = 10; // Número de elementos por página
+  pageIndex = 0; // Índice de la página actual
   getListData() {
     this.incorporacionesService
-      .listar("", {
-        page: this.pageIndex + 1,
-        limit: this.pageSize,
-      })
+      .listar("", { page: this.pageIndex + 1, limit: this.pageSize })
       .subscribe(
         (resp) => {
           if (!!resp.objetosList) {
@@ -141,7 +152,6 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
               puestoActualItem: el?.puestoActual?.itemPuesto,
             }));
 
-            // Ordenar por idIncorporacion de forma descendente
             listWithItem.sort(
               (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
             );
@@ -495,13 +505,15 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
               this.dataSource.data[rowIndex].codigoRapIncorporacion =
                 resp.objeto.codigoRapIncorporacion;
 
-              
+              if (
+                !!resp.objeto &&
+                !!resp.objeto.user &&
+                !!resp.objeto.user.username
+              ) {
+                this.dataSource.data[rowIndex].user!.username =
+                  resp.objeto.user.username;
+              }
 
-                if (!!resp.objeto && !!resp.objeto.user && !!resp.objeto.user.username) {
-                  this.dataSource.data[rowIndex].user!.username = resp.objeto.user.username;
-                }                
-                
-   
               this.notificationService.showSuccess(
                 "Datos registrados exitosamente!!"
               );

@@ -3,11 +3,10 @@
     <mat-card>
       <mat-card-content>
         <h2>Incorporación</h2>
-
         <div class="container-filtro">
           <mat-form-field class="medium">
-            <mat-label>Buscar por nombre</mat-label>
-            <input matInput (keyup)="BuscarPorNombreIncorporacion($event)" placeholder="Ej. Pedro" #input />
+            <mat-label>Buscar por nombre de la persona incorporada</mat-label>
+            <input matInput (keyup)="BuscarNombrePersona($event)" placeholder="Ej. Pedro" #input />
           </mat-form-field>
 
           <button mat-raised-button color="primary" (click)="agregarFila()"> Nuevo </button>

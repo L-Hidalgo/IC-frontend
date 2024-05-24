@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ElementRef} from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NGXLogger } from "ngx-logger";
@@ -20,6 +26,9 @@ import { Persona } from "src/app/shared/models/incorporaciones/persona";
 import { Institucion } from "src/app/shared/models/incorporaciones/institucion";
 import Swal from "sweetalert2";
 import { AuthenticationService } from "src/app/core/services/auth.service";
+import { UserService } from "src/app/core/services/incorporaciones/user.service";
+import { User } from "src/app/shared/models/incorporaciones/user";
+import { RespuestaLista } from "src/app/shared/models/respuesta";
 
 export interface ItemForm {
   nombreForm: string;
@@ -63,6 +72,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  listUsers: Array<User> = [];
+
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
@@ -73,10 +84,12 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
 
     private logger: NGXLogger,
     private titleService: Title,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private userService: UserService
   ) {
     this.dataSource = new MatTableDataSource();
     this.getListData();
+    this.loadUser();
   }
 
   ngOnInit() {
@@ -84,6 +97,12 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     //this.logger.log('Customers loaded');
     this.notificationService.openSnackBar("Modulo Incorporaciones Cargando...");
     this.currentUser = this.authenticationService.getCurrentUser();
+  }
+
+  loadUser() {
+    this.userService.getAll().subscribe((resp: RespuestaLista<User>) => {
+      this.listUsers = resp.objetosList || [];
+    });
   }
 
   ngAfterViewInit() {
@@ -101,42 +120,85 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
   }
 
   //filtros
-  BuscarNombrePersona(event: any) {
+  /*filtrosIncorporaciones(event: any) {
     const nombreCompletoPersona = event.target.value;
     if (nombreCompletoPersona.trim() !== "") {
-      this.incorporacionesService.buscarNombrePersona(nombreCompletoPersona).subscribe(
-        (resp) => {
-          if (!!resp.objetosList) {
-            const listWithItem = resp.objetosList.map((el) => ({
-              ...el,
-              puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
-              puestoActualItem: el?.puestoActual?.itemPuesto,
-            }));
+      this.incorporacionesService
+        .buscarNombrePersona(nombreCompletoPersona)
+        .subscribe(
+          (resp) => {
+            if (!!resp.objetosList) {
+              const listWithItem = resp.objetosList.map((el) => ({
+                ...el,
+                puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
+                puestoActualItem: el?.puestoActual?.itemPuesto,
+              }));
 
-            listWithItem.sort(
-              (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
-            );
+              listWithItem.sort(
+                (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
+              );
 
-            this.dataSource.data = listWithItem;
-            this.dataSource._updateChangeSubscription();
-            this.totalItems = resp.total || 0;
-            console.log(this.dataSource.data);
-          } else {
-            this.dataSource.data = [];
-            this.dataSource._updateChangeSubscription();
-            this.totalItems = 0;
-          }
-        },
-        (error) => console.log(error)
-      );
+              this.dataSource.data = listWithItem;
+              this.dataSource._updateChangeSubscription();
+              this.totalItems = resp.total || 0;
+              console.log(this.dataSource.data);
+            } else {
+              this.dataSource.data = [];
+              this.dataSource._updateChangeSubscription();
+              this.totalItems = 0;
+            }
+          },
+          (error) => console.log(error)
+        );
     } else {
       this.getListData();
     }
-  }
+  }*/
+  /*filtrosIncorporacion(usuarioIncorporacion: any, personaIncorporacion: any, tipoIncorporacion: any, fechaIncorporacion: any) {
+    // Verificar si al menos un filtro está presente
+    if (usuarioIncorporacion || personaIncorporacion || tipoIncorporacion || fechaIncorporacion) {
+      const filtros = {
+        usuario: usuarioIncorporacion,
+        persona: personaIncorporacion,
+        tipo: tipoIncorporacion,
+        fecha: fechaIncorporacion
+      };
+  
+      // Realizar la llamada al servicio para filtrar
+      this.incorporacionesService
+        .filtrosIncorporacion(filtros)
+        .subscribe(
+          (resp) => {
+            if (!!resp.objetosList) {
+              const listWithItem = resp.objetosList.map((el) => ({
+                ...el,
+                puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
+                puestoActualItem: el?.puestoActual?.itemPuesto,
+              }));
+  
+              listWithItem.sort(
+                (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
+              );
+  
+              this.dataSource.data = listWithItem;
+              this.dataSource._updateChangeSubscription();
+              this.totalItems = resp.total || 0;
+              console.log(this.dataSource.data);
+            } else {
+              this.dataSource.data = [];
+              this.dataSource._updateChangeSubscription();
+              this.totalItems = 0;
+            }
+          },
+          (error) => console.log(error)
+        );
+    } else {
+      // Si no se proporciona ningún filtro, recuperar todos los datos
+      this.getListData();
+    }
+  }*/
 
   //listUsers: Array<Usuario> = [];
-  
-
   totalItems: number = 1000; // Total de elementos en el servidor
   pageSize = 10; // Número de elementos por página
   pageIndex = 0; // Índice de la página actual

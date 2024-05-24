@@ -39,7 +39,6 @@ export class RegistroPersonaComponent implements OnInit {
     private incorporacionesService: IncorporacionesService,
     public dialogRef: MatDialogRef<RegistroPersonaComponent>
   ) {
-    // inicializar forms
     this.personaForm = this.formBuilder.group({
       idPersona: [undefined],
       ciPersona: ["", Validators.required],
@@ -64,13 +63,12 @@ export class RegistroPersonaComponent implements OnInit {
       institucionId: [undefined],
       institucion: [""],
       gestionFormacion: [undefined],
-      //conRespaldoFormacion: [undefined],
     });
 
-    // se obtiene todos los datos de la persona
     if (dataIncorporacion?.persona?.idPersona) {
       this.getDataPersonaById(dataIncorporacion?.persona?.idPersona);
     }
+    
     this.loadAreasFormacion();
     this.loadGradosAcademico();
     this.loadInstituciones();
@@ -108,7 +106,6 @@ export class RegistroPersonaComponent implements OnInit {
   /* ------------------------------------------ REGISTRO ------------------------------------------ */
   async onSubmit(): Promise<void> {
     if (this.personaForm.valid) {
-      // guardar datos de persona
       const resp = await firstValueFrom(
         this.personasService.createUpdatePersona({
           idPersona: this.personaForm.get("idPersona")?.value,
@@ -134,10 +131,8 @@ export class RegistroPersonaComponent implements OnInit {
       } else {
         console.log("Hubo un error al registrar a a persona!!");
       }
-      // guardar datos de formacion
       if (this.personaForm.get("idPersona")?.value)
         await this.saveDataFormacion();
-      // guardar datos de incorporacon
       if (
         (this.personaForm.get("idPersona")?.value &&
           this.dataIncorporacion.puestoNuevoId) ||
@@ -150,7 +145,6 @@ export class RegistroPersonaComponent implements OnInit {
   }
 
   async saveDataFormacion(): Promise<void> {
-    // buscar id de areaFormacion
     let areaFormacionId: number | undefined = undefined;
     let gradoAcademicoId: number | undefined = undefined;
     let institucionId: number | undefined = undefined;
@@ -240,7 +234,6 @@ export class RegistroPersonaComponent implements OnInit {
       })
     ).catch((err) => console.log(err));
     if (respIncorporacion?.objeto) {
-      // madar mensaje exitoso
       await this.personaForm.patchValue({
         idIncorporacion: respIncorporacion.objeto.idIncorporacion,
         idPersona: respIncorporacion.objeto.personaId,

@@ -1,14 +1,14 @@
 .custom-input {
-  width: 110px;
+  width: 140px;
 }
 .custom-input-demas {
   width: 150px;
 }
 .input-file-tree {
-  width: 110px;
+  width: 140px;
 }
 .custom-width-fecha {
-  width: 115px !important;
+  width: 140px !important;
 }
 .custom-width-fecha .date-picker-container {
   display: flex;
@@ -27,4 +27,11 @@ mat-form-field {
 .container {
   display: flex;
   align-items: center;
+}
+.container-formacion{
+  display: flex;
+  align-items: center; 
+}
+.custom-input-formacion{
+  width: 250px;
 }

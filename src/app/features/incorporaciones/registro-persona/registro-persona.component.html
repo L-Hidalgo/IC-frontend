@@ -1,4 +1,5 @@
 <div mat-dialog-content>
+  <h2>Datos de la Persona</h2>
   <form [formGroup]="personaForm" (ngSubmit)="onSubmit()">
     <div class="container">
       <!-- CI -->
@@ -25,9 +26,7 @@
       </mat-form-field>
     </div>
 
-
     <div class="container">
-
       <!-- Nombre -->
       <mat-form-field>
         <mat-label>Nombres</mat-label>
@@ -48,9 +47,7 @@
       </mat-form-field>
     </div>
 
-
     <div class="container">
-
       <!-- Fecha de nacimiento-->
       <mat-form-field class="custom-width-fecha">
         <mat-label>Fch. Nacimiento</mat-label>
@@ -82,11 +79,9 @@
       </mat-form-field>
     </div>
 
-
-    <div class="container">
-
+    <div class="container-formacion">
       <!-- Área de Profesión -->
-      <mat-form-field>
+      <mat-form-field class="custom-input-formacion">
         <mat-label>Área de Formación</mat-label>
         <input matInput formControlName="areaFormacion" [matAutocomplete]="autoAreaFormacion">
         <mat-autocomplete #autoAreaFormacion="matAutocomplete">
@@ -94,13 +89,12 @@
             {{af.nombreAreaFormacion}}
           </mat-option>
         </mat-autocomplete>
-        <!-- <app-select-auto-comp-area ></app-select-auto-comp-area> -->
         <mat-error *ngIf="personaForm.get('areaFormacion')?.hasError('required')">El área de profesión es
           requerida</mat-error>
       </mat-form-field>
 
       <!-- Institución de Estudios -->
-      <mat-form-field>
+      <mat-form-field class="custom-input-formacion">
         <mat-label>Institución de Estudios</mat-label>
         <input matInput formControlName="institucion" [matAutocomplete]="autoInstitucion">
         <mat-autocomplete #autoInstitucion="matAutocomplete">
@@ -108,7 +102,6 @@
             {{i.nombreInstitucion}}
           </mat-option>
         </mat-autocomplete>
-        <!-- <app-select-auto-comp-area ></app-select-auto-comp-area> -->
         <mat-error *ngIf="personaForm.get('institucion')?.hasError('required')">El instituto de estudios es
           requerido</mat-error>
       </mat-form-field>

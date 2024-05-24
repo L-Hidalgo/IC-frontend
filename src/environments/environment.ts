@@ -10,4 +10,5 @@ export const environment = {
   logLevel: NgxLoggerLevel.TRACE,
   serverLogLevel: NgxLoggerLevel.OFF,
   apiIcBack: 'http://localhost:8000',
+  //apiIcBack: 'http://10.1.4.84:8000',
 };

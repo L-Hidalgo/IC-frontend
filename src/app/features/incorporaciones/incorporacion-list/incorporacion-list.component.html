@@ -1,14 +1,56 @@
 <div class="container" fxLayout="row" fxLayoutAlign="center none">
   <div fxFlex="95%">
+    <h2>Incorporación</h2>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <b>Filtros de Incorporación</b>
+          </mat-panel-title>
+          <mat-panel-description>
+            En esta seccion usted puede filtrar la tabla de incorporaciones segun sus requerimientos
+            <mat-icon>map</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!--<mat-form-field class="custom-width-filters"> 
+          <mat-label>Usuario</mat-label> 
+          <mat-select #usuarioSelect (selectionChange)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)"> 
+            <mat-option *ngFor="let us of listUsers" [value]="us.name"> {{us.name}} </mat-option> 
+          </mat-select> 
+        </mat-form-field>
+
+        <mat-form-field class="custom-width-filters">
+          <mat-label>Persona</mat-label>
+          <input matInput (keyup)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)" placeholder="Ej. Pedro" #input />
+        </mat-form-field>
+
+        <mat-form-field class="custom-width-filters">
+          <mat-label>Tipo de Incorporación</mat-label>
+          <mat-select (selectionChange)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)">
+            <mat-option value="1">Incorporación</mat-option>
+            <mat-option value="2">Cambio de ítem</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="custom-width-fecha-filters">
+          <mat-label>Introduce un rango de fechas</mat-label>
+          <div class="date-picker-container">
+            <mat-date-range-input [rangePicker]="picker" (dateChange)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)">
+              <input matStartDate placeholder="Fecha inicio">
+              <input matEndDate placeholder="Fecha fin">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker" class="custom-datepicker-toggle"></mat-datepicker-toggle>
+          </div>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>    -->    
+      </mat-expansion-panel>
+    </mat-accordion>
+
     <mat-card>
       <mat-card-content>
-        <h2>Incorporación</h2>
         <div class="container-filtro">
-          <mat-form-field class="medium">
-            <mat-label>Buscar por nombre de la persona incorporada</mat-label>
-            <input matInput (keyup)="BuscarNombrePersona($event)" placeholder="Ej. Pedro" #input />
-          </mat-form-field>
-
           <button mat-raised-button color="primary" (click)="agregarFila()"> Nuevo </button>
         </div>
 
@@ -41,7 +83,7 @@
                   <span *ngIf="!row.user?.username">
                     Responsable
                   </span>
-                </mat-hint>                              
+                </mat-hint>
               </td>
             </ng-container>
 
@@ -226,14 +268,13 @@
                       <div class=container-column>
 
                         <div class="container">
-
-                          <button mat-button color="primary" class="small-button"
-                            (click)="onDownloadForms(i, ['R-0980'])">
-                            R-0980
-                          </button>
                           <button mat-button color="primary" class="small-button"
                             (click)="onDownloadForms(i, ['R-1023'])">
                             R-1023
+                          </button>
+                          <button mat-button color="primary" class="small-button"
+                            (click)="onDownloadForms(i, ['R-0980'])">
+                            R-0980
                           </button>
                         </div>
 
@@ -294,9 +335,7 @@
               </th>
               <td mat-cell *matCellDef="let row; index as i" class="left-border">
                 <div class=container-column>
-
                   <div class="container">
-
                     <mat-form-field class="example-form-incorporacion">
                       <mat-label>Fch. Incor..</mat-label>
                       <div class="date-picker-container">
@@ -310,9 +349,7 @@
                     </mat-form-field>
                   </div>
 
-
                   <div class="container">
-
                     <mat-form-field class="example-form-incorporacion">
                       <mat-label>HP</mat-label>
                       <input matInput [(ngModel)]="row.hpIncorporacion" (blur)="sendDataIncorporacion(i)"
@@ -387,7 +424,6 @@
 
 
                   <div class="container">
-
                     <mat-form-field class="custom-width-fecha">
                       <mat-label>Fch. Recep. Nota</mat-label>
                       <div class="date-picker-container">
@@ -536,11 +572,11 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-            <tr class="mat-row" *matNoDataRow>
+            <!--<tr class="mat-row" *matNoDataRow>
               <td class="mat-cell" colspan="12">
                 No hay datos que coincidan con el filtro "{{ input.value }}"
               </td>
-            </tr>
+            </tr>-->
           </table>
         </div>
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página"></mat-paginator>
@@ -548,6 +584,5 @@
 
       </mat-card-content>
     </mat-card>
-
   </div>
 </div>

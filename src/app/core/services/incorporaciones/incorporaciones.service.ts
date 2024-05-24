@@ -22,9 +22,9 @@ export class IncorporacionesService {
     return this.http.post<RespuestaLista<Incorporacion>>(`${this.baseUrl}/${this.path}/list`, {query, ...pagination});
   }
 
-  buscarNombrePersona(nombreCompletoPersona: string) {
+  filtrosIncorporacion(filtros:any) {
     return this.http.post<RespuestaLista<Incorporacion>>(
-      `${this.baseUrl}/${this.path}/byNombreCompletoPersonaIncorporacion`,{ nombreCompletoPersona }
+      `${this.baseUrl}/${this.path}/byNombreCompletoPersonaIncorporacion`,{ filtros }
     );
   }
 

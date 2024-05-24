@@ -164,3 +164,36 @@ th.mat-sort-header-sorted {
   padding-left: 20px !important;
   padding-right: 20px !important;
 }
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+mat-card{
+  margin-top: 25px;
+}
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.custom-width-filters {
+  margin: 20px;
+  width: 240px;
+}
+.custom-width-fecha-filters {
+  width: 240px !important;
+  margin: 10px;
+}
+
+.custom-width-fecha-filters .date-picker-container {
+  display: flex;
+  align-items: center;
+}
+
+.custom-width-fecha-filters .mat-form-field-wrapper {
+  flex: 1;
+}

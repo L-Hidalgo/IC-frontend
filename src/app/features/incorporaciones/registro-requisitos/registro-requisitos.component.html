@@ -1,5 +1,22 @@
 <div mat-dialog-content>
+    <h2>Requisitos</h2>
     <form [formGroup]="requisitosForm" (ngSubmit)="onSubmit()">
+        <h4>Formación:</h4>
+       <div class="container">
+            <div class="example-full-width">
+                {{requisitoPuesto?.formacionRequisito}}
+            </div>
+            <mat-form-field class="custom-input">
+                <mat-label>Resultado de Verificación</mat-label>
+                <mat-select formControlName="cumpleFormacionIncorporacion">
+                    <mat-option [value]="1">Cumple</mat-option>
+                    <mat-option [value]="2">No cumple</mat-option>
+                </mat-select>
+                <mat-error *ngIf="requisitosForm.get('cumpleFormacionIncorporacion')?.hasError('required')">El
+                    respaldo es
+                    requerido</mat-error>
+            </mat-form-field>
+        </div>
         <h4>Experiencia Profesional:</h4>
         <div class="container">
             <div class="example-full-width">
@@ -47,22 +64,6 @@
                     <mat-option [value]="3">No Corresponde</mat-option>
                 </mat-select>
                 <mat-error *ngIf="requisitosForm.get('cumpleExpMandoIncorporacion')?.hasError('required')">El
-                    respaldo es
-                    requerido</mat-error>
-            </mat-form-field>
-        </div>
-        <h4>Formación:</h4>
-       <div class="container">
-            <div class="example-full-width">
-                {{requisitoPuesto?.formacionRequisito}}
-            </div>
-            <mat-form-field class="custom-input">
-                <mat-label>Resultado de Verificación</mat-label>
-                <mat-select formControlName="cumpleFormacionIncorporacion">
-                    <mat-option [value]="1">Cumple</mat-option>
-                    <mat-option [value]="2">No cumple</mat-option>
-                </mat-select>
-                <mat-error *ngIf="requisitosForm.get('cumpleFormacionIncorporacion')?.hasError('required')">El
                     respaldo es
                     requerido</mat-error>
             </mat-form-field>

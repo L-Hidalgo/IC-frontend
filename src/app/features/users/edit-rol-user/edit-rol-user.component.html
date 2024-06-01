@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+    <h2>Editar rol de {{ nombrePersona }}</h2>
+    <form [formGroup]="tuFormGroup" (ngSubmit)="onSubmit()">
+        <mat-form-field class="custom-input-formacion">
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedRole">
+                <mat-radio-button *ngFor="let i of listRoles" [value]="i.name">{{ i.name }}</mat-radio-button>
+              </mat-radio-group>              
+        </mat-form-field>
+        <button mat-button color="primary" type="submit">Guardar</button>
+        <button mat-button color="warn" (click)="onClose()">Cancelar</button>
+    </form>
+</div>

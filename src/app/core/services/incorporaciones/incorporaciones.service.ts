@@ -1,41 +1,55 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { RespuestaLista, RespuestaObjeto } from 'src/app/shared/models/respuesta';
-import { Incorporacion } from 'src/app/shared/models/incorporaciones/incorporacion';
-import { Observable } from 'rxjs';
+import {
+  RespuestaLista,
+  RespuestaObjeto,
+} from "src/app/shared/models/respuesta";
+import { Incorporacion } from "src/app/shared/models/incorporaciones/incorporacion";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class IncorporacionesService {
   private baseUrl = environment.apiIcBack;
-  private path = 'api/incorporaciones';
+  private path = "api/incorporaciones";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   createUpdateIncorporacion(incorporacionData: Partial<Incorporacion>) {
-    return this.http.put<RespuestaObjeto<Incorporacion>>(`${this.baseUrl}/${this.path}`, incorporacionData);
-  }
-
-  listar(query?: string, pagination?: {page?: number, limit?: number}) {
-    return this.http.post<RespuestaLista<Incorporacion>>(`${this.baseUrl}/${this.path}/list`, {query, ...pagination});
-  }
-
-  filtrosIncorporacion(filtros:any) {
-    return this.http.post<RespuestaLista<Incorporacion>>(
-      `${this.baseUrl}/${this.path}/byNombreCompletoPersonaIncorporacion`,{ filtros }
+    return this.http.put<RespuestaObjeto<Incorporacion>>(
+      `${this.baseUrl}/${this.path}`,
+      incorporacionData
     );
   }
 
-  /*buscarNombreUser(nombreCompletoUser: string) {
+  listar(query?: string, pagination?: { page?: number; limit?: number }) {
     return this.http.post<RespuestaLista<Incorporacion>>(
-      `${this.baseUrl}/${this.path}/byNombreCompletoUserIncorporacion`,{ nombreCompletoUser }
+      `${this.baseUrl}/${this.path}/list`,
+      { query, ...pagination }
     );
-  }*/
+  }
+
+  byFiltrosIncorporacion( name: string, nombreCompletoPersona: string, tipo: string, fechaInicio: string, fechaFin: string) {
+    return this.http.post<RespuestaLista<Incorporacion>>(
+      `${this.baseUrl}/${this.path}/byFiltrosIncorporacion`,
+      { name, nombreCompletoPersona, tipo, fechaInicio, fechaFin }
+    );
+  }
+
+  darBajaIncorporacion(incorporacionId: number): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/${this.path}/${incorporacionId}/darBajaIncorporacion`,
+      {}
+    );
+  }
 
   generarFormularioEvalR0078(incorporacionId: number) {
-    return this.http.post<RespuestaObjeto<Incorporacion>>(`${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR0078`,{});
+    return this.http.post<RespuestaObjeto<Incorporacion>>(
+      `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR0078`,
+      {}
+    );
   }
 
   genUrlFormularioEvalR0078(incorporacionId: number) {

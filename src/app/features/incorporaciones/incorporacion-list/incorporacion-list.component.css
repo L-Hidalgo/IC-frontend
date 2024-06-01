@@ -180,13 +180,25 @@ mat-card{
   margin-left: 8px;
 }
 
-.custom-width-filters {
-  margin: 20px;
-  width: 240px;
-}
+.custom-width-filters,
 .custom-width-fecha-filters {
-  width: 240px !important;
-  margin: 10px;
+  margin: 1.5%;
+  width: 20%; 
+}
+
+@media screen and (max-width: 250px) {
+  .custom-width-filters,
+  .custom-width-fecha-filters {
+    width: 40%; 
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .custom-width-filters,
+  .custom-width-fecha-filters {
+    width: 100%; 
+    margin: 5px 0;
+  }
 }
 
 .custom-width-fecha-filters .date-picker-container {

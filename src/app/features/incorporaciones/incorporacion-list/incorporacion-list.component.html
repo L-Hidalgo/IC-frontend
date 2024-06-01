@@ -8,57 +8,51 @@
             <b>Filtros de Incorporación</b>
           </mat-panel-title>
           <mat-panel-description>
-            En esta seccion usted puede filtrar la tabla de incorporaciones segun sus requerimientos
-            <mat-icon>map</mat-icon>
+            En esta seccion usted puede filtrar la tabla de incorporaciones segun sus requerimientos.
+            <mat-icon>account_circle</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-
-        <!--<mat-form-field class="custom-width-filters"> 
-          <mat-label>Usuario</mat-label> 
-          <mat-select #usuarioSelect (selectionChange)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)"> 
-            <mat-option *ngFor="let us of listUsers" [value]="us.name"> {{us.name}} </mat-option> 
-          </mat-select> 
+        <mat-form-field class="custom-width-filters">
+          <mat-label>Usuario</mat-label>
+          <mat-select #usuarioSelect (selectionChange)="onSelectionChange()">
+            <mat-option *ngFor="let us of listUsers" [value]="us.name">{{us.name}}</mat-option>
+          </mat-select>
         </mat-form-field>
-
         <mat-form-field class="custom-width-filters">
           <mat-label>Persona</mat-label>
-          <input matInput (keyup)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)" placeholder="Ej. Pedro" #input />
+          <input matInput #nombrePersonaInput (input)="onInputChange()" placeholder="Ej. Pedro Fernandez" />
         </mat-form-field>
-
         <mat-form-field class="custom-width-filters">
           <mat-label>Tipo de Incorporación</mat-label>
-          <mat-select (selectionChange)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)">
+          <mat-select #tipoIncorporacionSelect (selectionChange)="onSelectionChange()">
             <mat-option value="1">Incorporación</mat-option>
             <mat-option value="2">Cambio de ítem</mat-option>
           </mat-select>
         </mat-form-field>
-
         <mat-form-field class="custom-width-fecha-filters">
           <mat-label>Introduce un rango de fechas</mat-label>
           <div class="date-picker-container">
-            <mat-date-range-input [rangePicker]="picker" (dateChange)="filtrosIncorporacion($usuarioIncorporacion.value, $personaIncorporacion, $tipoIncorporacion.value, $fechaIncorporacion)">
-              <input matStartDate placeholder="Fecha inicio">
-              <input matEndDate placeholder="Fecha fin">
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+              <input matStartDate formControlName="start" placeholder="Start date" #fechaInicio
+                (dateChange)="onDateChange()">
+              <input matEndDate formControlName="end" placeholder="End date" #fechaFin (dateChange)="onDateChange()">
             </mat-date-range-input>
-            <mat-datepicker-toggle matIconSuffix [for]="picker" class="custom-datepicker-toggle"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"
+              class="custom-datepicker-toggle"></mat-datepicker-toggle>
           </div>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
           <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>    -->    
+        </mat-form-field>
       </mat-expansion-panel>
     </mat-accordion>
 
     <mat-card>
       <mat-card-content>
-        <div class="container-filtro">
-          <button mat-raised-button color="primary" (click)="agregarFila()"> Nuevo </button>
-        </div>
-
+        <button mat-raised-button color="primary" (click)="agregarFila()"> Nuevo </button>
         <div class="contenedor-tabla">
           <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="idIncorporacion" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header="idIncorporacion"
-                style="width: 100px; position: sticky; left: 0" class="white-background">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="idIncorporacion" style="width: 100px; position: sticky; left: 0" class="white-background">
                 No.
               </th>
               <td mat-cell *matCellDef="let row; index as i" class="white-background">{{ i + 1 }}</td>
@@ -155,7 +149,6 @@
               </th>
               <td mat-cell *matCellDef="let row; index as i" class="left-border">
                 <div class=container-column>
-
                   <div *ngIf="
                         row.puestoNuevoId && !row.puestoActualId && row.personaId
                       " class="example-form-cite">
@@ -169,6 +162,8 @@
                     <ng-container *ngIf="row.persona?.generoPersona === 'M'">
                       servidor público interino del señor
                       {{ row.persona?.nombrePersona }}
+                      {{ row.persona?.primerApellidoPersona }}
+                      {{ row.persona?.segundoApellidoPersona }}
                     </ng-container>
                     al Ítem N° {{ row.puestoNuevo?.itemPuesto }}
                     {{ row.puestoNuevo?.denominacionPuesto }}
@@ -193,7 +188,10 @@
                       {{ row.persona?.segundoApellidoPersona }}
                     </ng-container>
                     <ng-container *ngIf="row.persona?.generoPersona === 'M'">
-                      del servidor público interino {{ row.persona?.nombrePersona }}
+                      del servidor público interino 
+                      {{ row.persona?.nombrePersona }}
+                      {{ row.persona?.primerApellidoPersona }}
+                      {{ row.persona?.segundoApellidoPersona }}
                     </ng-container>
                     del Ítem {{ row.puestoActual?.itemPuesto }}
                     {{ row.puestoActual?.denominacionPuesto }}
@@ -215,7 +213,7 @@
                     row.puestoNuevo?.departamento?.nombreDepartamento
                     )
                     }}
-                    dependiente dependiente
+                    dependiente
                     {{
                     getGerenciaConector(
                     row.puestoNuevo?.departamento?.gerencia?.nombreGerencia

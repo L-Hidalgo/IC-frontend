@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NGXLogger } from "ngx-logger";
@@ -17,18 +11,18 @@ import { PuestosService } from "src/app/core/services/incorporaciones/puestos.se
 import { IncorporacionesService } from "src/app/core/services/incorporaciones/incorporaciones.service";
 import { RegistroPersonaComponent } from "../registro-persona/registro-persona.component";
 import { RegistroRequisitosComponent } from "../registro-requisitos/registro-requisitos.component";
-import {
-  EstadosIncorporacion,
-  Incorporacion,
-} from "src/app/shared/models/incorporaciones/incorporacion";
+import { EstadosIncorporacion, Incorporacion} from "src/app/shared/models/incorporaciones/incorporacion";
 import { Formacion } from "src/app/shared/models/incorporaciones/formacion";
 import { Persona } from "src/app/shared/models/incorporaciones/persona";
-import { Institucion } from "src/app/shared/models/incorporaciones/institucion";
-import Swal from "sweetalert2";
 import { AuthenticationService } from "src/app/core/services/auth.service";
 import { UserService } from "src/app/core/services/incorporaciones/user.service";
 import { User } from "src/app/shared/models/incorporaciones/user";
 import { RespuestaLista } from "src/app/shared/models/respuesta";
+import { MatSelect } from "@angular/material/select";
+import { MatDateRangeInput } from "@angular/material/datepicker";
+import { FormGroup, FormControl } from "@angular/forms";
+import Swal from "sweetalert2";
+
 
 export interface ItemForm {
   nombreForm: string;
@@ -61,14 +55,11 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     "acciones",
   ];
 
-  dataSource: MatTableDataSource<
-    Incorporacion & { formsDescargar?: Array<ItemForm> }
-  >;
+  dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
 
   selectedOption!: string;
   currentUser: any;
 
-  //@ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -119,92 +110,107 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //filtros
-  /*filtrosIncorporaciones(event: any) {
-    const nombreCompletoPersona = event.target.value;
-    if (nombreCompletoPersona.trim() !== "") {
-      this.incorporacionesService
-        .buscarNombrePersona(nombreCompletoPersona)
-        .subscribe(
-          (resp) => {
-            if (!!resp.objetosList) {
-              const listWithItem = resp.objetosList.map((el) => ({
-                ...el,
-                puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
-                puestoActualItem: el?.puestoActual?.itemPuesto,
-              }));
+  //Filtros de incorporacion
+  @ViewChild("usuarioSelect") usuarioSelect!: MatSelect;
+  @ViewChild("nombrePersonaInput", { static: true })
+  nombrePersonaInput!: ElementRef;
+  @ViewChild("tipoIncorporacionSelect") tipoIncorporacionSelect!: MatSelect;
+  @ViewChild("fechaInicio", { static: true })
+  fechaInicio!: MatDateRangeInput<any>;
+  @ViewChild("fechaFin", { static: true }) fechaFin!: MatDateRangeInput<any>;
 
-              listWithItem.sort(
-                (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
-              );
+  range: FormGroup = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
-              this.dataSource.data = listWithItem;
-              this.dataSource._updateChangeSubscription();
-              this.totalItems = resp.total || 0;
-              console.log(this.dataSource.data);
-            } else {
-              this.dataSource.data = [];
-              this.dataSource._updateChangeSubscription();
-              this.totalItems = 0;
-            }
-          },
-          (error) => console.log(error)
-        );
+  onSelectionChange() {
+    const nombreCompletoPersona = this.nombrePersonaInput.nativeElement.value;
+    const fechaInicioString = this.fechaInicio.value
+      ? this.fechaInicio.value.start.toString()
+      : null;
+    const fechaFinString = this.fechaFin.value
+      ? this.fechaFin.value.end.toString()
+      : null;
+
+    this.filtrosIncorporacion(
+      this.usuarioSelect.value,
+      nombreCompletoPersona,
+      this.tipoIncorporacionSelect.value,
+      fechaInicioString,
+      fechaFinString
+    );
+  }
+
+  onInputChange() {
+    const nombreCompletoPersona = this.nombrePersonaInput.nativeElement.value;
+    const fechaInicioString = this.fechaInicio.value
+      ? this.fechaInicio.value.start.toString()
+      : null;
+    const fechaFinString = this.fechaFin.value
+      ? this.fechaFin.value.end.toString()
+      : null;
+    this.filtrosIncorporacion(
+      this.usuarioSelect.value,
+      nombreCompletoPersona,
+      this.tipoIncorporacionSelect.value,
+      fechaInicioString,
+      fechaFinString
+    );
+  }
+
+  onDateChange() {
+    const fechaInicioValue = this.range.get("start")?.value;
+    const fechaFinValue = this.range.get("end")?.value;
+
+    const fechaInicioString = this.range.value.start
+      ? this.range.value.start.format("YYYY-MM-DD")
+      : null;
+    const fechaFinString = this.range.value.end
+      ? this.range.value.end.format("YYYY-MM-DD")
+      : null;
+
+    if (fechaInicioString !== null && fechaFinString !== null) {
+      this.filtrosIncorporacion(
+        this.usuarioSelect.value,
+        this.nombrePersonaInput.nativeElement.value,
+        this.tipoIncorporacionSelect.value,
+        fechaInicioString,
+        fechaFinString
+      );
     } else {
-      this.getListData();
+      console.error("Una de las fechas es nula.");
     }
-  }*/
-  /*filtrosIncorporacion(usuarioIncorporacion: any, personaIncorporacion: any, tipoIncorporacion: any, fechaIncorporacion: any) {
-    // Verificar si al menos un filtro está presente
-    if (usuarioIncorporacion || personaIncorporacion || tipoIncorporacion || fechaIncorporacion) {
-      const filtros = {
-        usuario: usuarioIncorporacion,
-        persona: personaIncorporacion,
-        tipo: tipoIncorporacion,
-        fecha: fechaIncorporacion
-      };
-  
-      // Realizar la llamada al servicio para filtrar
-      this.incorporacionesService
-        .filtrosIncorporacion(filtros)
-        .subscribe(
-          (resp) => {
-            if (!!resp.objetosList) {
-              const listWithItem = resp.objetosList.map((el) => ({
-                ...el,
-                puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
-                puestoActualItem: el?.puestoActual?.itemPuesto,
-              }));
-  
-              listWithItem.sort(
-                (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
-              );
-  
-              this.dataSource.data = listWithItem;
-              this.dataSource._updateChangeSubscription();
-              this.totalItems = resp.total || 0;
-              console.log(this.dataSource.data);
-            } else {
-              this.dataSource.data = [];
-              this.dataSource._updateChangeSubscription();
-              this.totalItems = 0;
-            }
-          },
-          (error) => console.log(error)
-        );
-    } else {
-      // Si no se proporciona ningún filtro, recuperar todos los datos
-      this.getListData();
-    }
-  }*/
+  }
 
-  //listUsers: Array<Usuario> = [];
-  totalItems: number = 1000; // Total de elementos en el servidor
-  pageSize = 10; // Número de elementos por página
-  pageIndex = 0; // Índice de la página actual
-  getListData() {
+  filtrosIncorporacion( name: string | null, nombreCompletoPersona: string | null, tipo: string | null, fechaInicio: string | null, fechaFin: string | null) {
+    const filtro: {
+      name: string;
+      nombreCompletoPersona: string;
+      tipo: string;
+      fechaInicio?: string;
+      fechaFin?: string;
+    } = {
+      name: name || "",
+      nombreCompletoPersona: nombreCompletoPersona || "",
+      tipo: tipo || "",
+    };
+
+    if (fechaInicio !== undefined && fechaInicio !== null) {
+      filtro.fechaInicio = fechaInicio;
+    }
+    if (fechaFin !== undefined && fechaFin !== null) {
+      filtro.fechaFin = fechaFin;
+    }
+
     this.incorporacionesService
-      .listar("", { page: this.pageIndex + 1, limit: this.pageSize })
+      .byFiltrosIncorporacion(
+        filtro.name,
+        filtro.nombreCompletoPersona,
+        filtro.tipo,
+        filtro.fechaInicio || "",
+        filtro.fechaFin || ""
+      )
       .subscribe(
         (resp) => {
           if (!!resp.objetosList) {
@@ -227,6 +233,38 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         (error) => console.log(error)
       );
   }
+
+  totalItems: number = 1000;
+  pageSize = 10;
+  pageIndex = 0;
+  getListData() {
+    this.incorporacionesService
+      .listar("", { page: this.pageIndex + 1, limit: this.pageSize })
+      .subscribe(
+        (resp) => {
+          if (!!resp.objetosList) {
+            const listWithItem = resp.objetosList.map((el) => ({
+              ...el,
+              puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
+              puestoActualItem: el?.puestoActual?.itemPuesto,
+            }));
+  
+            const filteredList = listWithItem.filter((el) => el.estadoIncorporacion !== 3);
+  
+            filteredList.sort(
+              (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
+            );
+  
+            this.dataSource.data = filteredList;
+            this.dataSource._updateChangeSubscription();
+            this.totalItems = resp.total || 0;
+            console.log(this.dataSource.data);
+          }
+        },
+        (error) => console.log(error)
+      );
+  }
+  
 
   getDepartamentoConector(departamentoNombre: string | null): string {
     if (!departamentoNombre) {
@@ -329,11 +367,6 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     this.dataSource._updateChangeSubscription();
   }
 
-  eliminarFila(index: number) {
-    this.dataSource.data.splice(index, 1);
-    this.dataSource._updateChangeSubscription();
-  }
-
   /* ----------------------------------------- Pagination ----------------------------------------- */
   onPaginate(ev: any) {
     console.log("Pagination Data:", ev);
@@ -390,7 +423,6 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
             }
           });
 
-          // Agregar el id del puesto al registro para cuando se actualice o se cree
           this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
           const incorporacion = this.dataSource.data[rowIndex];
           if (incorporacion.puestoNuevo) {
@@ -510,13 +542,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  actualizarVistaOPage() {
-    window.location.reload();
-  }
-
   sendDataIncorporacion(rowIndex: number) {
     const data = this.dataSource.data[rowIndex];
-
     setTimeout(() => {
       this.incorporacionesService
         .createUpdateIncorporacion({
@@ -525,6 +552,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
           puestoNuevoId: data.puestoNuevoId,
           puestoActualId: data.puestoActualId,
           personaId: data.personaId,
+          estadoIncorporacion: data.estadoIncorporacion,
           conRespaldoFormacion: data.conRespaldoFormacion,
           observacionIncorporacion: data.observacionIncorporacion,
           experienciaIncorporacion: data.experienciaIncorporacion,
@@ -566,6 +594,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
                 resp.objeto.codigoMemorandumIncorporacion;
               this.dataSource.data[rowIndex].codigoRapIncorporacion =
                 resp.objeto.codigoRapIncorporacion;
+              this.dataSource.data[rowIndex].estadoIncorporacion =
+                resp.objeto.estadoIncorporacion;
 
               if (
                 !!resp.objeto &&
@@ -633,7 +663,26 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         }
       );
   }
+
   /* ---------------------------------------------------------------------------------------------- */
+  eliminarFila(rowIndex: number): void {
+    const idIncorporacion = this.dataSource.data[rowIndex]?.idIncorporacion;
+    if (idIncorporacion) {
+      this.incorporacionesService.darBajaIncorporacion(idIncorporacion).subscribe(
+        respuesta => {
+            this.notificationService.showSuccess("Se eliminó el registro correctamente.");
+            this.dataSource.data.splice(rowIndex, 1);
+            this.dataSource._updateChangeSubscription();
+            
+        },
+        error => {
+          this.notificationService.showError("Error al eliminar el registro. Por favor, inténtalo de nuevo.");
+        }
+      );
+    } else {
+      console.error("No se pudo obtener el id de incorporación para la fila especificada.");
+    }
+  }
   /*                                      Descargar Formularios                                     */
   /* ---------------------------------------------------------------------------------------------- */
   listForms: Array<ItemForm> = [

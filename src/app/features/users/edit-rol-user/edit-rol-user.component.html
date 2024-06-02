@@ -1,15 +1,16 @@
 <div mat-dialog-content class="dialog-content">
-    <h2 class="dialog-title">Editar rol de {{ nombrePersona || 'Nombre no disponible' }}</h2>
-    <form class="form-container">
-        <h3>Listado de Roles</h3>
-        <div *ngFor="let rol of listRoles" class="role-item">
-            <!-- Utilizamos [(ngModel)] para enlazar el estado del checkbox con la propiedad selected -->
-            <mat-checkbox [(ngModel)]="rol.selected" class="checkbox">{{ rol.name }}</mat-checkbox>
-        </div>               
-        <div class="button-container">
-            <!-- Llamamos al método guardarRoles al hacer clic en el botón Guardar -->
-            <button mat-flat-button color="primary" class="button" (click)="guardarRoles()">Guardar</button>
-            <button mat-flat-button color="warn" (click)="onClose()" class="button">Cerrar</button>
-        </div>
-    </form>
+  <h2 class="dialog-title">Editar rol de {{ nombrePersona || 'Nombre no disponible' }}</h2>
+  <form class="form-container">
+      <h3>Listado de Roles</h3>
+      <div *ngFor="let i of listRoles">
+          <label>
+              <input type="checkbox" [value]="i.id" (change)="toggleRoleSelection(i.id)">
+              {{ i.name }}
+          </label>
+      </div>
+      <div class="button-container">
+          <button mat-flat-button color="primary" class="button" (click)="guardarRoles()">Guardar</button>
+          <button mat-flat-button color="warn" (click)="onClose()" class="button">Cerrar</button>
+      </div>
+  </form>
 </div>

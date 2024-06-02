@@ -18,18 +18,18 @@ export class UserService {
     return this.http.get<RespuestaLista<User>>(`${this.baseUrl}/${this.path}`);
   }
 
-  getAllAdmin(query?: string) {
+  getAllUser(query?: string) {
     const params = query ? { params: { query } } : {};
     return this.http.get<RespuestaLista<User>>(
-      `${this.baseUrl}/${this.path}/listarUsuariosAdmin`,
+      `${this.baseUrl}/${this.path}/listarUsers`,
       params
     );
   }
 
-  AsignarRol(userId: number, rolesIds: number[]) {
+  asignarRol(userId: number, roles: number[]) {
     return this.http.put<RespuestaObjeto<User>>(
       `${this.baseUrl}/${this.path}/updateRolUser/${userId}`,
-      rolesIds
+     {roles}
     );
-}
+  }
 }

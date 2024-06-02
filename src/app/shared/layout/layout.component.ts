@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy, AfterViewInit } from '
 import { MediaMatcher } from '@angular/cdk/layout';
 import { timer } from 'rxjs';
 import { Subscription } from 'rxjs';
-
  import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { SpinnerService } from '../../core/services/spinner.service';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
@@ -19,28 +18,28 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     showSpinner: boolean = false;
     userName: string = "";
     isAdmin: boolean = false;
+    role!: string;
 
     private autoLogoutSubscription: Subscription = new Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         public spinnerService: SpinnerService,
-        private authService: AuthenticationService,
-        private authGuard: AuthGuard) {
-
+        public authService: AuthenticationService,
+        private authGuard: AuthGuard,
+    ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        // tslint:disable-next-line: deprecation
         this.mobileQuery.addListener(this._mobileQueryListener);
     }
 
     ngOnInit(): void {
         const user = this.authService.getCurrentUser();
-
         this.isAdmin = user.isAdmin;
         this.userName = user.fullName;
-
-        // Auto log-out subscription
+        if (user) {
+            this.role = user.role;
+          }
         const timer$ = timer(2000, 5000);
         this.autoLogoutSubscription = timer$.subscribe(() => {
             this.authGuard.canActivate();
@@ -48,7 +47,6 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy(): void {
-        // tslint:disable-next-line: deprecation
         this.mobileQuery.removeListener(this._mobileQueryListener);
         this.autoLogoutSubscription.unsubscribe();
     }
@@ -56,4 +54,5 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit(): void {
         this.changeDetectorRef.detectChanges();
     }
+
 }

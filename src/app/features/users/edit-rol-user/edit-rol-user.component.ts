@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { RolesService } from "src/app/core/services/incorporaciones/roles.service";
 import { UserService } from "src/app/core/services/incorporaciones/user.service";
+import { NotificationService } from "src/app/core/services/notification.service";
 import { Rol } from "src/app/shared/models/incorporaciones/rol";
 import { RespuestaLista } from "src/app/shared/models/respuesta";
 
@@ -15,10 +16,12 @@ export class EditRolUserComponent implements OnInit {
   userId!: number;
   nombrePersona: string;
   listRoles: Array<Rol> = [];
+  selectedRoles: number[] = [];
 
   constructor(
     private rolesService: RolesService,
     private userService: UserService,
+    private notificationService: NotificationService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditRolUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -36,24 +39,27 @@ export class EditRolUserComponent implements OnInit {
     });
   }
 
-  guardarRoles() {
-    const rolesIds = this.listRoles
-      .filter((rol) => rol.selected)
-      .map((rol) => rol.id);
-
-    console.log('Roles IDs a enviar:', rolesIds); // Para verificar si los roles se están recopilando correctamente
-
-    this.userService.AsignarRol(this.userId, rolesIds).subscribe(
-      (respuesta) => {
-        console.log(respuesta);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  toggleRoleSelection(roleId: number) {
+    if (this.selectedRoles.includes(roleId)) {
+      this.selectedRoles = this.selectedRoles.filter(id => id !== roleId);
+    } else {
+      this.selectedRoles.push(roleId);
+    }
   }
 
-
+  guardarRoles() {
+    this.userService.asignarRol(this.userId, this.selectedRoles)
+      .subscribe(
+        response => {
+          this.notificationService.showSuccess("Roles actualizados exitosamente!!");
+          this.dialogRef.close();
+        },
+        error => {
+          this.notificationService.showError("Error al actualizar roles!!");
+          this.dialogRef.close();
+        }
+      );
+  }
 
   onClose(): void {
     this.dialogRef.close();

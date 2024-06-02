@@ -33,31 +33,31 @@ export class LoginComponent implements OnInit {
         const savedUserUsername = localStorage.getItem('savedUserUsername');
 
         this.loginForm = new UntypedFormGroup({
-            username: new UntypedFormControl(savedUserUsername, [Validators.required]), // Cambiar 'email' por 'username'
+            username: new UntypedFormControl(savedUserUsername, [Validators.required]),
             password: new UntypedFormControl('', Validators.required),
-            rememberMe: new UntypedFormControl(savedUserUsername !== null) // Cambiar 'email' por 'username'
+            rememberMe: new UntypedFormControl(savedUserUsername !== null) 
         });
     }
 
     login() {
-        const username = this.loginForm.get('username')?.value; // Cambiar 'email' por 'username'
+        const username = this.loginForm.get('username')?.value;
         const password = this.loginForm.get('password')?.value;
         const rememberMe = this.loginForm.get('rememberMe')?.value;
 
         this.loading = true;
         this.authenticationService
-            .login(username.toLowerCase(), password) // Cambiar 'email' por 'username'
+            .login(username.toLowerCase(), password) 
             .subscribe(
                 data => {
                     if (rememberMe) {
-                        localStorage.setItem('savedUserUsername', username); // Cambiar 'email' por 'username'
+                        localStorage.setItem('savedUserUsername', username); 
                     } else {
-                        localStorage.removeItem('savedUserUsername'); // Cambiar 'email' por 'username'
+                        localStorage.removeItem('savedUserUsername'); 
                     }
                     this.router.navigate(['/']);
                 },
                 error => {
-                    this.notificationService.openSnackBar(error.error);
+                    this.notificationService.openSnackBar("Crendenciales incorrectas!!!");
                     this.loading = false;
                 }
             );

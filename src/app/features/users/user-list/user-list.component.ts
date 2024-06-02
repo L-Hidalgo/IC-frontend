@@ -13,7 +13,7 @@ import { EditRolUserComponent } from "../edit-rol-user/edit-rol-user.component";
   styleUrls: ["./user-list.component.css"],
 })
 export class UserListComponent implements AfterViewInit {
-  displayedColumns: string[] = ["id", "name", "email", "cargo", "gerencia", "accion"];
+  displayedColumns: string[] = ["id", "name", "email", "cargo", "rol", "accion"];
   dataSource: MatTableDataSource<User>;
   adminList: User[] = [];
 
@@ -40,7 +40,7 @@ export class UserListComponent implements AfterViewInit {
   }
 
   getListData(): void {
-    this.userService.getAllAdmin("").subscribe(
+    this.userService.getAllUser("").subscribe(
       (resp) => {
         if (!!resp.objetosList) {
           this.dataSource.data = resp.objetosList.map((el: any) => ({ ...el }));

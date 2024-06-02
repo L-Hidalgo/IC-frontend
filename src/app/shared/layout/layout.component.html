@@ -14,7 +14,6 @@
     </a>
 
     <span class="navbar-spacer"></span>
-
     <!--<button mat-icon-button [matMenuTriggerFor]="notificationMenu">
       <mat-icon matBadge="2" matBadgeColor="accent">notifications</mat-icon>
     </button>
@@ -28,9 +27,6 @@
       </a>
 
     </mat-menu>-->
-
-
-
     <button mat-button [matMenuTriggerFor]="userMenu">
       <mat-icon>person</mat-icon>
       <span fxShow fxHide.xs>
@@ -68,24 +64,24 @@
           <p mat-line> Menu Principal </p>
         </a>
 
-        <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
+        <a mat-list-item *ngIf="role === 'Administrador'" [routerLink]="['/users']" routerLinkActive="active">
           <mat-icon mat-list-icon>
             people
           </mat-icon>
-          <p mat-line> Administracion </p>
+          <p mat-line> Administración </p>
         </a>
 
-        <a mat-list-item [routerLink]="['/incorporaciones']" routerLinkActive="active">
+        <a mat-list-item *ngIf="role === 'Administrador' || role === 'Moderadores'" [routerLink]="['/incorporaciones']" routerLinkActive="active">
           <mat-icon mat-list-icon>
             business
           </mat-icon>
           <p mat-line> Incorporaciones </p>
         </a>
 
-        <a mat-list-item [routerLink]="['/account/profile']">
+        <!--<a mat-list-item [routerLink]="['/account/profile']">
           <mat-icon mat-list-icon>person</mat-icon>
           <p mat-line> Cuenta </p>
-        </a>
+        </a>-->
 
         <a mat-list-item [routerLink]="['/auth/login']">
           <mat-icon mat-list-icon>exit_to_app</mat-icon>

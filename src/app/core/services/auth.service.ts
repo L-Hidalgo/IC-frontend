@@ -1,9 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { delay, map } from "rxjs/operators";
-import * as jwt_decode from "jwt-decode";
+import { delay, map} from "rxjs/operators";
 import * as moment from "moment";
-
 import { environment } from "../../../environments/environment";
 import { Observable, of } from "rxjs";
 
@@ -22,18 +20,17 @@ export class AuthenticationService {
       .pipe(
         map((response) => {
           if (response && response.status && response.token) {
-            // store user details and token in local storage to keep user logged in between page refreshes
             this.localStorage.setItem(
               "currentUser",
               JSON.stringify({
                 token: response.token,
-                isAdmin: true, 
+                isAdmin: true,
                 usernamme: response.user.username,
                 id: response.user.id,
                 alias: response.user.email.split("@")[0],
                 expiration: moment().add(1, "days").toDate(),
-                fullName: response.user.name, 
-
+                fullName: response.user.name,
+                role: response.user.role,
               })
             );
             return true;
@@ -45,7 +42,6 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    // clear token remove user from local storage to log user out
     this.localStorage.removeItem("currentUser");
   }
 
@@ -54,12 +50,12 @@ export class AuthenticationService {
     if (currentUserString) {
       return JSON.parse(currentUserString);
     } else {
-      return null; 
+      return null;
     }
   }
 
+  //esto viene de la plantilla
   passwordResetRequest(email: string): Observable<boolean> {
-    // Implement password reset request logic here
     return of(true).pipe(delay(1000));
   }
 
@@ -68,7 +64,6 @@ export class AuthenticationService {
     currentPwd: string,
     newPwd: string
   ): Observable<boolean> {
-    // Implement change password logic here
     return of(true).pipe(delay(1000));
   }
 
@@ -78,7 +73,6 @@ export class AuthenticationService {
     password: string,
     confirmPassword: string
   ): Observable<any> {
-    // Implement password reset logic here
     return of(true).pipe(delay(1000));
   }
 }

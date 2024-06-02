@@ -14,7 +14,7 @@ export class RolesService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<RespuestaLista<Rol>>(`${this.baseUrl}/rol`);
+    return this.http.get<RespuestaLista<Rol>>(`${this.baseUrl}/${this.path}/listarRol`);
   }
   
 }

@@ -1,36 +1,34 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { RolesService } from "src/app/core/services/incorporaciones/roles.service";
+import { UserService } from "src/app/core/services/incorporaciones/user.service";
 import { Rol } from "src/app/shared/models/incorporaciones/rol";
 import { RespuestaLista } from "src/app/shared/models/respuesta";
 
 @Component({
-  selector: 'app-edit-rol-user',
-  templateUrl: './edit-rol-user.component.html',
-  styleUrls: ['./edit-rol-user.component.css']
+  selector: "app-edit-rol-user",
+  templateUrl: "./edit-rol-user.component.html",
+  styleUrls: ["./edit-rol-user.component.css"],
 })
 export class EditRolUserComponent implements OnInit {
-
+  userId!: number;
   nombrePersona: string;
-  listRoles: Rol[] = [];
-  tuFormGroup: FormGroup;
+  listRoles: Array<Rol> = [];
 
   constructor(
     private rolesService: RolesService,
+    private userService: UserService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditRolUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { 
+  ) {
     this.nombrePersona = data.nombrePersona;
-    this.tuFormGroup = this.fb.group({
-      institucion: [''] // aquí puedes definir un valor por defecto si lo necesitas
-    });
+    this.userId = data.userId;
     this.loadRoles();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   loadRoles() {
     this.rolesService.getAll().subscribe((response: RespuestaLista<Rol>) => {
@@ -38,9 +36,24 @@ export class EditRolUserComponent implements OnInit {
     });
   }
 
-  async onSubmit(): Promise<void> {
-    // Aquí puedes agregar la lógica para guardar el rol seleccionado
+  guardarRoles() {
+    const rolesIds = this.listRoles
+      .filter((rol) => rol.selected)
+      .map((rol) => rol.id);
+
+    console.log('Roles IDs a enviar:', rolesIds); // Para verificar si los roles se están recopilando correctamente
+
+    this.userService.AsignarRol(this.userId, rolesIds).subscribe(
+      (respuesta) => {
+        console.log(respuesta);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
+
+
 
   onClose(): void {
     this.dialogRef.close();

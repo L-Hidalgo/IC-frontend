@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { RespuestaLista } from "src/app/shared/models/respuesta";
+import { RespuestaObjeto } from "src/app/shared/models/respuesta";
+import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { User } from 'src/app/shared/models/incorporaciones/user';
-import { RespuestaLista } from 'src/app/shared/models/respuesta';
-import { Observable } from 'rxjs';
+import { User } from "src/app/shared/models/incorporaciones/user";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
-  private baseUrl = environment.apiIcBack; 
-  private path = 'api/users';
+  private baseUrl = environment.apiIcBack;
+  private path = "api/users";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll() {
     return this.http.get<RespuestaLista<User>>(`${this.baseUrl}/${this.path}`);
@@ -25,5 +25,11 @@ export class UserService {
       params
     );
   }
-  
+
+  AsignarRol(userId: number, rolesIds: number[]) {
+    return this.http.put<RespuestaObjeto<User>>(
+      `${this.baseUrl}/${this.path}/updateRolUser/${userId}`,
+      rolesIds
+    );
+}
 }

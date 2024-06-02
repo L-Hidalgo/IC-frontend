@@ -58,6 +58,7 @@ export class UserListComponent implements AfterViewInit {
       height: "auto",
       data: {
         nombrePersona: userRolData.name,
+        userId: userRolData.id 
       },
     });
 

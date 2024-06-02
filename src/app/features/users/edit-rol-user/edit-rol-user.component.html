@@ -1,12 +1,15 @@
-<div mat-dialog-content>
-    <h2>Editar rol de {{ nombrePersona }}</h2>
-    <form [formGroup]="tuFormGroup" (ngSubmit)="onSubmit()">
-        <mat-form-field class="custom-input-formacion">
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedRole">
-                <mat-radio-button *ngFor="let i of listRoles" [value]="i.name">{{ i.name }}</mat-radio-button>
-              </mat-radio-group>              
-        </mat-form-field>
-        <button mat-button color="primary" type="submit">Guardar</button>
-        <button mat-button color="warn" (click)="onClose()">Cancelar</button>
+<div mat-dialog-content class="dialog-content">
+    <h2 class="dialog-title">Editar rol de {{ nombrePersona || 'Nombre no disponible' }}</h2>
+    <form class="form-container">
+        <h3>Listado de Roles</h3>
+        <div *ngFor="let rol of listRoles" class="role-item">
+            <!-- Utilizamos [(ngModel)] para enlazar el estado del checkbox con la propiedad selected -->
+            <mat-checkbox [(ngModel)]="rol.selected" class="checkbox">{{ rol.name }}</mat-checkbox>
+        </div>               
+        <div class="button-container">
+            <!-- Llamamos al método guardarRoles al hacer clic en el botón Guardar -->
+            <button mat-flat-button color="primary" class="button" (click)="guardarRoles()">Guardar</button>
+            <button mat-flat-button color="warn" (click)="onClose()" class="button">Cerrar</button>
+        </div>
     </form>
 </div>

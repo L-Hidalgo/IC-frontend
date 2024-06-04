@@ -59,7 +59,7 @@
             </ng-container>
 
             <ng-container matColumnDef="estado" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="white-background">ESTADO</th>
+              <th mat-header-cell *matHeaderCellDef class="white-background">ESTADO</th>
               <td mat-cell *matCellDef="let row; index as i" class="white-background">
                 <div class="custom-width">
                   <ng-container *ngIf="row.puestoNuevoId && row.personaId">
@@ -82,7 +82,7 @@
             </ng-container>
 
             <ng-container matColumnDef="itemNuevo" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="white-background">ITEM</th>
+              <th mat-header-cell *matHeaderCellDef class="white-background">ITEM</th>
               <td mat-cell *matCellDef="let row; index as i" class="white-background">
                 <mat-form-field class="custom-width">
                   <mat-label>Item</mat-label>
@@ -118,9 +118,8 @@
             </ng-container>
 
             <ng-container matColumnDef="persona" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="white-background">PERSONA</th>
-              <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)"
-                class="white-background">
+              <th mat-header-cell *matHeaderCellDef class="white-background">PERSONA</th>
+              <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)" class="white-background">
                 <div class="example-form-persona">
                   <img src="./assets/images/user.png" alt="Pedro" class="persona-img" /><br />
                   <ng-container *ngIf="!(row.puestoNuevoItem && row.personaId)">

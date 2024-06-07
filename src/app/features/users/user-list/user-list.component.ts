@@ -4,8 +4,12 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "src/app/core/services/incorporaciones/user.service";
 import { User } from "src/app/shared/models/incorporaciones/user";
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from "@angular/material/dialog";
 import { EditRolUserComponent } from "../edit-rol-user/edit-rol-user.component";
+import { NotificationService } from "src/app/core/services/notification.service";
+import { Title } from "@angular/platform-browser";
+import { Subscription } from "rxjs";
+import { interval } from "rxjs";
 
 @Component({
   selector: "app-user-list",
@@ -13,15 +17,36 @@ import { EditRolUserComponent } from "../edit-rol-user/edit-rol-user.component";
   styleUrls: ["./user-list.component.css"],
 })
 export class UserListComponent implements AfterViewInit {
-  displayedColumns: string[] = ["id", "name", "email", "cargo", "rol", "accion"];
+
+  displayedColumns: string[] = [
+    "id",
+    "name",
+    "email",
+    "cargo",
+    "rol",
+    "accion",
+  ];
+
   dataSource: MatTableDataSource<User>;
+
   adminList: User[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService, public dialog: MatDialog) {
+  constructor(
+    private notificationService: NotificationService,
+    private userService: UserService,
+    public dialog: MatDialog,
+    private titleService: Title
+  ) {
     this.dataSource = new MatTableDataSource<User>();
+  }
+
+  ngOnInit() {
+    this.titleService.setTitle("RRHH - DDE - Administracion");
+    this.notificationService.openSnackBar("Modulo Incorporaciones Cargando...");
+    this.getListData();
   }
 
   ngAfterViewInit(): void {
@@ -30,12 +55,21 @@ export class UserListComponent implements AfterViewInit {
     this.getListData();
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  applyFilter(event: any) {
+    const name = event.target.value;
+    if (name.trim() !== "") {
+      this.userService.byNameUser(name).subscribe(
+        (resp) => {
+          if (!!resp.objetosList) {
+            this.dataSource.data = resp.objetosList.map((el: any) => ({
+              ...el,
+            }));
+          }
+        },
+        (error) => console.log(error)
+      );
+    } else {
+      this.getListData();
     }
   }
 
@@ -52,46 +86,14 @@ export class UserListComponent implements AfterViewInit {
 
   abrirModalEditRolUser(rowIndex: number): void {
     const userRolData = this.dataSource?.data[rowIndex];
-
     const dialogRef = this.dialog.open(EditRolUserComponent, {
       width: "500px",
       height: "auto",
       data: {
         nombrePersona: userRolData.name,
-        userId: userRolData.id 
+        userId: userRolData.id,
       },
     });
-
-    dialogRef
-      .afterClosed().subscribe(result => {
-        // Aquí puedes manejar cualquier lógica después de cerrar el modal
-      });
-     /* .subscribe(async (result: Persona & Formacion & Incorporacion) => {
-        this.dataSource.data[rowIndex].persona = {
-          idPersona: result.idPersona,
-          ciPersona: result.ciPersona,
-          generoPersona: result.generoPersona,
-          nombrePersona: result.nombrePersona,
-          primerApellidoPersona: result.primerApellidoPersona,
-          segundoApellidoPersona: result.segundoApellidoPersona,
-        };
-        this.dataSource.data[rowIndex].personaId = result.idPersona;
-        this.dataSource.data[rowIndex].idIncorporacion = result.idIncorporacion;
-        const incorporacion = this.dataSource.data[rowIndex];
-        if (incorporacion.persona) {
-          incorporacion.persona.generoPersona = result.generoPersona;
-          incorporacion.persona.nombrePersona = result.nombrePersona;
-          incorporacion.persona.primerApellidoPersona =
-            result.primerApellidoPersona;
-          incorporacion.persona.segundoApellidoPersona =
-            result.segundoApellidoPersona;
-        }
-
-        await this.dataSource._updateChangeSubscription();
-        // Guardar incorporacion
-        this.sendDataIncorporacion(rowIndex);
-        console.log("El diálogo se cerró", result);
-        //this.actualizarVistaOPage();
-      });*/
   }
+  
 }

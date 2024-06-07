@@ -48,7 +48,7 @@
 
     <mat-card>
       <mat-card-content>
-        <button mat-raised-button color="primary" (click)="agregarFila()"> Nuevo </button>
+        <button mat-raised-button class="myBoton" (click)="agregarFila()"> Nuevo </button>
         <div class="contenedor-tabla">
           <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="idIncorporacion" sticky>
@@ -367,7 +367,7 @@
                   <mat-form-field class="example-form-incorporacion">
                     <mat-label>Cité Informe</mat-label>
                     <input matInput [(ngModel)]="row.citeInformeIncorporacion" (blur)="sendDataIncorporacion(i)"
-                      placeholder="GG/GRH/DDE/INF/120" />
+                      placeholder="120" />
                   </mat-form-field>
                   <mat-form-field class="example-form-incorporacion">
                     <mat-label>Fecha Informe</mat-label>

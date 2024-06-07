@@ -1,4 +1,10 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ElementRef} from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NGXLogger } from "ngx-logger";
@@ -11,7 +17,10 @@ import { PuestosService } from "src/app/core/services/incorporaciones/puestos.se
 import { IncorporacionesService } from "src/app/core/services/incorporaciones/incorporaciones.service";
 import { RegistroPersonaComponent } from "../registro-persona/registro-persona.component";
 import { RegistroRequisitosComponent } from "../registro-requisitos/registro-requisitos.component";
-import { EstadosIncorporacion, Incorporacion} from "src/app/shared/models/incorporaciones/incorporacion";
+import {
+  EstadosIncorporacion,
+  Incorporacion,
+} from "src/app/shared/models/incorporaciones/incorporacion";
 import { Formacion } from "src/app/shared/models/incorporaciones/formacion";
 import { Persona } from "src/app/shared/models/incorporaciones/persona";
 import { AuthenticationService } from "src/app/core/services/auth.service";
@@ -22,7 +31,6 @@ import { MatSelect } from "@angular/material/select";
 import { MatDateRangeInput } from "@angular/material/datepicker";
 import { FormGroup, FormControl } from "@angular/forms";
 import Swal from "sweetalert2";
-
 
 export interface ItemForm {
   nombreForm: string;
@@ -55,7 +63,9 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     "acciones",
   ];
 
-  dataSource: MatTableDataSource<Incorporacion & { formsDescargar?: Array<ItemForm> }>;
+  dataSource: MatTableDataSource<
+    Incorporacion & { formsDescargar?: Array<ItemForm> }
+  >;
 
   selectedOption!: string;
   currentUser: any;
@@ -84,7 +94,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle("angular-material-template - Incorporaciones");
+    this.titleService.setTitle("RRHH - DDE - Incorporaciones");
     //this.logger.log('Customers loaded');
     this.notificationService.openSnackBar("Modulo Incorporaciones Cargando...");
     this.currentUser = this.authenticationService.getCurrentUser();
@@ -183,7 +193,13 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  filtrosIncorporacion( name: string | null, nombreCompletoPersona: string | null, tipo: string | null, fechaInicio: string | null, fechaFin: string | null) {
+  filtrosIncorporacion(
+    name: string | null,
+    nombreCompletoPersona: string | null,
+    tipo: string | null,
+    fechaInicio: string | null,
+    fechaFin: string | null
+  ) {
     const filtro: {
       name: string;
       nombreCompletoPersona: string;
@@ -248,13 +264,11 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
               puestoNuevoItem: el?.puestoNuevo?.itemPuesto,
               puestoActualItem: el?.puestoActual?.itemPuesto,
             }));
-  
-            const filteredList = listWithItem.filter((el) => el.estadoIncorporacion !== 3);
-  
-            filteredList.sort(
-              (a, b) => (b.idIncorporacion ?? 0) - (a.idIncorporacion ?? 0)
+
+            const filteredList = listWithItem.filter(
+              (el) => el.estadoIncorporacion !== 3
             );
-  
+
             this.dataSource.data = filteredList;
             this.dataSource._updateChangeSubscription();
             this.totalItems = resp.total || 0;
@@ -264,7 +278,6 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
         (error) => console.log(error)
       );
   }
-  
 
   getDepartamentoConector(departamentoNombre: string | null): string {
     if (!departamentoNombre) {
@@ -366,7 +379,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     this.dataSource.data.unshift(newIncorporacion);
     this.dataSource._updateChangeSubscription();
   }
-
+  
   /* ----------------------------------------- Pagination ----------------------------------------- */
   onPaginate(ev: any) {
     console.log("Pagination Data:", ev);
@@ -668,19 +681,26 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
   eliminarFila(rowIndex: number): void {
     const idIncorporacion = this.dataSource.data[rowIndex]?.idIncorporacion;
     if (idIncorporacion) {
-      this.incorporacionesService.darBajaIncorporacion(idIncorporacion).subscribe(
-        respuesta => {
-            this.notificationService.showSuccess("Se eliminó el registro correctamente.");
+      this.incorporacionesService
+        .darBajaIncorporacion(idIncorporacion)
+        .subscribe(
+          (respuesta) => {
+            this.notificationService.showSuccess(
+              "Se eliminó el registro correctamente."
+            );
             this.dataSource.data.splice(rowIndex, 1);
             this.dataSource._updateChangeSubscription();
-            
-        },
-        error => {
-          this.notificationService.showError("Error al eliminar el registro. Por favor, inténtalo de nuevo.");
-        }
-      );
+          },
+          (error) => {
+            this.notificationService.showError(
+              "Error al eliminar el registro. Por favor, inténtalo de nuevo."
+            );
+          }
+        );
     } else {
-      console.error("No se pudo obtener el id de incorporación para la fila especificada.");
+      console.error(
+        "No se pudo obtener el id de incorporación para la fila especificada."
+      );
     }
   }
   /*                                      Descargar Formularios                                     */

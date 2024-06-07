@@ -62,3 +62,8 @@ a.mat-list-item.active {
   position: absolute;
   bottom: 0;
 }
+
+.custom-toolbar {
+  background: #012e58;
+  color: #fff;
+}

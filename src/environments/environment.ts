@@ -11,4 +11,5 @@ export const environment = {
   serverLogLevel: NgxLoggerLevel.OFF,
   apiIcBack: 'http://127.0.0.1:8000',
   //apiIcBack: 'http://10.1.4.84:8000',
+  //apiIcBack: 'http://dde-pruebas.com',
 };

@@ -32,4 +32,13 @@ export class UserService {
      {roles}
     );
   }
+
+  byNameUser(name: string) {
+    const params = { name }; 
+    return this.http.get<RespuestaLista<User>>(
+      `${this.baseUrl}/${this.path}/byNameUser`, 
+      { params } 
+    );
+  }
+
 }

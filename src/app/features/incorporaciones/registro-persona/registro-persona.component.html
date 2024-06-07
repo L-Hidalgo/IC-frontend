@@ -61,14 +61,16 @@
 
       <!-- Conclusion de estudios-->
       <mat-form-field class="custom-width-fecha">
-        <mat-label>Conclu. de Estudios</mat-label>
+        <mat-label> Año de Conclu. de Estudios</mat-label>
         <input matInput formControlName="gestionFormacion">
         <mat-error *ngIf="personaForm.get('gestionFormacion')?.hasError('required')">La gestion es
           requerida</mat-error>
       </mat-form-field>
+    </div>
 
+    <div class="container">
       <!-- Grado Académico -->
-      <mat-form-field>
+      <mat-form-field class="custom-width-fecha">
         <mat-label>Grado Académico</mat-label>
         <input matInput formControlName="gradoAcademico" [matAutocomplete]="autoGradoAcademico">
         <mat-autocomplete #autoGradoAcademico="matAutocomplete">
@@ -77,11 +79,8 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-    </div>
 
-    <div class="container-formacion">
-      <!-- Área de Profesión -->
-      <mat-form-field class="custom-input-formacion">
+      <mat-form-field class="custom-width-fecha">
         <mat-label>Área de Formación</mat-label>
         <input matInput formControlName="areaFormacion" [matAutocomplete]="autoAreaFormacion">
         <mat-autocomplete #autoAreaFormacion="matAutocomplete">
@@ -92,7 +91,9 @@
         <mat-error *ngIf="personaForm.get('areaFormacion')?.hasError('required')">El área de profesión es
           requerida</mat-error>
       </mat-form-field>
+    </div>
 
+    <div class="container-formacion">
       <!-- Institución de Estudios -->
       <mat-form-field class="custom-input-formacion">
         <mat-label>Institución de Estudios</mat-label>
@@ -106,8 +107,6 @@
           requerido</mat-error>
       </mat-form-field>
     </div>
-
-
     <!--Imagenes
         <mat-form-field>
           <mat-label>Seleccionar imagen</mat-label>

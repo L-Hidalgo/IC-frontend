@@ -8,7 +8,7 @@
   width: 140px;
 }
 .custom-width-fecha {
-  width: 140px !important;
+  width: 250px !important;
 }
 .custom-width-fecha .date-picker-container {
   display: flex;
@@ -33,5 +33,5 @@ mat-form-field {
   align-items: center; 
 }
 .custom-input-formacion{
-  width: 250px;
+  width: 550px;
 }

@@ -9,7 +9,7 @@
 
 .contenedor-tabla th,
 .contenedor-tabla td {
-  padding: 8px; /* Esto define el espacio entre las celdas */
+  padding: 8px; 
   text-align: left;
   border-bottom: 1px solid #ddd;
 }

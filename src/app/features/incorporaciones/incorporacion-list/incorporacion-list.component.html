@@ -123,7 +123,7 @@
               <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)"
                 class="white-background">
                 <div class="example-form-persona">
-                  <img [src]="obtenerImagen(row.personaId)" alt="Imagen de persona" class="persona-img">
+                  <img [src]="obtenerImagen(row.personaId)" alt="Imagen de persona" class="persona-img"><br>
                   <ng-container *ngIf="!(row.puestoNuevoItem && row.personaId)">
                     <span>Persona sin registro</span>
                   </ng-container>

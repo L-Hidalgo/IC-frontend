@@ -185,28 +185,6 @@ export class AdministracionListComponent implements AfterViewInit {
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i];
   }
 
-  // imagenes del administrador
-  imagenUrl: any;
-
-  getImagenUserPersona(): void {
-    let imagenUrl = "./assets/images/user.png";
-
-    if (this.userCi === undefined || this.userCi === "") {
-      imagenUrl = "./assets/images/user.png";
-    }
-
-    this.administracionService.imagenUserPersona(this.userCi).subscribe(
-      (blob) => {
-        const imageUrl = URL.createObjectURL(blob);
-        this.imagenUrl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-      },
-      (error) => {
-        console.error("Error al cargar la imagen:", error);
-        this.imagenUrl = "/assets/images/user.png";
-      }
-    );
-  }
-
   //detalles de puesto e incorporacion q se muesra en el toolbar
   detalles: any = {};
 
@@ -297,5 +275,27 @@ export class AdministracionListComponent implements AfterViewInit {
     if (bytes === 0) return "0 Byte";
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i];
+  }
+
+  // imagenes del administrador
+  imagenUrl: any;
+
+  getImagenUserPersona(): void {
+    let imagenUrl = "./assets/images/user.png";
+
+    if (this.userCi === undefined || this.userCi === "") {
+      imagenUrl = "./assets/images/user.png";
+    }
+
+    this.administracionService.imagenUserPersona(this.userCi).subscribe(
+      (blob) => {
+        const imageUrl = URL.createObjectURL(blob);
+        this.imagenUrl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+      },
+      (error) => {
+        console.error("Error al cargar la imagen:", error);
+        this.imagenUrl = "/assets/images/user.png";
+      }
+    );
   }
 }

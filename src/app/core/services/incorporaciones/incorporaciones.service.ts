@@ -117,7 +117,8 @@ export class IncorporacionesService {
   }
 
   //servicio para mostrar las imagenes de una persona
-  imagenPersona(personaId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${this.path}/imagen-persona/${personaId}`);
+  obtenerImagenPersona(personaId: number): string {
+    return `${this.baseUrl}/${this.path}/imagen-persona/${personaId}`;
   }
+
 }

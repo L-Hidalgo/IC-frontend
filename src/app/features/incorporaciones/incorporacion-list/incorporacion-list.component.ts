@@ -51,6 +51,7 @@ export interface ItemForm {
 export class IncorporacionListComponent implements OnInit, AfterViewInit {
   userId!: number;
   personaId!: number;
+  imageUrl: string = "";
 
   displayedColumns: string[] = [
     "idIncorporacion",
@@ -930,10 +931,13 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // imagenes de la persona
+  // imagenes de la persona /assets/images/user.png
+  errorImage: string = "/assets/images/user.png";
 
-  obtenerImagen(personaId: number): void {
-    this.incorporacionesService.imagenPersona(personaId)
+  obtenerImagen(personaId: number): string {
+    if (personaId == null) {
+      return this.errorImage;
+    }
+    return this.incorporacionesService.obtenerImagenPersona(personaId);
   }
-
 }

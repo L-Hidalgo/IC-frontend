@@ -5,5 +5,4 @@ export interface User {
   email: string | null;
   cargo: string | null;
   gerencia: string | null;
-
 }

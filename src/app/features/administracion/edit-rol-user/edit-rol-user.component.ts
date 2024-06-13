@@ -29,6 +29,7 @@ export class EditRolUserComponent implements OnInit {
     this.nombrePersona = data.nombrePersona;
     this.userId = data.userId;
     this.loadRoles();
+    this.loadUserRoles(); // Cargar los roles del usuario al abrir el diálogo
   }
 
   ngOnInit(): void {}
@@ -36,6 +37,12 @@ export class EditRolUserComponent implements OnInit {
   loadRoles() {
     this.rolesService.getAll().subscribe((response: RespuestaLista<Rol>) => {
       this.listRoles = response.objetosList || [];
+    });
+  }
+
+  loadUserRoles() {
+    this.rolesService.getUserRoles(this.userId).subscribe((response: any) => {
+      this.selectedRoles = response.roles.map((role: any) => role.id) || [];
     });
   }
 
@@ -64,4 +71,5 @@ export class EditRolUserComponent implements OnInit {
   onClose(): void {
     this.dialogRef.close();
   }
+
 }

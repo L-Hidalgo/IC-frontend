@@ -115,4 +115,9 @@ export class IncorporacionesService {
   genUrlR1401(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1401`;
   }
+
+  //servicio para mostrar las imagenes de una persona
+  imagenPersona(personaId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${this.path}/imagen-persona/${personaId}`);
+  }
 }

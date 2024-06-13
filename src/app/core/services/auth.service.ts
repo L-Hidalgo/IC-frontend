@@ -25,12 +25,13 @@ export class AuthenticationService {
               JSON.stringify({
                 token: response.token,
                 isAdmin: true,
-                usernamme: response.user.username,
                 id: response.user.id,
+                fullName: response.user.name,
+                usernamme: response.user.username,
                 alias: response.user.email.split("@")[0],
                 expiration: moment().add(1, "days").toDate(),
-                fullName: response.user.name,
                 role: response.user.role,
+                ci: response.user.ci,
               })
             );
             return true;

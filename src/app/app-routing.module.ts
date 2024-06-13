@@ -14,20 +14,20 @@ const appRoutes: Routes = [
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard, RoleGuard], 
     data: { 
-      expectedRoles: [UserRole.Admin, UserRole.Moderator, UserRole.Reader]
+      expectedRoles: [UserRole.Admin, UserRole.Gestor, UserRole.Reader]
     }
   },
   {
     path: 'incorporaciones',
-    loadChildren: () => import('./features/incorporaciones/incorporacion.module').then(m => m.CustomersModule),
+    loadChildren: () => import('./features/incorporaciones/incorporaciones.module').then(m => m.IncorporacionesModule),
     canActivate: [AuthGuard, RoleGuard], 
     data: { 
-      expectedRoles: [UserRole.Admin, UserRole.Moderator]
+      expectedRoles: [UserRole.Admin, UserRole.Gestor]
     }
   },
   {
-    path: 'users',
-    loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
+    path: 'administracion',
+    loadChildren: () => import('./features/administracion/administracion.module').then(m => m.AdministracionModule),
     canActivate: [AuthGuard, RoleGuard], 
     data: { 
       expectedRoles: [UserRole.Admin]

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomersRoutingModule } from './incorporacion-routing.module';
+import { IncorporacionesRoutingModule } from './incorporaciones-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { IncorporacionListComponent } from './incorporacion-list/incorporacion-list.component';
 import { RegistroPersonaComponent } from './registro-persona/registro-persona.component';
@@ -9,7 +9,7 @@ import { RegistroRequisitosComponent } from './registro-requisitos/registro-requ
 @NgModule({
     imports: [
         CommonModule,
-        CustomersRoutingModule,
+        IncorporacionesRoutingModule,
         SharedModule
     ],
     declarations: [
@@ -18,4 +18,4 @@ import { RegistroRequisitosComponent } from './registro-requisitos/registro-requ
         RegistroRequisitosComponent
     ]
 })
-export class CustomersModule { }
+export class IncorporacionesModule { }

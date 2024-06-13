@@ -31,6 +31,10 @@ import { MatSelect } from "@angular/material/select";
 import { MatDateRangeInput } from "@angular/material/datepicker";
 import { FormGroup, FormControl } from "@angular/forms";
 import Swal from "sweetalert2";
+import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
+import { Observable, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 export interface ItemForm {
   nombreForm: string;
@@ -46,6 +50,7 @@ export interface ItemForm {
 })
 export class IncorporacionListComponent implements OnInit, AfterViewInit {
   userId!: number;
+  personaId!: number;
 
   displayedColumns: string[] = [
     "idIncorporacion",
@@ -86,7 +91,8 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     private logger: NGXLogger,
     private titleService: Title,
     private authenticationService: AuthenticationService,
-    private userService: UserService
+    private userService: UserService,
+    private sanitizer: DomSanitizer
   ) {
     this.dataSource = new MatTableDataSource();
     this.getListData();
@@ -379,7 +385,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     this.dataSource.data.unshift(newIncorporacion);
     this.dataSource._updateChangeSubscription();
   }
-  
+
   /* ----------------------------------------- Pagination ----------------------------------------- */
   onPaginate(ev: any) {
     console.log("Pagination Data:", ev);
@@ -420,22 +426,20 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
           } else {
             message = `Puesto: ${puesto.itemPuesto}, ${puesto.denominacionPuesto} está acéfalo`;
           }
-
           Swal.fire({
             icon: "info",
             title: "Información",
-            text: `${message}\n¿Desea realizar un cambio de item?`,
+            text: `${message}\n¿Desea realizar una Incorporacion o Designacion?`,
             showCancelButton: true,
             confirmButtonText: "Sí",
             cancelButtonText: "No",
           }).then((result) => {
             if (result.isConfirmed) {
-              this.mostrarFormularioCambioItem = true;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
               this.mostrarFormularioCambioItem = false;
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              this.mostrarFormularioCambioItem = true;
             }
           });
-
           this.dataSource.data[rowIndex].puestoNuevoId = puesto.idPuesto;
           const incorporacion = this.dataSource.data[rowIndex];
           if (incorporacion.puestoNuevo) {
@@ -474,7 +478,6 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
           const puesto = resp.objeto;
           if (puesto) {
             console.log("puesto a cambiar:", puesto);
-            // Agregar el id del puesto al registro para cuando se actualice o se cree
             this.dataSource.data[rowIndex].puestoActualId = puesto.idPuesto;
             this.dataSource.data[rowIndex].personaId = puesto.personaActualId;
 
@@ -926,4 +929,11 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  // imagenes de la persona
+
+  obtenerImagen(personaId: number): void {
+    this.incorporacionesService.imagenPersona(personaId)
+  }
+
 }

@@ -57,14 +57,14 @@
           <p mat-line> Menu Principal </p>
         </a>
 
-        <a mat-list-item *ngIf="role === 'Administrador'" [routerLink]="['/users']" routerLinkActive="active">
+        <a mat-list-item *ngIf="role === 'Administrador'" [routerLink]="['/administracion']" routerLinkActive="active">
           <mat-icon mat-list-icon>
             people
           </mat-icon>
           <p mat-line> Administración </p>
         </a>
 
-        <a mat-list-item *ngIf="role === 'Administrador' || role === 'Moderadores'" [routerLink]="['/incorporaciones']"
+        <a mat-list-item *ngIf="role === 'Administrador' || role === 'Gestor'" [routerLink]="['/incorporaciones']"
           routerLinkActive="active">
           <mat-icon mat-list-icon>
             business

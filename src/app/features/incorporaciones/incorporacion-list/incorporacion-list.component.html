@@ -52,7 +52,8 @@
         <div class="contenedor-tabla">
           <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="idIncorporacion" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header="idIncorporacion" style="width: 100px; position: sticky; left: 0" class="white-background">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="idIncorporacion"
+                style="width: 100px; position: sticky; left: 0" class="white-background">
                 No.
               </th>
               <td mat-cell *matCellDef="let row; index as i" class="white-background">{{ i + 1 }}</td>
@@ -119,9 +120,10 @@
 
             <ng-container matColumnDef="persona" sticky>
               <th mat-header-cell *matHeaderCellDef class="white-background">PERSONA</th>
-              <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)" class="white-background">
+              <td mat-cell *matCellDef="let row; index as i" (click)="abrirModalRegistroPersona(i)"
+                class="white-background">
                 <div class="example-form-persona">
-                  <img src="./assets/images/user.png" alt="Pedro" class="persona-img" /><br />
+                  <img [src]="obtenerImagen(row.personaId)" alt="Imagen de persona" class="persona-img">
                   <ng-container *ngIf="!(row.puestoNuevoItem && row.personaId)">
                     <span>Persona sin registro</span>
                   </ng-container>
@@ -187,7 +189,7 @@
                       {{ row.persona?.segundoApellidoPersona }}
                     </ng-container>
                     <ng-container *ngIf="row.persona?.generoPersona === 'M'">
-                      del servidor público interino 
+                      del servidor público interino
                       {{ row.persona?.nombrePersona }}
                       {{ row.persona?.primerApellidoPersona }}
                       {{ row.persona?.segundoApellidoPersona }}

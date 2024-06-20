@@ -11,8 +11,12 @@ export interface Incorporacion {
   puestoActualItem?: number;
   personaId?: number | null;
   conRespaldoFormacion?: number | null;
+  //Datos de evaluacion
   observacionIncorporacion?: string |null;
+  observacionDetalleIncorporacion?: string |null;
   experienciaIncorporacion?: number;
+  fchObservacionIncorporacion?: Date | null;
+
   fchIncorporacion?: string;
   estadoIncorporacion?: number | null;
   // Requisitos puestos

@@ -10,8 +10,9 @@ import { CustomMaterialModule } from './custom-material/custom-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from '../environments/environment';
-import { MatRadioModule } from '@angular/material/radio';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,6 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   imports: [
     BrowserModule,
-    MatRadioModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
@@ -27,11 +27,17 @@ import { MatRadioModule } from '@angular/material/radio';
     SharedModule,
     CustomMaterialModule.forRoot(),
     AppRoutingModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
     LoggerModule.forRoot({
       serverLoggingUrl: `http://my-api/logs`,
       level: environment.logLevel,
       serverLogLevel: environment.serverLogLevel
     })
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }, 
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
   bootstrap: [AppComponent]
 })

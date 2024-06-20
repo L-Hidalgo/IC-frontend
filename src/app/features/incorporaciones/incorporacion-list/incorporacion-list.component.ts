@@ -31,10 +31,10 @@ import { MatSelect } from "@angular/material/select";
 import { MatDateRangeInput } from "@angular/material/datepicker";
 import { FormGroup, FormControl } from "@angular/forms";
 import Swal from "sweetalert2";
-import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
-import { Observable, of } from "rxjs";
-import { map, catchError } from "rxjs/operators";
-import { Subscription } from "rxjs";
+import { DomSanitizer } from "@angular/platform-browser";
+import { ObservacionDetalleComponent } from "../observacion-detalle/observacion-detalle.component";
+import { ReporteEvaluacionComponent } from "../reporte-evaluacion/reporte-evaluacion.component";
+import { ReporteTrimestralComponent } from "../reporte-trimestral/reporte-trimestral.component";
 
 export interface ItemForm {
   nombreForm: string;
@@ -323,9 +323,13 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       puestoNuevoId: undefined,
       puestoActualId: undefined,
       estadoIncorporacion: null,
-      conRespaldoFormacion: null,
+      //datos de evaluacion
       observacionIncorporacion: null,
+      observacionDetalleIncorporacion: null,
       experienciaIncorporacion: undefined,
+      fchObservacionIncorporacion: undefined,
+      //hasta aqui termina datos de evaluacion
+      conRespaldoFormacion: null,
       fchIncorporacion: undefined,
       hpIncorporacion: null,
       citeNotaMinutaIncorporacion: null,
@@ -570,10 +574,13 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
           puestoActualId: data.puestoActualId,
           personaId: data.personaId,
           estadoIncorporacion: data.estadoIncorporacion,
-          conRespaldoFormacion: data.conRespaldoFormacion,
-          observacionIncorporacion: data.observacionIncorporacion,
-          experienciaIncorporacion: data.experienciaIncorporacion,
 
+          observacionIncorporacion: data.observacionIncorporacion,
+          observacionDetalleIncorporacion: data.observacionDetalleIncorporacion,
+          experienciaIncorporacion: data.experienciaIncorporacion,
+          fchObservacionIncorporacion: data.fchObservacionIncorporacion,
+
+          conRespaldoFormacion: data.conRespaldoFormacion,
           fchIncorporacion: data.fchIncorporacion,
           hpIncorporacion: data.hpIncorporacion,
           citeNotaMinutaIncorporacion: data.citeNotaMinutaIncorporacion,
@@ -775,7 +782,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     },
     {
       nombreForm: "RAP",
-      callback: (incId: number) => this.incorporacionesService.genUrlRAP(incId),
+      callback: (incId: number) => this.incorporacionesService.genUrlRap(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -931,7 +938,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // imagenes de la persona /assets/images/user.png
+  // imagenes de la persona
   errorImage: string = "/assets/images/user.png";
 
   obtenerImagen(personaId: number): string {
@@ -939,5 +946,54 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       return this.errorImage;
     }
     return this.incorporacionesService.obtenerImagenPersona(personaId);
+  }
+
+  //modal para poder detallar xq no se cumple con la observacion
+  abrirModalObservacionDetalle(rowIndex: number): void {
+    const data = this.dataSource.data[rowIndex];
+    const dialogRef = this.dialog.open(ObservacionDetalleComponent, {
+      width: "400px",
+      data: {
+        idIncorporacion: data.idIncorporacion,
+        puestoNuevoId: data.puestoNuevoId,
+        personaId: data.personaId,
+        observacionDetalleIncorporacion: data.observacionDetalleIncorporacion,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .subscribe(
+        (result: Pick<Incorporacion, "observacionDetalleIncorporacion">) => {
+          this.dataSource.data[rowIndex].observacionDetalleIncorporacion =
+            result.observacionDetalleIncorporacion;
+          this.dataSource._updateChangeSubscription();
+        }
+      );
+  }
+
+  //generar reporte evaluacion
+  generarReporteEvaluacionModal(): void {
+    const dialogRef = this.dialog.open(ReporteEvaluacionComponent, {
+      width: "400px",
+      data: {
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("Modal cerrado", result);
+    });
+  }
+
+  generarReporteTrimestralModal(): void {
+    const dialogRef = this.dialog.open(ReporteTrimestralComponent, {
+      width: "400px",
+      data: {
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("Modal cerrado", result);
+    });
   }
 }

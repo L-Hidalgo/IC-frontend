@@ -1,0 +1,53 @@
+.reporte-evaluacion-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .titulo {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .form-container {
+    text-align: left;
+    width: 100%;
+  }
+  
+  .custom-width-filters,
+  .custom-width-fecha-filters {
+    width: 100%;
+  }
+  
+  .buttons-container {
+    margin-top: 20px;
+  }
+  
+  .buttons-container button {
+    margin-left: 10px;
+  }
+  .date-picker-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .date-picker-container mat-datepicker-toggle {
+    order: 2;
+  }
+  
+  .date-picker-container mat-hint {
+    order: 1;
+  }
+  
+  .custom-primary-button {
+    background-color: #5b7790;
+    color: white;
+  }
+  
+  .grey-button {
+    background-color: grey;
+    color: white;
+  }
+  

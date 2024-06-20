@@ -64,6 +64,12 @@ th.mat-sort-header-sorted {
   margin: 10px !important;
 }
 
+.example-form-inputs-designacion {
+  display: flex;
+  align-items: center;
+  width: auto !important;
+}
+
 .custom-width-fecha {
   width: 100px !important;
   margin: 10px;
@@ -171,7 +177,7 @@ th.mat-sort-header-sorted {
   padding-bottom: 20px;
 }
 
-mat-card{
+mat-card {
   margin-top: 25px;
 }
 
@@ -187,20 +193,20 @@ mat-card{
 .custom-width-filters,
 .custom-width-fecha-filters {
   margin: 1.5%;
-  width: 20%; 
+  width: 20%;
 }
 
 @media screen and (max-width: 250px) {
   .custom-width-filters,
   .custom-width-fecha-filters {
-    width: 40%; 
+    width: 40%;
   }
 }
 
 @media screen and (max-width: 480px) {
   .custom-width-filters,
   .custom-width-fecha-filters {
-    width: 100%; 
+    width: 100%;
     margin: 5px 0;
   }
 }
@@ -218,4 +224,19 @@ mat-card{
   background: #012e58;
   color: #fff;
   margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.buttonReportEvaluacion {
+  background: #5b7790;
+  color: #fff;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.buttonReportTrimestral {
+  background: #8494a6;
+  color: #fff;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }

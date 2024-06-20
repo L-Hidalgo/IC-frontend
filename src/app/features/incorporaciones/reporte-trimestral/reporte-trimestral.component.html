@@ -1,0 +1,30 @@
+<div class="reporte-evaluacion-container">
+    <h3 class="titulo">Reporte Trimestral</h3>
+    <form #formReporte="ngForm" (ngSubmit)="onSubmit(formReporte)" class="form-container">
+        <mat-form-field class="custom-width-filters">
+            <mat-label>Usuario</mat-label>
+            <mat-select name="usuarioSelect" ngModel #usuarioSelect="ngModel" required>
+                <mat-option *ngFor="let user of listUsers" [value]="user.name">{{ user.name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="custom-width-fecha-filters">
+            <mat-label>Introduce un rango de fechas</mat-label>
+            <div class="date-picker-container">
+                <mat-date-range-input [rangePicker]="picker" ngModel name="dateRange" #dateRange="ngModel" required>
+                    <input matStartDate placeholder="Fecha de inicio" ngModel name="startDate" #startDate="ngModel">
+                    <input matEndDate placeholder="Fecha de fin" ngModel name="endDate" #endDate="ngModel">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            </div>
+            <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <div class="buttons-container">
+            <button mat-raised-button type="submit"
+                [disabled]="!formReporte.valid || startDate.errors?.['matStartDateInvalid'] || endDate.errors?.['matEndDateInvalid']"
+                class="custom-primary-button">Generar Reporte</button>
+            <button mat-raised-button type="button" (click)="onClose()" class="grey-button">Cerrar</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+.custom-textarea {
+  width: 100%;
+}
+
+.custom-primary-button {
+  background-color: #5b7790; 
+  color: white; 
+}
+
+.grey-button {
+  background-color: grey; 
+  color: white; 
+}

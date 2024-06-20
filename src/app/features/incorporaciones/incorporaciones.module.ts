@@ -5,6 +5,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { IncorporacionListComponent } from './incorporacion-list/incorporacion-list.component';
 import { RegistroPersonaComponent } from './registro-persona/registro-persona.component';
 import { RegistroRequisitosComponent } from './registro-requisitos/registro-requisitos.component';
+import { ObservacionDetalleComponent } from './observacion-detalle/observacion-detalle.component';
+import { ReporteEvaluacionComponent } from './reporte-evaluacion/reporte-evaluacion.component';
+import { ReporteTrimestralComponent } from './reporte-trimestral/reporte-trimestral.component';
 
 @NgModule({
     imports: [
@@ -15,7 +18,10 @@ import { RegistroRequisitosComponent } from './registro-requisitos/registro-requ
     declarations: [
         IncorporacionListComponent,
         RegistroPersonaComponent,
-        RegistroRequisitosComponent
+        RegistroRequisitosComponent,
+        ObservacionDetalleComponent,
+        ReporteEvaluacionComponent,
+        ReporteTrimestralComponent
     ]
 })
 export class IncorporacionesModule { }

@@ -49,6 +49,8 @@
     <mat-card>
       <mat-card-content>
         <button mat-raised-button class="myBoton" (click)="agregarFila()"> Nuevo </button>
+        <button mat-raised-button class="buttonReportEvaluacion" (click)="generarReporteEvaluacionModal()"> Reporte Evaluación </button>
+        <button mat-raised-button class="buttonReportTrimestral" (click)="generarReporteTrimestralModal()"> Reporte Trimestral </button>
         <div class="contenedor-tabla">
           <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="idIncorporacion" sticky>
@@ -233,76 +235,96 @@
 
             <ng-container matColumnDef="evaluacion">
               <th mat-header-cell *matHeaderCellDef class="left-border">
-                EVALUACION
+                EVALUACIÓN
               </th>
               <td mat-cell *matCellDef="let row; index as i" class="left-border">
                 <div class=container-column>
-
                   <div class="example-form-inputs">
                     <mat-form-field class="custom-width">
                       <mat-label>Obs. Procs. Evaluacion</mat-label>
                       <mat-select [(ngModel)]="row.observacionIncorporacion" (blur)="sendDataIncorporacion(i)">
                         <mat-option value="Cumple">Cumple</mat-option>
-                        <mat-option value="No cumple">No cumple</mat-option>
+                        <mat-option value="No cumple" (click)="abrirModalObservacionDetalle(i)">No cumple</mat-option>
                       </mat-select>
                     </mat-form-field>
-                    <div *ngIf="
-                          row.observacionIncorporacion === 'Cumple' &&
-                          row.puestoNuevoId &&
-                          !row.puestoActualId
-                        ">
-                      <mat-form-field class="custom-width">
-                        <mat-label>Experiencia</mat-label>
-                        <mat-select [(ngModel)]="row.experienciaIncorporacion" (blur)="sendDataIncorporacion(i)">
-                          <mat-option value="0">No tiene</mat-option>
-                          <mat-option value="1">Si tiene</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div *ngIf="
-                          row.observacionIncorporacion == 'Cumple' &&
-                          row.puestoNuevoId &&
-                          row.puestoActualId
-                        " class="example-form-inputs-inc">
-                      <div class=container-column>
+                    <mat-form-field class="custom-width-fecha">
+                      <mat-label>Fch. Obs. de Evaluación</mat-label>
+                      <div class="date-picker-container">
+                        <input matInput [matDatepicker]="pickerFchEvaluacion"
+                          [(ngModel)]="row.fchObservacionIncorporacion" (blur)="sendDataIncorporacion(i)" />
+                        <mat-datepicker-toggle matSuffix [for]="pickerFchEvaluacion"
+                          class="custom-datepicker-toggle"></mat-datepicker-toggle>
+                      </div>
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker #pickerFchEvaluacion></mat-datepicker>
+                    </mat-form-field>
+                  </div>
 
-                        <div class="container">
-                          <button mat-button color="primary" class="small-button"
-                            (click)="onDownloadForms(i, ['R-1023'])">
-                            R-1023
-                          </button>
-                          <button mat-button color="primary" class="small-button"
-                            (click)="onDownloadForms(i, ['R-0980'])">
-                            R-0980
-                          </button>
+                  <div class="example-form-inputs">
+                    <!--Designacion-->
+                    <div *ngIf="row.observacionIncorporacion && row.puestoNuevoId && !row.puestoActualId"
+                      class="example-form-inputs">
+                      <div *ngIf="row.observacionIncorporacion === 'Cumple' && row.puestoNuevoId && !row.puestoActualId"
+                        class="example-form-inputs-designacion">
+                        <mat-form-field class="custom-width">
+                          <mat-label>Experiencia</mat-label>
+                          <mat-select [(ngModel)]="row.experienciaIncorporacion" (blur)="sendDataIncorporacion(i)">
+                            <mat-option value="1">Si tiene</mat-option>
+                            <mat-option value="0">No tiene</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="row.observacionIncorporacion == 'Cumple' && row.puestoNuevoId && !row.puestoActualId"
+                          class="example-form-inputs-inc">
+                          <div class=container-column>
+                            <div class="container">
+                              <button mat-button color="primary" class="small-button"
+                                (click)="onDownloadForms(i, ['R-0078'])">
+                                R-0078
+                              </button>
+                              <button mat-button color="primary" class="small-button"
+                                (click)="onDownloadForms(i, ['R-1401'])">
+                                R-1401
+                              </button>
+                            </div>
+                            <button mat-button color="primary" class="small-button"
+                              (click)="onDownloadForms(i, ['R-0980'])">
+                              R-0980
+                            </button>
+                          </div>
                         </div>
-
+                      </div>
+                      <div
+                        *ngIf="row.observacionIncorporacion === 'No cumple' && row.puestoNuevoId && !row.puestoActualId ">
                         <button mat-button color="primary" class="small-button"
-                          (click)="onDownloadForms(i, ['R-1129'])">
-                          R-1129
+                          (click)="onDownloadForms(i, ['R-0078'])">
+                          R-0078
+                        </button>
+                        <button mat-button color="primary" class="small-button"
+                          (click)="onDownloadForms(i, ['R-1401'])">
+                          R-1401
+                        </button>
+                        <button mat-button color="primary" class="small-button"
+                          (click)="onDownloadForms(i, ['R-0980'])">
+                          R-0980
                         </button>
                       </div>
-
+                    </div>
+                    <!--Cambio de item-->
+                    <div *ngIf="row.observacionIncorporacion && row.puestoNuevoId && row.puestoActualId"
+                      class="example-form-inputs">
+                      <button mat-button color="primary" class="small-button" (click)="onDownloadForms(i, ['R-1023'])">
+                        R-1023
+                      </button>
+                      <button mat-button color="primary" class="small-button" (click)="onDownloadForms(i, ['R-0980'])">
+                        R-0980
+                      </button>
+                      <button mat-button color="primary" class="small-button" (click)="onDownloadForms(i, ['R-1129'])">
+                        R-1129
+                      </button>
                     </div>
                   </div>
-
-                  <div *ngIf="
-                        row.observacionIncorporacion === 'Cumple' &&
-                        row.puestoNuevoId &&
-                        !row.puestoActualId
-                      " class="example-form-inputs">
-                    <button mat-button color="primary" class="small-button" (click)="onDownloadForms(i, ['R-0078'])">
-                      R-0078
-                    </button>
-                    <button mat-button color="primary" class="small-button" (click)="onDownloadForms(i, ['R-1401'])">
-                      R-1401
-                    </button>
-                    <button mat-button color="primary" class="small-button" (click)="onDownloadForms(i, ['R-0980'])">
-                      R-0980
-                    </button>
-                  </div>
                 </div>
-
               </td>
             </ng-container>
 

@@ -45,6 +45,23 @@ export class IncorporacionesService {
     );
   }
 
+
+  generarReportEvaluacion(name: string, fechaInicio: string, fechaFin: string) {
+    return this.http.post<Blob>(
+      `${this.baseUrl}/${this.path}/genReportEval`,
+      { name, fechaInicio, fechaFin },
+      { responseType: 'blob' as 'json' } 
+    );
+  }
+
+  generarReportTrimestral(name: string, fechaInicio: string, fechaFin: string) {
+    return this.http.post<Blob>(
+      `${this.baseUrl}/${this.path}/genReportTrimestral`,
+      { name, fechaInicio, fechaFin },
+      { responseType: 'blob' as 'json' } 
+    );
+  }
+
   generarFormularioEvalR0078(incorporacionId: number) {
     return this.http.post<RespuestaObjeto<Incorporacion>>(
       `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR0078`,
@@ -60,20 +77,20 @@ export class IncorporacionesService {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR1401`;
   }
 
-  genUrlInfNota(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-informe-con-nota`;
+  genUrlInfMinuta(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-inf-minuta`;
   }
 
-  genUrlInfMinuta(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-informe-con-minuta`;
+  genUrlInfNota(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-inf-nota`;
   }
 
   genUrlMemo(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-memo`;
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-memo`;
   }
 
-  genUrlRAP(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-RAP`;
+  genUrlRap(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-rap`;
   }
 
   genUrlActEntrega(incorporacionId: number) {

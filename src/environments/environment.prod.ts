@@ -4,5 +4,5 @@ export const environment = {
   production: true,
   logLevel: NgxLoggerLevel.OFF,
   serverLogLevel: NgxLoggerLevel.ERROR,
-  //apiIcBack: 'http://dde-pruebas.com',
+  apiIcBack: 'http://desaregistro.impuestos.gob.bo:8889',
 };

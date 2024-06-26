@@ -14,13 +14,13 @@
       </div>
       <div class="custom-div">
         <div style="font-size: 14px; color: #475569;">Detalles de Ítems</div>
-        <div style="font-size: 12px; color: #777e89;"><b>Num. de Ítem: </b> {{ detalles.totalPuestos }} ítems.</div>
+        <div style="font-size: 12px; color: #777e89;"><b>Num. de Ítem: </b> {{ detallesPuesto.totalPuestos }} ítems.</div>
         <div style="font-size: 12px;"><b style="color: #777e89;">Num. de Ítem Ocupados: </b> <span
-            style="color:green">{{ detalles.puestosOcupados }} ítem ocupados.</span></div>
+            style="color:green">{{ detallesPuesto.puestosOcupados }} ítem ocupados.</span></div>
         <div style="font-size: 12px;"><b style="color: #777e89;">Num. de Ítem Acefalos: </b> <span style="color:red">{{
-            detalles.puestosAcefalos }} ítem acéfalos.</span></div>
-        <div style="font-size: 12px; color: #777e89;"><b>Num. de Incorporaciones gestión {{ getCurrentYear() }}:</b> {{
-          cantidadIncorporacionesCreadas }} incorporaciones.</div>
+            detallesPuesto.puestosAcefalos }} ítem acéfalos.</span></div>
+        <div style="font-size: 12px; color: #777e89;">  <b>Num. de Incorporaciones gestión {{ getCurrentYear() }}:</b> {{ detallesIncorporacion.cantidadIncorporacionesCreadas }} incorporaciones.
+        </div>
       </div>
     </mat-toolbar>
     <mat-tab-group class="custom-tab-group">

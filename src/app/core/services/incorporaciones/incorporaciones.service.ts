@@ -62,21 +62,6 @@ export class IncorporacionesService {
     );
   }
 
-  generarFormularioEvalR0078(incorporacionId: number) {
-    return this.http.post<RespuestaObjeto<Incorporacion>>(
-      `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR0078`,
-      {}
-    );
-  }
-
-  genUrlFormularioEvalR0078(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR0078`;
-  }
-
-  genUrlFormularioEvalR1401(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-evalR1401`;
-  }
-
   genUrlInfMinuta(incorporacionId: number) {
     return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-inf-minuta`;
   }
@@ -94,45 +79,52 @@ export class IncorporacionesService {
   }
 
   genUrlActEntrega(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-acta-de-entrega`;
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-acta-entrega`;
   }
 
   genUrlActPosecion(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-acta-de-posesion`;
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-acta-posesion`;
   }
 
-  genUrlR0716(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-etica`;
-  }
-
-  genUrlR0921(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-declaracion-incompatibilidad`;
-  }
-
-  genUrlR0976(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-compromiso`;
-  }
-
-  genUrlRSGC0033(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-confidencialidad`;
-  }
-  //form cambio item
   genUrlR0980(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-0980`;
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R0980`;
   }
 
-  genUrlR1023(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1023`;
-  }
-
-  genUrlR1129(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1129`;
+  //formularios de incorporacion
+  genUrlR0078(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R0078`;
   }
 
   genUrlR1401(incorporacionId: number) {
-    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R-1401`;
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R1401`;
   }
 
+  //formularios de cambio item
+  genUrlR1023(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R1023`;
+  }
+
+  genUrlR1129(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-form-R1129`;
+  }
+
+  // otros formularios de incorporacion
+  genUrlR0716(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-R0716`; 
+  }
+
+  genUrlR0921(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-R0921`;
+  }
+
+  genUrlR0976(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-R0976`;
+  }
+
+  genUrlRSGC0033(incorporacionId: number) {
+    return `${this.baseUrl}/${this.path}/${incorporacionId}/gen-RSGC-0033`; //genFormConfidencialidad
+  }
+ 
   //servicio para mostrar las imagenes de una persona
   obtenerImagenPersona(personaId: number): string {
     return `${this.baseUrl}/${this.path}/imagen-persona/${personaId}`;

@@ -49,8 +49,10 @@
     <mat-card>
       <mat-card-content>
         <button mat-raised-button class="myBoton" (click)="agregarFila()"> Nuevo </button>
-        <button mat-raised-button class="buttonReportEvaluacion" (click)="generarReporteEvaluacionModal()"> Reporte Evaluación </button>
-        <button mat-raised-button class="buttonReportTrimestral" (click)="generarReporteTrimestralModal()"> Reporte Trimestral </button>
+        <button mat-raised-button class="buttonReportEvaluacion" (click)="generarReporteEvaluacionModal()"> Reporte
+          Evaluación </button>
+        <button mat-raised-button class="buttonReportTrimestral" (click)="generarReporteTrimestralModal()"> Reporte
+          Trimestral </button>
         <div class="contenedor-tabla">
           <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="idIncorporacion" sticky>
@@ -152,18 +154,26 @@
               </th>
               <td mat-cell *matCellDef="let row; index as i" class="left-border">
                 <div class=container-column>
-                  <div *ngIf="
-                        row.puestoNuevoId && !row.puestoActualId && row.personaId
-                      " class="example-form-cite">
+                  <div *ngIf="row.puestoNuevoId && !row.puestoActualId && row.personaId" class="example-form-cite">
                     Evaluación curricular para designación como
                     <ng-container *ngIf="row.persona?.generoPersona === 'F'">
-                      servidora pública interina de la señora
+                      <ng-container *ngIf="isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        servidora pública de libre nombramiento de la señora
+                      </ng-container>
+                      <ng-container *ngIf="!isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        servidora pública interina de la señora
+                      </ng-container>
                       {{ row.persona?.nombrePersona }}
                       {{ row.persona?.primerApellidoPersona }}
                       {{ row.persona?.segundoApellidoPersona }}
                     </ng-container>
                     <ng-container *ngIf="row.persona?.generoPersona === 'M'">
-                      servidor público interino del señor
+                      <ng-container *ngIf="isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        servidor público de libre nombramiento del señor
+                      </ng-container>
+                      <ng-container *ngIf="!isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        servidor público interino del señor
+                      </ng-container>
                       {{ row.persona?.nombrePersona }}
                       {{ row.persona?.primerApellidoPersona }}
                       {{ row.persona?.segundoApellidoPersona }}
@@ -185,13 +195,23 @@
                   <div *ngIf="row.puestoNuevoId && row.puestoActualId && row.personaId" class="example-form-cite">
                     Evaluación curricular para cambio de Ítem
                     <ng-container *ngIf="row.persona?.generoPersona === 'F'">
-                      de la servidora pública interina
+                      <ng-container *ngIf="isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        de la servidora pública
+                      </ng-container>
+                      <ng-container *ngIf="!isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        de la servidora pública interina
+                      </ng-container>
                       {{ row.persona?.nombrePersona }}
                       {{ row.persona?.primerApellidoPersona }}
                       {{ row.persona?.segundoApellidoPersona }}
                     </ng-container>
                     <ng-container *ngIf="row.persona?.generoPersona === 'M'">
-                      del servidor público interino
+                      <ng-container *ngIf="isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        del servidor público
+                      </ng-container>
+                      <ng-container *ngIf="!isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                        del servidor público interino
+                      </ng-container>
                       {{ row.persona?.nombrePersona }}
                       {{ row.persona?.primerApellidoPersona }}
                       {{ row.persona?.segundoApellidoPersona }}
@@ -209,8 +229,14 @@
                     row.puestoNuevo?.departamento?.gerencia?.nombreGerencia
                     )
                     }}
-                    al Ítem Nº {{ row.puestoNuevo?.itemPuesto }}
-                    {{ row.puestoNuevo?.denominacionPuesto }}
+                    <ng-container *ngIf="isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                      al cargo de libre nombramiento Ítem Nº {{ row.puestoNuevo?.itemPuesto }}
+                      {{ row.puestoNuevo?.denominacionPuesto }}
+                    </ng-container>
+                    <ng-container *ngIf="!isLibreNombramiento(row.puestoNuevo?.denominacionPuesto)">
+                      al Ítem Nº {{ row.puestoNuevo?.itemPuesto }}
+                      {{ row.puestoNuevo?.denominacionPuesto }}
+                    </ng-container>
                     {{
                     getDepartamentoConector(
                     row.puestoNuevo?.departamento?.nombreDepartamento

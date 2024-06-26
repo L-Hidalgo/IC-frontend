@@ -31,8 +31,8 @@ export class AdministracionService {
     return this.http.get(`${this.baseUrl}/${this.path}/puestoDetalle`, {});
   }
 
-  getIncorporacionDetalle(gestion: number) {
-    return this.http.get(`${this.baseUrl}/${this.path}/incorporacionDetalle/${gestion}`, {});
+  getIncorporacionDetalle() {
+    return this.http.get(`${this.baseUrl}/${this.path}/incorporacionDetalle`, {});
   }
 
   uploadExcel(archivoPlanilla: File) {

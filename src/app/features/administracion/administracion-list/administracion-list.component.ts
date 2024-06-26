@@ -59,6 +59,7 @@ export class AdministracionListComponent implements AfterViewInit {
 
     this.getImagenUserPersona();
     this.obtenerDetallesItems();
+    this.obtenerDetallesIncorporacion();
   }
 
   ngAfterViewInit(): void {
@@ -186,11 +187,12 @@ export class AdministracionListComponent implements AfterViewInit {
   }
 
   //detalles de puesto e incorporacion q se muesra en el toolbar
-  detalles: any = {};
+  detallesPuesto: any = {};
+  detallesIncorporacion: any = {};
 
   obtenerDetallesItems() {
     this.administracionService.getPuestoDetalle().subscribe((data: any) => {
-      this.detalles = data;
+      this.detallesPuesto = data;
     });
   }
 
@@ -198,15 +200,9 @@ export class AdministracionListComponent implements AfterViewInit {
     return new Date().getFullYear();
   }
 
-  cantidadIncorporacionesCreadas: number = 0;
-
   obtenerDetallesIncorporacion() {
-    const gestion = new Date().getFullYear();
-    this.administracionService
-      .getIncorporacionDetalle(gestion)
-      .subscribe((data: any) => {
-        this.cantidadIncorporacionesCreadas =
-          data.cantidadIncorporacionesCreadas;
+    this.administracionService.getIncorporacionDetalle().subscribe((data: any) => {
+      this.detallesIncorporacion = data;
       });
   }
 
@@ -291,11 +287,8 @@ export class AdministracionListComponent implements AfterViewInit {
       (blob) => {
         const imageUrl = URL.createObjectURL(blob);
         this.imagenUrl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-      },
-      (error) => {
-        console.error("Error al cargar la imagen:", error);
-        this.imagenUrl = "/assets/images/user.png";
       }
     );
   }
+
 }

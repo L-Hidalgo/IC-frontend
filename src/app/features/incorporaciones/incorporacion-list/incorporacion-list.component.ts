@@ -720,7 +720,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     {
       nombreForm: "R-0078",
       callback: (incId: number) =>
-        this.incorporacionesService.genUrlFormularioEvalR0078(incId),
+        this.incorporacionesService.genUrlR0078(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -731,7 +731,7 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
     {
       nombreForm: "R-1401",
       callback: (incId: number) =>
-        this.incorporacionesService.genUrlFormularioEvalR1401(incId),
+        this.incorporacionesService.genUrlR1401(incId),
       cambioItem: false,
       incorporacion: true,
       porEstado: [
@@ -937,6 +937,18 @@ export class IncorporacionListComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  //cite para el siat
+  isLibreNombramiento(denominacionPuesto: string): boolean {
+    if (!denominacionPuesto) return false;
+    const palabrasClave = ['Gerente', 'Secretaria', 'Responsable Staff', 'Jefe de Unidad', 'Servicios Generales Ejecutivo'];
+    for (const palabra of palabrasClave) {
+      if (denominacionPuesto.trim().startsWith(palabra)) {
+        return true;
+      }
+    }
+    return false;
+  }  
 
   // imagenes de la persona
   errorImage: string = "/assets/images/user.png";

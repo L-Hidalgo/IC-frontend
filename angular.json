@@ -27,7 +27,6 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -95,7 +94,6 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -117,6 +115,6 @@
     "schematicCollections": [
       "@angular-eslint/schematics"
     ],
-    "analytics": "be863ec8-8115-4502-ade0-c0e481c49c18"
+    "analytics": "a133078c-a47a-4e97-a252-d92753d17f67"
   }
 }

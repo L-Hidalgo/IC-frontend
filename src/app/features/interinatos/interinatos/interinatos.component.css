@@ -1,0 +1,109 @@
+.mat-paginator {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 0;
+  background-color: transparent;
+  border-top: none;
+}
+.mat-paginator-options {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.mat-paginator-options select {
+  font-size: 12px;
+  background-color: #f0f0f0;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin: 5px;
+}
+.mat-paginator-navigation {
+  display: flex;
+  align-items: center;
+}
+.mat-paginator-navigation-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.mat-paginator-page {
+  margin: 0 10px;
+}
+.mat-paginator-range-label {
+  font-size: 12px;
+}
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+.custom-table th {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+}
+.custom-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+.highlight-header {
+  background-color: #f0f0f0;
+}
+.centered-cell {
+  text-align: center;
+  font-size: 0.9em;
+}
+.line1 {
+  font-size: 1em;
+  text-align: center;
+  font-weight: bold;
+}
+.line2 {
+  font-size: 0.8em;
+  text-align: center;
+}
+.line3 {
+  font-size: 0.7em;
+  text-align: center;
+}
+.acciones-cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.acciones-cell button {
+  margin-left: 8px;
+}
+.boton-rojo,
+.boton-azul {
+  min-width: auto;
+  padding: 1px 3px;
+}
+.icono-pequeno {
+  font-size: 16px;
+}
+.boton-rojo {
+  background-color: #cd5c5c;
+  color: white;
+}
+.boton-azul {
+  background-color: #385470;
+  color: white;
+}
+.botones-container {
+  margin-bottom: 20px;
+}
+.button-color {
+  background-color: #012e58;
+  color: white;
+  margin-right: 10px;
+}
+.button-sin-color {
+  margin-right: 10px;
+}
+.custom-dialog-container {
+  padding: 0 !important; /* Elimina el padding del contenedor del diálogo */
+}

@@ -1,0 +1,150 @@
+<div class="container-header">
+    <h3>Modificar Interinato</h3>
+    <mat-icon (click)="closeModal()">clear</mat-icon>
+</div>
+<mat-stepper>
+    <mat-step label="Paso 1" state="paso-uno">
+        <form [formGroup]="formStep1">
+            <div class="form-row">
+                <div class="puesto-actual">
+                    <h4>Puesto Actual</h4>
+                    <p><b>Gerencia:</b> {{ interinato?.puestoActual?.departamento?.gerencia?.nombreGerencia }}</p>
+                    <p><b>Departamento:</b> {{ interinato?.puestoActual?.departamento?.nombreDepartamento }}</p>
+                    <p><b>Cargo:</b> {{ interinato?.puestoActual?.denominacionPuesto }}</p>
+                    <p><b>Persona:</b> {{ interinato?.puestoActual?.personaActual?.nombrePersona }} {{ interinato?.puestoActual?.personaActual?.primerApellidoPersona }} {{ interinato?.puestoActual?.personaActual?.segundoApellidoPersona }}</p>
+                </div>
+                <div class="puesto-nuevo">
+                    <h4>Puesto Nuevo</h4>
+                    <p><b>Gerencia:</b> {{ interinato?.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}</p>
+                    <p><b>Departamento:</b> {{ interinato?.puestoNuevo?.departamento?.nombreDepartamento }}</p>
+                    <p><b>Cargo:</b> {{ interinato?.puestoNuevo?.denominacionPuesto }}</p>
+                    <p><b>Persona:</b> {{ interinato?.puestoNuevo?.personaActual?.nombrePersona }} {{ interinato?.puestoNuevo?.personaActual?.primerApellidoPersona }} {{ interinato?.puestoNuevo?.personaActual?.segundoApellidoPersona }}</p>
+                </div>
+            </div>            
+        </form>        
+        <div>
+            <button mat-button matStepperNext>Siguiente</button>
+        </div>
+    </mat-step>
+    <mat-step label="Paso 2" state="paso-dos">
+        <form [formGroup]="formStep2">
+            <div class="form-row">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Proveído/Trámite</mat-label>
+                    <input matInput formControlName="proveidoTramiteInterinato">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cite/Nota/Informe/Minuta</mat-label>
+                    <input matInput formControlName="citeNotaInformeMinutaInterinato">
+                </mat-form-field>
+                <mat-form-field class="date-picker-field">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="fchCiteNotaInfMinutaInterinato">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="form-row">
+                <mat-form-field class="date-picker-field">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="fchMemorandumRapInterinato">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cite/Informe</mat-label>
+                    <input matInput formControlName="citeInformeInterinato">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Fojas/Informe</mat-label>
+                    <input matInput formControlName="fojasInformeInterinato">
+                </mat-form-field>
+            </div>
+            <div class="form-row">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cite/Mem</mat-label>
+                    <input matInput formControlName="citeMemorandumInterinato">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Código/Mem</mat-label>
+                    <input matInput formControlName="codigoMemorandumInterinato">
+                </mat-form-field>
+            </div>
+            <div class="form-row">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cite/Rap</mat-label>
+                    <input matInput formControlName="citeRapInterinato">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Código/Rap</mat-label>
+                    <input matInput formControlName="codigoRapInterinato">
+                </mat-form-field>
+            </div>
+        </form>
+        <div>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-button matStepperNext>Siguiente</button>
+        </div>
+    </mat-step>
+    <mat-step label="Paso 3">
+        <form [formGroup]="formStep3">
+            <div class="form-row">
+                <mat-form-field class="date-picker-field">
+                    <mat-label>Introduce un rango de fechas</mat-label>
+                    <mat-date-range-input [rangePicker]="picker3">
+                        <input matStartDate placeholder="Fecha de inicio" formControlName="fchInicioInterinato" required>
+                        <input matEndDate placeholder="Fecha de fin" formControlName="fchFinInterinato" required>
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker3></mat-date-range-picker>
+                    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Período de Interinato</mat-label>
+                    <input matInput disabled [value]="calcularPeriodo()">
+                </mat-form-field>
+                <mat-form-field class="examgple-full-width">
+                    <mat-label>Total de días</mat-label>
+                    <input matInput disabled [value]="calcularTotalDias()">
+                </mat-form-field>
+            </div>
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>NOTA/INFORME/MINUTA</mat-label>
+                    <select matNativeControl formControlName="tipoNotaInformeMinutaInterinato">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="Nota">NOTA</option>
+                        <option value="Informe">INFORME</option>
+                        <option value="Minuta">MINUTA</option>
+                    </select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>SAYRI</mat-label>
+                    <select matNativeControl formControlName="sayriInterinato">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="Registrado">REGISTRADO</option>
+                        <option value="Sayri">SAYRI</option>
+                    </select>
+                </mat-form-field>
+            </div>
+            <div class="form-row">
+                <mat-form-field class="example-full-width">
+                    <mat-label>OBSERVACIONES</mat-label>
+                    <textarea matInput placeholder="Escribir..." formControlName="observacionesInterinato"></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+        <div>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-button matStepperNext (click)="guardarCambios()">Registrar</button>
+        </div>
+    </mat-step>
+    <ng-template matStepperIcon="paso-uno">
+        <mat-icon>create</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="paso-dos">
+        <mat-icon>create</mat-icon>
+    </ng-template>
+</mat-stepper>

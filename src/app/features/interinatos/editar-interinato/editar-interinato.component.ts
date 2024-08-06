@@ -53,7 +53,7 @@ export class EditarInterinatoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<EditarInterinatoComponent>,
+    public dialogRef: MatDialogRef<EditarInterinatoComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: { interinato: Interinato },
     private interinatoService: InterinatoService, 
     private dateFormatService: DateFormatServiceService

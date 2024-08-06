@@ -6,9 +6,10 @@ import { Interinato } from "src/app/shared/models/incorporaciones/interinato";
 import { InterinatoService } from "src/app/core/services/incorporaciones/interinato.service";
 import { NotificationService } from "src/app/core/services/notification.service";
 import { Title } from "@angular/platform-browser";
-import { RegistroInterinatoComponent } from "../registro-interinato/registro-interinato.component";
+import { RegistroDialogInterinatoComponent } from "../registro-dialog-interinato/registro-dialog-interinato.component";
 import { MatDialog } from "@angular/material/dialog";
 import { EditarInterinatoComponent } from "../editar-interinato/editar-interinato.component";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: "app-interinatos",
@@ -180,14 +181,15 @@ export class InterinatosComponent implements AfterViewInit {
     return "";
   }
 
-  openRegistroInterinatoModal(): void {
-    const dialogRef = this.dialog.open(RegistroInterinatoComponent, {
-      width: "600px",
+  openDialogInterinato(): void {
+    console.log('Abriendo diálogo de interinato');
+    const dialogRef = this.dialog.open(RegistroDialogInterinatoComponent, {
+      width: '400px',
       data: {},
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("Modal cerrado", result);
+      console.log('Modal cerrado', result);
     });
   }
 

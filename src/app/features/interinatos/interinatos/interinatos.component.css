@@ -107,3 +107,25 @@
 .custom-dialog-container {
   padding: 0 !important; /* Elimina el padding del contenedor del diálogo */
 }
+
+
+/* Estilos personalizados para los botones de SweetAlert2 */
+.swal-button--confirm {
+  background-color: #012e58;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+}
+
+.swal-button--cancel {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+}
+
+.swal-container {
+  text-align: center;
+}

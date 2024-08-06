@@ -22,13 +22,12 @@ import * as moment from "moment";
 import { PuestosService } from "src/app/core/services/incorporaciones/puestos.service";
 import { MatDividerModule } from "@angular/material/divider";
 import { Puesto } from "src/app/shared/models/incorporaciones/puesto";
-import { RespuestaObjeto } from "src/app/shared/models/respuesta";
 
 
 @Component({
-  selector: "app-registro-interinato",
-  templateUrl: "./registro-interinato.component.html",
-  styleUrls: ["./registro-interinato.component.css"],
+  selector: "app-registro-designacion",
+  templateUrl: "./registro-designacion.component.html",
+  styleUrls: ["./registro-designacion.component.css"],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -53,7 +52,7 @@ import { RespuestaObjeto } from "src/app/shared/models/respuesta";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegistroInterinatoComponent implements OnInit {
+export class RegistroDesignacionComponent implements OnInit {
 
   formStep1!: FormGroup;
   formStep2!: FormGroup;
@@ -71,7 +70,7 @@ export class RegistroInterinatoComponent implements OnInit {
   });
   
   constructor(
-    public dialogRef: MatDialogRef<RegistroInterinatoComponent>,
+    public dialogRef: MatDialogRef<RegistroDesignacionComponent>,
     private interinatoService: InterinatoService,
     private puestoService: PuestosService,
     private fb: FormBuilder,

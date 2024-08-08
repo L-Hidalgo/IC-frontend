@@ -6,28 +6,46 @@
     <mat-step label="Paso 1" state="paso-uno">
         <form [formGroup]="formStep1">
             <div class="form-row">
-                <div class="puesto-actual">
-                    <h4>Puesto Actual</h4>
-                    <p><b>Gerencia:</b> {{ interinato?.puestoActual?.departamento?.gerencia?.nombreGerencia }}</p>
-                    <p><b>Departamento:</b> {{ interinato?.puestoActual?.departamento?.nombreDepartamento }}</p>
-                    <p><b>Cargo:</b> {{ interinato?.puestoActual?.denominacionPuesto }}</p>
-                    <p><b>Persona:</b> {{ interinato?.puestoActual?.personaActual?.nombrePersona }} {{
-                        interinato?.puestoActual?.personaActual?.primerApellidoPersona }} {{
-                        interinato?.puestoActual?.personaActual?.segundoApellidoPersona }}</p>
+                <div class="puesto-nuevo" *ngIf="interinato">
+                    <h4>Puesto de Destino</h4>
+                    <p><strong>Gerencia:</strong> {{ interinato.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}
+                    </p>
+                    <p><strong>Departamento:</strong> {{ interinato.puestoNuevo?.departamento?.nombreDepartamento }}</p>
+                    <p><strong>Cargo:</strong> {{ interinato.puestoNuevo?.denominacionPuesto }}</p>
+                    <p>
+                        <strong>Funcionario:</strong>
+                        <ng-container *ngIf="interinato.puestoNuevo?.personaActual; else noFuncionarioDestino">
+                            {{ interinato.puestoNuevo?.personaActual?.nombrePersona }}
+                            {{ interinato.puestoNuevo?.personaActual?.primerApellidoPersona }}
+                            {{ interinato.puestoNuevo?.personaActual?.segundoApellidoPersona }}
+                        </ng-container>
+                        <ng-template #noFuncionarioDestino>
+                            <span *ngIf="interinato.puestoNuevo?.estadoId === 1">Acéfalo</span>
+                        </ng-template>
+                    </p>
                 </div>
-                <div class="puesto-nuevo">
-                    <h4>Puesto Nuevo</h4>
-                    <p><b>Gerencia:</b> {{ interinato?.puestoNuevo?.departamento?.gerencia?.nombreGerencia }}</p>
-                    <p><b>Departamento:</b> {{ interinato?.puestoNuevo?.departamento?.nombreDepartamento }}</p>
-                    <p><b>Cargo:</b> {{ interinato?.puestoNuevo?.denominacionPuesto }}</p>
-                    <p><b>Persona:</b> {{ interinato?.puestoNuevo?.personaActual?.nombrePersona }} {{
-                        interinato?.puestoNuevo?.personaActual?.primerApellidoPersona }} {{
-                        interinato?.puestoNuevo?.personaActual?.segundoApellidoPersona }}</p>
+                <div class="puesto-actual" *ngIf="interinato">
+                    <h4>Puesto Actual</h4>
+                    <p><strong>Gerencia:</strong> {{ interinato.puestoActual?.departamento?.gerencia?.nombreGerencia }}
+                    </p>
+                    <p><strong>Departamento:</strong> {{ interinato.puestoActual?.departamento?.nombreDepartamento }}</p>
+                    <p><strong>Cargo:</strong> {{ interinato.puestoActual?.denominacionPuesto }}</p>
+                    <p>
+                        <strong>Funcionario:</strong>
+                        <ng-container *ngIf="interinato.puestoActual?.personaActual; else noFuncionarioDestino">
+                            {{ interinato.puestoActual?.personaActual?.nombrePersona }}
+                            {{ interinato.puestoActual?.personaActual?.primerApellidoPersona }}
+                            {{ interinato.puestoActual?.personaActual?.segundoApellidoPersona }}
+                        </ng-container>
+                        <ng-template #noFuncionarioDestino>
+                            <span *ngIf="interinato.puestoActual?.estadoId === 1">Acéfalo</span>
+                        </ng-template>
+                    </p>
                 </div>
             </div>
         </form>
         <div>
-            <button mat-button matStepperNext>Siguiente</button>
+            <button mat-button matStepperNext class="button-primary">Siguiente</button>
         </div>
     </mat-step>
     <mat-step label="Paso 2" state="paso-dos">
@@ -46,7 +64,7 @@
                 </div>
                 <div class="date-width">
                     <mat-form-field class="date-picker-field">
-                        <mat-label>Fecha</mat-label>
+                        <mat-label>Fecha Proveido</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="fchCiteNotaInfMinutaInterinato">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -70,7 +88,7 @@
                 </div>
                 <div class="date-width">
                     <mat-form-field class="date-picker-field">
-                        <mat-label>Fecha</mat-label>
+                        <mat-label>Fecha Informe</mat-label>
                         <input matInput [matDatepicker]="picker2" formControlName="fchMemorandumRapInterinato">
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                         <mat-datepicker #picker2></mat-datepicker>
@@ -98,8 +116,8 @@
             </div>
         </form>
         <div>
-            <button mat-button matStepperPrevious>Atras</button>
-            <button mat-button matStepperNext>Siguiente</button>
+            <button mat-button matStepperPrevious class="button-gray">Atras</button>
+            <button mat-button matStepperNext class="button-primary">Siguiente</button>
         </div>
     </mat-step>
     <mat-step label="Paso 3">
@@ -141,7 +159,7 @@
                     </select>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>SAYRI</mat-label>
+                    <mat-label>SAYRI?</mat-label>
                     <select matNativeControl formControlName="sayriInterinato">
                         <option value="" disabled selected>Selecciona una opción</option>
                         <option value="Registrado">REGISTRADO</option>
@@ -157,8 +175,8 @@
             </div>
         </form>
         <div>
-            <button mat-button matStepperPrevious>Atras</button>
-            <button mat-button matStepperNext (click)="guardarCambios()">Registrar</button>
+            <button mat-button matStepperPrevious class="button-gray">Atras</button>
+            <button mat-button matStepperNext (click)="guardarCambios()" class="button-primary">Registrar</button>
         </div>
     </mat-step>
     <ng-template matStepperIcon="paso-uno">

@@ -16,7 +16,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { InterinatoService } from "src/app/core/services/incorporaciones/interinato.service";
 import { Interinato } from "src/app/shared/models/incorporaciones/interinato";
-import { DateFormatServiceService } from "src/app/core/services/incorporaciones/date-format.service";
+import { DateFormatService} from "src/app/core/services/incorporaciones/date-format.service";
 import Swal from "sweetalert2";
 import * as moment from "moment";
 import { PuestosService } from "src/app/core/services/incorporaciones/puestos.service";
@@ -73,7 +73,7 @@ export class RegistroSuspencionComponent implements OnInit {
     private interinatoService: InterinatoService,
     private puestoService: PuestosService,
     private fb: FormBuilder,
-    private dateFormatService: DateFormatServiceService
+    private dateFormatService: DateFormatService
   ) {
     this.formStep1 = this.fb.group({
       puestoNuevoId: ["", Validators.required],

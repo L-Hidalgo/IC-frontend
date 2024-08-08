@@ -182,7 +182,6 @@ export class InterinatosComponent implements AfterViewInit {
   }
 
   openDialogInterinato(): void {
-    console.log('Abriendo diálogo de interinato');
     const dialogRef = this.dialog.open(RegistroDialogInterinatoComponent, {
       width: '400px',
       data: {},

@@ -5,7 +5,7 @@ import {
   Validators,
   FormsModule,
   ReactiveFormsModule,
-  FormGroup
+  FormGroup,
 } from "@angular/forms";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { MatIconModule } from "@angular/material/icon";
@@ -16,13 +16,13 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { InterinatoService } from "src/app/core/services/incorporaciones/interinato.service";
 import { Interinato } from "src/app/shared/models/incorporaciones/interinato";
-import { DateFormatServiceService } from "src/app/core/services/incorporaciones/date-format.service";
+import { DateFormatService } from "src/app/core/services/incorporaciones/date-format.service";
 import Swal from "sweetalert2";
 import * as moment from "moment";
 import { PuestosService } from "src/app/core/services/incorporaciones/puestos.service";
 import { MatDividerModule } from "@angular/material/divider";
 import { Puesto } from "src/app/shared/models/incorporaciones/puesto";
-
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-registro-designacion",
@@ -43,24 +43,24 @@ import { Puesto } from "src/app/shared/models/incorporaciones/puesto";
     MatButtonModule,
     MatIconModule,
     MatInputModule,
-    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
     MatDatepickerModule,
     MatDividerModule,
+    CommonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistroDesignacionComponent implements OnInit {
-
   formStep1!: FormGroup;
   formStep2!: FormGroup;
   formStep3!: FormGroup;
 
   formGroup!: FormGroup;
 
-  puestoEncontrado: Puesto | null = null;
+  puestoDestinoEncontrado: Puesto | null = null;
+  puestoActualEncontrado: Puesto | null = null;
 
   firstFormGroup = this.fb.group({
     firstCtrl: ["", Validators.required],
@@ -68,17 +68,17 @@ export class RegistroDesignacionComponent implements OnInit {
   secondFormGroup = this.fb.group({
     secondCtrl: ["", Validators.required],
   });
-  
+
   constructor(
     public dialogRef: MatDialogRef<RegistroDesignacionComponent>,
     private interinatoService: InterinatoService,
     private puestoService: PuestosService,
     private fb: FormBuilder,
-    private dateFormatService: DateFormatServiceService
+    private dateFormatService: DateFormatService
   ) {
     this.formStep1 = this.fb.group({
       puestoNuevoId: ["", Validators.required],
-      puestoActualId: [""],
+      puestoActualId: ["", Validators.required],
     });
 
     this.formStep2 = this.fb.group({
@@ -95,8 +95,8 @@ export class RegistroDesignacionComponent implements OnInit {
     });
 
     this.formStep3 = this.fb.group({
-      fchInicioInterinato: [""],
-      fchFinInterinato: [""],
+      fchInicioInterinato: ["", Validators.required],
+      fchFinInterinato: ["", Validators.required],
       totalDiasInterinato: [""],
       periodoInterinato: [""],
       tipoNotaInformeMinutaInterinato: [""],
@@ -141,6 +141,8 @@ export class RegistroDesignacionComponent implements OnInit {
       ...this.formStep1.value,
       ...this.formStep2.value,
       ...this.formStep3.value,
+      puestoNuevoId: this.formStep1.get("puestoNuevoId")?.value,
+      puestoActualId: this.formStep1.get("puestoActualId")?.value,
     };
     const formattedDates = {
       fchCiteNotaInfMinutaInterinato: this.dateFormatService.formatToMySQLDate(
@@ -195,20 +197,48 @@ export class RegistroDesignacionComponent implements OnInit {
     this.puestoService.findPuestoByItem(item).subscribe(
       (resp) => {
         if (resp && resp.objeto) {
-          console.log("Puesto encontrado:", resp.objeto);
-          this.puestoEncontrado = resp.objeto;
+          console.log("Puesto de destino encontrado:", resp.objeto);
+          this.puestoDestinoEncontrado = resp.objeto;
+          this.formStep1
+            .get("puestoNuevoId")
+            ?.setValue(this.puestoDestinoEncontrado.idPuesto);
         } else {
-          console.log("No se encontró ningún puesto.");
-          this.puestoEncontrado = null; 
+          console.log("No se encontró ningún puesto de destino.");
+          this.puestoDestinoEncontrado = null;
+          this.formStep1.get("puestoNuevoId")?.setValue(null);
         }
       },
       (error) => {
-        console.error("Error al buscar puesto por item:", error);
-        this.puestoEncontrado = null; 
+        console.error("Error al buscar puesto de destino por item:", error);
+        this.puestoDestinoEncontrado = null;
+        this.formStep1.get("puestoNuevoId")?.setValue(null);
       }
     );
   }
-  
+
+  searchDataPuestoActual(item: number): void {
+    this.puestoService.findPuestoByItem(item).subscribe(
+      (resp) => {
+        if (resp && resp.objeto) {
+          console.log("Puesto de actual encontrado:", resp.objeto);
+          this.puestoActualEncontrado = resp.objeto;
+          this.formStep1
+            .get("puestoActualId")
+            ?.setValue(this.puestoActualEncontrado.idPuesto);
+        } else {
+          console.log("No se encontró ningún puesto de actual.");
+          this.puestoActualEncontrado = null;
+          this.formStep1.get("puestoActualId")?.setValue(null);
+        }
+      },
+      (error) => {
+        console.error("Error al buscar puesto de actual por item:", error);
+        this.puestoActualEncontrado = null;
+        this.formStep1.get("puestoActualId")?.setValue(null);
+      }
+    );
+  }
+
   closeModal(): void {
     this.dialogRef.close();
   }
